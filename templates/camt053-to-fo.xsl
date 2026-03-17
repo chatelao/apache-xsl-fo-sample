@@ -47,11 +47,14 @@
                         <xsl:value-of select="$i18n/page"/>
                         <xsl:text> </xsl:text>
                         <fo:page-number/>
+                        <xsl:text> / </xsl:text>
+                        <fo:page-number-citation ref-id="last-page"/>
                     </fo:block>
                 </fo:static-content>
 
                 <fo:flow flow-name="xsl-region-body">
                     <xsl:apply-templates select="//camt:Stmt"/>
+                    <fo:block id="last-page"/>
                 </fo:flow>
             </fo:page-sequence>
         </fo:root>
