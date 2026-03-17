@@ -11,20 +11,38 @@ This project generates Swiss Account details as PDF from camt.053 XML files usin
 # Structure
 - `/templates`: The XSLT templates for formatting (e.g., `camt053-to-fo.xsl`).
 - `/data`: The source data, e.g., `sample-camt053.xml`.
-- `/i18n`: Translations of text elements (future use).
+- `/i18n`: Translations of text elements for internationalization (en, de, fr, it).
 - `/pdf`: The generated output PDF files.
 - `generate-pdf.sh`: Script to run the rendering process locally.
+- `generate-all-reports.sh`: Script to generate reports in all supported languages.
 
 # Usage
 ## Local execution
 To generate a PDF locally, ensure Apache FOP is installed and run:
 ```bash
-./generate-pdf.sh [input_xml] [xslt_template] [output_pdf]
+./generate-pdf.sh [input_xml] [xslt_template] [output_pdf] [lang]
 ```
-Example:
+Example (English):
 ```bash
-./generate-pdf.sh data/sample-camt053.xml templates/camt053-to-fo.xsl pdf/statement.pdf
+./generate-pdf.sh data/sample-camt053.xml templates/camt053-to-fo.xsl pdf/statement_en.pdf en
 ```
+Example (German):
+```bash
+./generate-pdf.sh data/sample-camt053.xml templates/camt053-to-fo.xsl pdf/statement_de.pdf de
+```
+
+To generate reports in all four supported languages (en, de, fr, it) at once:
+```bash
+./generate-all-reports.sh
+```
+This will create `pdf/statement_en.pdf`, `pdf/statement_de.pdf`, `pdf/statement_fr.pdf`, and `pdf/statement_it.pdf`.
+
+## Internationalization (i18n)
+Translations are managed in XML files within the `/i18n` directory. Currently supported languages are:
+- English (`en.xml`)
+- German (`de.xml`)
+- French (`fr.xml`)
+- Italian (`it.xml`)
 
 ## GitHub Actions
 The PDF is automatically generated on push to the `main` branch. The generated PDF can be downloaded from the "Actions" tab under "Artifacts".

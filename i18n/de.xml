@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<translations>
+    <title>Kontoauszug (camt.053)</title>
+    <page>Seite</page>
+    <account_holder>Kontoinhaber:</account_holder>
+    <iban>IBAN:</iban>
+    <currency>Währung:</currency>
+    <balance_type>Saldoart</balance_type>
+    <date>Datum</date>
+    <amount>Betrag</amount>
+    <opening_balance>Eröffnungssaldo</opening_balance>
+    <closing_balance>Abschlusssaldo</closing_balance>
+    <status>Status</status>
+    <details>Details</details>
+    <debit>Soll</debit>
+    <credit>Haben</credit>
+    <ref>Ref:</ref>
+    <original_amount>Ursprünglicher Betrag:</original_amount>
+    <rate>Kurs:</rate>
+</translations>

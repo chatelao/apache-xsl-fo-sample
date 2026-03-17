@@ -7,6 +7,9 @@
 
     <xsl:output method="xml" indent="yes"/>
 
+    <xsl:param name="lang" select="'en'"/>
+    <xsl:variable name="i18n" select="document(concat('../i18n/', $lang, '.xml'))/translations"/>
+
     <xsl:template match="/">
         <fo:root>
             <fo:layout-master-set>
@@ -20,13 +23,15 @@
             <fo:page-sequence master-reference="A4">
                 <fo:static-content flow-name="xsl-region-before">
                     <fo:block font-size="18pt" font-weight="bold" text-align="center">
-                        Account Statement (camt.053)
+                        <xsl:value-of select="$i18n/title"/>
                     </fo:block>
                 </fo:static-content>
 
                 <fo:static-content flow-name="xsl-region-after">
                     <fo:block font-size="8pt" text-align="center">
-                        Page <fo:page-number/>
+                        <xsl:value-of select="$i18n/page"/>
+                        <xsl:text> </xsl:text>
+                        <fo:page-number/>
                     </fo:block>
                 </fo:static-content>
 
@@ -40,7 +45,7 @@
     <xsl:template match="camt:Stmt">
         <xsl:if test="camt:Acct/camt:Ownr">
             <fo:block font-size="10pt" space-after="5mm">
-                <fo:block font-weight="bold">Account Holder:</fo:block>
+                <fo:block font-weight="bold"><xsl:value-of select="$i18n/account_holder"/></fo:block>
                 <fo:block><xsl:value-of select="camt:Acct/camt:Ownr/camt:Nm"/></fo:block>
                 <fo:block>
                     <xsl:value-of select="camt:Acct/camt:Ownr/camt:PstlAdr/camt:StrtNm"/>
@@ -62,11 +67,11 @@
                 <fo:table-body>
                     <fo:table-row>
                         <fo:table-cell>
-                            <fo:block font-weight="bold">IBAN:</fo:block>
+                            <fo:block font-weight="bold"><xsl:value-of select="$i18n/iban"/></fo:block>
                             <fo:block><xsl:value-of select="camt:Acct/camt:Id/camt:IBAN"/></fo:block>
                         </fo:table-cell>
                         <fo:table-cell text-align="right">
-                            <fo:block font-weight="bold">Currency:</fo:block>
+                            <fo:block font-weight="bold"><xsl:value-of select="$i18n/currency"/></fo:block>
                             <fo:block><xsl:value-of select="camt:Acct/camt:Ccy"/></fo:block>
                         </fo:table-cell>
                     </fo:table-row>
@@ -81,9 +86,9 @@
                 <fo:table-column column-width="30%"/>
                 <fo:table-header background-color="#f0f0f0">
                     <fo:table-row>
-                        <fo:table-cell border="0.5pt solid black" padding="2pt"><fo:block font-weight="bold">Balance Type</fo:block></fo:table-cell>
-                        <fo:table-cell border="0.5pt solid black" padding="2pt"><fo:block font-weight="bold">Date</fo:block></fo:table-cell>
-                        <fo:table-cell border="0.5pt solid black" padding="2pt" text-align="right"><fo:block font-weight="bold">Amount</fo:block></fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt"><fo:block font-weight="bold"><xsl:value-of select="$i18n/balance_type"/></fo:block></fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt"><fo:block font-weight="bold"><xsl:value-of select="$i18n/date"/></fo:block></fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt" text-align="right"><fo:block font-weight="bold"><xsl:value-of select="$i18n/amount"/></fo:block></fo:table-cell>
                     </fo:table-row>
                 </fo:table-header>
                 <fo:table-body>
@@ -92,8 +97,8 @@
                             <fo:table-cell border="0.5pt solid black" padding="2pt">
                                 <fo:block>
                                     <xsl:choose>
-                                        <xsl:when test="camt:Tp/camt:CdOrPrtry/camt:Cd = 'OPBD'">Opening Balance</xsl:when>
-                                        <xsl:when test="camt:Tp/camt:CdOrPrtry/camt:Cd = 'CLBD'">Closing Balance</xsl:when>
+                                        <xsl:when test="camt:Tp/camt:CdOrPrtry/camt:Cd = 'OPBD'"><xsl:value-of select="$i18n/opening_balance"/></xsl:when>
+                                        <xsl:when test="camt:Tp/camt:CdOrPrtry/camt:Cd = 'CLBD'"><xsl:value-of select="$i18n/closing_balance"/></xsl:when>
                                         <xsl:otherwise><xsl:value-of select="camt:Tp/camt:CdOrPrtry/camt:Cd"/></xsl:otherwise>
                                     </xsl:choose>
                                 </fo:block>
@@ -161,16 +166,22 @@
                                 </fo:block>
                                 <xsl:if test="camt:NtryDtls/camt:TxDtls/camt:Refs/camt:EndToEndId">
                                     <fo:block font-size="8pt" color="#333333">
-                                        Ref: <xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:Refs/camt:EndToEndId"/>
+                                        <xsl:value-of select="$i18n/ref"/>
+                                        <xsl:text> </xsl:text>
+                                        <xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:Refs/camt:EndToEndId"/>
                                     </fo:block>
                                 </xsl:if>
                                 <xsl:if test="camt:NtryDtls/camt:TxDtls/camt:AmtDtls/camt:InstdAmt/camt:Amt">
                                     <fo:block font-size="8pt" color="gray" space-before="1mm">
-                                        Original Amount: <xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:AmtDtls/camt:InstdAmt/camt:Amt"/>
+                                        <xsl:value-of select="$i18n/original_amount"/>
+                                        <xsl:text> </xsl:text>
+                                        <xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:AmtDtls/camt:InstdAmt/camt:Amt"/>
                                         <xsl:text> </xsl:text>
                                         <xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:AmtDtls/camt:InstdAmt/camt:Amt/@Ccy"/>
                                         <xsl:if test="camt:NtryDtls/camt:TxDtls/camt:CcyXchg/camt:XchgRate">
-                                            (Rate: <xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:CcyXchg/camt:XchgRate"/>)
+                                            (<xsl:value-of select="$i18n/rate"/>
+                                            <xsl:text> </xsl:text>
+                                            <xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:CcyXchg/camt:XchgRate"/>)
                                         </xsl:if>
                                     </fo:block>
                                 </xsl:if>

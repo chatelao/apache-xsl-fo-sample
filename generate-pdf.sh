@@ -4,6 +4,7 @@
 INPUT_XML=${1:-data/sample-camt053.xml}
 XSLT_TEMPLATE=${2:-templates/camt053-to-fo.xsl}
 OUTPUT_PDF=${3:-pdf/statement.pdf}
+LANG=${4:-en}
 
 # Check if fop is installed
 if ! command -v fop &> /dev/null
@@ -16,10 +17,10 @@ fi
 mkdir -p $(dirname "$OUTPUT_PDF")
 
 # Run FOP
-fop -xml "$INPUT_XML" -xsl "$XSLT_TEMPLATE" -pdf "$OUTPUT_PDF"
+fop -xml "$INPUT_XML" -xsl "$XSLT_TEMPLATE" -param lang "$LANG" -pdf "$OUTPUT_PDF"
 
 if [ $? -eq 0 ]; then
-    echo "PDF generated successfully at $OUTPUT_PDF"
+    echo "PDF generated successfully at $OUTPUT_PDF (Language: $LANG)"
 else
     echo "Failed to generate PDF"
     exit 1
