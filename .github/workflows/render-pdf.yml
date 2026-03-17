@@ -18,13 +18,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y fop
 
-      - name: Generate PDF
+      - name: Generate PDFs
         run: |
           chmod +x generate-pdf.sh
-          ./generate-pdf.sh data/sample-camt053.xml templates/camt053-to-fo.xsl pdf/statement.pdf
+          chmod +x generate-all-reports.sh
+          ./generate-all-reports.sh
 
-      - name: Upload PDF artifact
+      - name: Upload PDF artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: account-statement
-          path: pdf/statement.pdf
+          name: account-statements
+          path: pdf/*.pdf
