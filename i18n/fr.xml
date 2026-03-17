@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<translations>
+    <title>Relevé de compte (camt.053)</title>
+    <page>Page</page>
+    <account_holder>Titulaire du compte :</account_holder>
+    <iban>IBAN :</iban>
+    <currency>Devise :</currency>
+    <balance_type>Type de solde</balance_type>
+    <date>Date</date>
+    <amount>Montant</amount>
+    <opening_balance>Solde d'ouverture</opening_balance>
+    <closing_balance>Solde de clôture</closing_balance>
+    <status>Statut</status>
+    <details>Détails</details>
+    <debit>Débit</debit>
+    <credit>Crédit</credit>
+    <ref>Réf :</ref>
+    <original_amount>Montant original :</original_amount>
+    <rate>Taux :</rate>
+</translations>

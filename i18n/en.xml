@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<translations>
+    <title>Account Statement (camt.053)</title>
+    <page>Page</page>
+    <account_holder>Account Holder:</account_holder>
+    <iban>IBAN:</iban>
+    <currency>Currency:</currency>
+    <balance_type>Balance Type</balance_type>
+    <date>Date</date>
+    <amount>Amount</amount>
+    <opening_balance>Opening Balance</opening_balance>
+    <closing_balance>Closing Balance</closing_balance>
+    <status>Status</status>
+    <details>Details</details>
+    <debit>Debit</debit>
+    <credit>Credit</credit>
+    <ref>Ref:</ref>
+    <original_amount>Original Amount:</original_amount>
+    <rate>Rate:</rate>
+</translations>
