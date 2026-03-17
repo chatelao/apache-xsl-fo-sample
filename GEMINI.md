@@ -44,5 +44,15 @@ Translations are managed in XML files within the `/i18n` directory. Currently su
 - French (`fr.xml`)
 - Italian (`it.xml`)
 
+
+# AI plan
+- Before deliviering the PR:
+  - Pull from GH and merge from the target branch
+  - Resolve all resolve conflicts
+  - Only then publish the PR
+
+## Do alw
+- The PDF is automatically generated on push to the `main` branch. The generated PDF can be downloaded from the "Actions" tab under "Artifacts".
+
 ## GitHub Actions
-The PDF is automatically generated on push to the `main` branch. The generated PDF can be downloaded from the "Actions" tab under "Artifacts".
+- The PDF is automatically generated on push to the `main` branch. The generated PDF can be downloaded from the "Actions" tab under "Artifacts".
