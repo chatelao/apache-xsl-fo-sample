@@ -38,6 +38,23 @@
     </xsl:template>
 
     <xsl:template match="camt:Stmt">
+        <xsl:if test="camt:Acct/camt:Ownr">
+            <fo:block font-size="10pt" space-after="5mm">
+                <fo:block font-weight="bold">Account Holder:</fo:block>
+                <fo:block><xsl:value-of select="camt:Acct/camt:Ownr/camt:Nm"/></fo:block>
+                <fo:block>
+                    <xsl:value-of select="camt:Acct/camt:Ownr/camt:PstlAdr/camt:StrtNm"/>
+                    <xsl:text> </xsl:text>
+                    <xsl:value-of select="camt:Acct/camt:Ownr/camt:PstlAdr/camt:BldgNb"/>
+                </fo:block>
+                <fo:block>
+                    <xsl:value-of select="camt:Acct/camt:Ownr/camt:PstlAdr/camt:PstCd"/>
+                    <xsl:text> </xsl:text>
+                    <xsl:value-of select="camt:Acct/camt:Ownr/camt:PstlAdr/camt:TwnNm"/>
+                </fo:block>
+            </fo:block>
+        </xsl:if>
+
         <fo:block font-size="12pt" space-after="5mm">
             <fo:table table-layout="fixed" width="100%">
                 <fo:table-column column-width="50%"/>
