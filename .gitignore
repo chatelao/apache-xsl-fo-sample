@@ -1,2 +1,2 @@
-pdf/*.pdf
+# Avoid conflicts, override with the last delivery every time
 !pdf/.gitkeep
