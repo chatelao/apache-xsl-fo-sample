@@ -3,6 +3,7 @@ name: Render Account Statement PDF
 on:
   push:
     branches: [ main ]
+  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -10,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install Apache FOP
         run: |
@@ -23,7 +24,7 @@ jobs:
           ./generate-pdf.sh data/sample-camt053.xml templates/camt053-to-fo.xsl pdf/statement.pdf
 
       - name: Upload PDF artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: account-statement
           path: pdf/statement.pdf
