@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<translations>
+    <title>Estratto conto (camt.053)</title>
+    <page>Pagina</page>
+    <account_holder>Titolare del conto:</account_holder>
+    <iban>IBAN:</iban>
+    <currency>Valuta:</currency>
+    <balance_type>Tipo di saldo</balance_type>
+    <date>Data</date>
+    <amount>Importo</amount>
+    <opening_balance>Saldo d'apertura</opening_balance>
+    <closing_balance>Saldo di chiusura</closing_balance>
+    <status>Stato</status>
+    <details>Dettagli</details>
+    <debit>Addebito</debit>
+    <credit>Accredito</credit>
+    <ref>Rif:</ref>
+    <original_amount>Importo originale:</original_amount>
+    <rate>Tasso:</rate>
+</translations>
