@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "Auto-generating PDFs before commit..."
+./generate-all-reports.sh
+git add pdf/*.pdf
