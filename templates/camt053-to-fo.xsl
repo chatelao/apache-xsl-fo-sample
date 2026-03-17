@@ -22,9 +22,24 @@
 
             <fo:page-sequence master-reference="A4">
                 <fo:static-content flow-name="xsl-region-before">
-                    <fo:block font-size="18pt" font-weight="bold" text-align="center">
-                        <xsl:value-of select="$i18n/title"/>
-                    </fo:block>
+                    <fo:table table-layout="fixed" width="100%">
+                        <fo:table-column column-width="50mm"/>
+                        <fo:table-column column-width="140mm"/>
+                        <fo:table-body>
+                            <fo:table-row>
+                                <fo:table-cell display-align="center">
+                                    <fo:block>
+                                        <fo:external-graphic src="url('../assets/logo.svg')" content-height="15mm" scaling="uniform"/>
+                                    </fo:block>
+                                </fo:table-cell>
+                                <fo:table-cell display-align="center">
+                                    <fo:block font-size="18pt" font-weight="bold" text-align="right">
+                                        <xsl:value-of select="$i18n/title"/>
+                                    </fo:block>
+                                </fo:table-cell>
+                            </fo:table-row>
+                        </fo:table-body>
+                    </fo:table>
                 </fo:static-content>
 
                 <fo:static-content flow-name="xsl-region-after">
