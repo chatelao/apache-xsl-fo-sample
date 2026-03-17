@@ -93,7 +93,7 @@
                 </fo:table-header>
                 <fo:table-body>
                     <xsl:for-each select="camt:Bal">
-                        <fo:table-row>
+                        <fo:table-row keep-together.within-page="always">
                             <fo:table-cell border="0.5pt solid black" padding="2pt">
                                 <fo:block>
                                     <xsl:choose>
@@ -133,7 +133,7 @@
                 </fo:table-header>
                 <fo:table-body>
                     <xsl:for-each select="camt:Ntry">
-                        <fo:table-row>
+                        <fo:table-row keep-together.within-page="always">
                             <fo:table-cell border="0.5pt solid black" padding="2pt">
                                 <fo:block><xsl:value-of select="camt:BookgDt/camt:Dt"/></fo:block>
                             </fo:table-cell>
