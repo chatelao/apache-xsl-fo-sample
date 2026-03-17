@@ -14,27 +14,24 @@
     <xsl:template match="/">
         <fo:root>
             <fo:layout-master-set>
-                <fo:simple-page-master master-name="A4-first" page-height="29.7cm" page-width="21cm" margin="1cm">
+                <fo:simple-page-master master-name="A4-odd" page-height="29.7cm" page-width="21cm" margin="1cm">
                     <fo:region-body margin-top="2cm" margin-bottom="2cm"/>
                     <fo:region-before extent="2cm"/>
                     <fo:region-after extent="1cm"/>
+                    <fo:region-end region-name="marks-odd" extent="1cm"/>
                 </fo:simple-page-master>
-                <fo:simple-page-master master-name="A4-rest" page-height="29.7cm" page-width="21cm" margin="1cm">
+
+                <fo:simple-page-master master-name="A4-even" page-height="29.7cm" page-width="21cm" margin="1cm">
                     <fo:region-body margin-top="2cm" margin-bottom="2cm"/>
                     <fo:region-before extent="2cm"/>
                     <fo:region-after extent="1cm"/>
-                </fo:simple-page-master>
-                <fo:simple-page-master master-name="A4-last" page-height="29.7cm" page-width="21cm" margin="1cm">
-                    <fo:region-body margin-top="2cm" margin-bottom="2cm"/>
-                    <fo:region-before extent="2cm"/>
-                    <fo:region-after extent="1cm"/>
+                    <fo:region-end region-name="marks-even" extent="1cm"/>
                 </fo:simple-page-master>
 
                 <fo:page-sequence-master master-name="A4-master">
                     <fo:repeatable-page-master-alternatives>
-                        <fo:conditional-page-master-reference master-reference="A4-first" page-position="first"/>
-                        <fo:conditional-page-master-reference master-reference="A4-last" page-position="last"/>
-                        <fo:conditional-page-master-reference master-reference="A4-rest" page-position="rest"/>
+                        <fo:conditional-page-master-reference master-reference="A4-odd" odd-or-even="odd"/>
+                        <fo:conditional-page-master-reference master-reference="A4-even" odd-or-even="even"/>
                     </fo:repeatable-page-master-alternatives>
                 </fo:page-sequence-master>
             </fo:layout-master-set>
@@ -45,16 +42,28 @@
 
     <xsl:template match="camt:Stmt">
         <fo:page-sequence master-reference="A4-master">
-            <fo:static-content flow-name="xsl-region-before">
-                <fo:block font-size="18pt" font-weight="bold" text-align="center">
-                    <xsl:value-of select="$i18n/title"/>
-                </fo:block>
+            <fo:static-content flow-name="marks-odd">
+                <!-- OMR Marks for Odd Pages -->
+                <!-- Benchmark (always on) -->
+                <fo:block-container absolute-position="fixed" top="10cm" right="0.5cm" width="5mm" height="1pt">
+                    <fo:block border-top="1pt solid black"/>
+                </fo:block-container>
+
+                <!-- Safety (always on) -->
+                <fo:block-container absolute-position="fixed" top="11cm" right="0.5cm" width="5mm" height="1pt">
+                    <fo:block border-top="1pt solid black"/>
+                </fo:block-container>
+
+                <!-- End of Set (last page only) -->
+                <fo:block-container absolute-position="fixed" top="12cm" right="0.5cm" width="5mm" height="1pt">
+                    <fo:block border-top="0pt solid transparent">
+                        <fo:retrieve-marker retrieve-class-name="last-page-marker" retrieve-position="last-starting-within-page"/>
+                    </fo:block>
+                </fo:block-container>
             </fo:static-content>
 
-            <fo:static-content flow-name="xsl-region-after">
-                <!-- OMR Marks & Barcode -->
-                <xsl:variable name="stmtId" select="camt:Id"/>
-
+            <fo:static-content flow-name="marks-even">
+                <!-- OMR Marks for Even Pages -->
                 <!-- Benchmark (always on) -->
                 <fo:block-container absolute-position="fixed" top="10cm" right="0.5cm" width="5mm" height="1pt">
                     <fo:block border-top="1pt solid black"/>
@@ -72,18 +81,42 @@
                     </fo:block>
                 </fo:block-container>
 
-                <!-- Parity Mark -->
+                <!-- Parity Mark (on even pages) -->
                 <fo:block-container absolute-position="fixed" top="13cm" right="0.5cm" width="5mm" height="1pt">
-                    <fo:block border-top="0pt solid transparent">
-                        <fo:retrieve-marker retrieve-class-name="last-page-marker" retrieve-position="last-starting-within-page"/>
-                    </fo:block>
+                    <fo:block border-top="1pt solid black"/>
                 </fo:block-container>
+            </fo:static-content>
+
+            <fo:static-content flow-name="xsl-region-before">
+                <fo:table table-layout="fixed" width="100%">
+                    <fo:table-column column-width="50mm"/>
+                    <fo:table-column column-width="140mm"/>
+                    <fo:table-body>
+                        <fo:table-row>
+                            <fo:table-cell display-align="center">
+                                <fo:block>
+                                    <fo:external-graphic src="url('../assets/logo.svg')" content-height="15mm" scaling="uniform"/>
+                                </fo:block>
+                            </fo:table-cell>
+                            <fo:table-cell display-align="center">
+                                <fo:block font-size="18pt" font-weight="bold" text-align="right">
+                                    <xsl:value-of select="$i18n/title"/>
+                                </fo:block>
+                            </fo:table-cell>
+                        </fo:table-row>
+                    </fo:table-body>
+                </fo:table>
+            </fo:static-content>
+
+            <fo:static-content flow-name="xsl-region-after">
+                <!-- Barcode and Page Number -->
+                <xsl:variable name="stmtId" select="camt:Id"/>
 
                 <!-- DataMatrix Barcode -->
                 <fo:block-container absolute-position="fixed" top="1cm" right="1cm" width="2cm" height="2cm">
                     <fo:block>
                         <fo:instream-foreign-object>
-                            <barcode:barcode message="{concat($stmtId, '-', 'PAGE', fo:page-number)}">
+                            <barcode:barcode message="{$stmtId}">
                                 <barcode:datamatrix>
                                     <barcode:module-width>0.5mm</barcode:module-width>
                                 </barcode:datamatrix>
