@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02">
+    <BkToCstmrStmt>
+        <GrpHdr>
+            <MsgId>MSG-COMPREHENSIVE-001</MsgId>
+            <CreDtTm>2023-11-01T12:00:00Z</CreDtTm>
+        </GrpHdr>
+        <Stmt>
+            <Id>STMT-COMPREHENSIVE-001</Id>
+            <Acct>
+                <Id>
+                    <IBAN>CH9300000000000000001</IBAN>
+                </Id>
+                <Ccy>CHF</Ccy>
+            </Acct>
+            <Bal>
+                <Tp>
+                    <CdOrPrtry>
+                        <Cd>OPBD</Cd>
+                    </CdOrPrtry>
+                </Tp>
+                <Amt Ccy="CHF">5000.00</Amt>
+                <Dt>
+                    <Dt>2023-11-01</Dt>
+                </Dt>
+            </Bal>
+            <Bal>
+                <Tp>
+                    <CdOrPrtry>
+                        <Cd>CLBD</Cd>
+                    </CdOrPrtry>
+                </Tp>
+                <Amt Ccy="CHF">4800.00</Amt>
+                <Dt>
+                    <Dt>2023-11-30</Dt>
+                </Dt>
+            </Bal>
+
+            <!-- Entry 1: Inbound SEPA (EUR -> CHF) -->
+            <Ntry>
+                <Amt Ccy="CHF">110.00</Amt>
+                <CdtDbtInd>CRDT</CdtDbtInd>
+                <Sts>BOOK</Sts>
+                <BkTxCd>
+                    <Domn>
+                        <Cd>PMNT</Cd>
+                        <Fmly>
+                            <Cd>TRF</Cd>
+                            <SubFmlyCd>SEPA</SubFmlyCd>
+                        </Fmly>
+                    </Domn>
+                </BkTxCd>
+                <NtryDtls>
+                    <TxDtls>
+                        <AmtDtls>
+                            <InstdAmt>
+                                <Amt Ccy="EUR">100.00</Amt>
+                            </InstdAmt>
+                        </AmtDtls>
+                        <CcyXchg>
+                            <SrcCcy>EUR</SrcCcy>
+                            <TrgtCcy>CHF</TrgtCcy>
+                            <XchgRate>1.10</XchgRate>
+                        </CcyXchg>
+                        <RltdPties>
+                            <Dbtr>
+                                <Nm>European Customer Ltd</Nm>
+                            </Dbtr>
+                            <DbtrAcct>
+                                <Id>
+                                    <IBAN>DE89100000001234567890</IBAN>
+                                </Id>
+                            </DbtrAcct>
+                        </RltdPties>
+                        <RmtInf>
+                            <Ustrd>Invoice INV-2023-001</Ustrd>
+                        </RmtInf>
+                    </TxDtls>
+                </NtryDtls>
+            </Ntry>
+
+            <!-- Entry 2: Outbound SEPA (CHF -> EUR) -->
+            <Ntry>
+                <Amt Ccy="CHF">220.00</Amt>
+                <CdtDbtInd>DBIT</CdtDbtInd>
+                <Sts>BOOK</Sts>
+                <BkTxCd>
+                    <Domn>
+                        <Cd>PMNT</Cd>
+                        <Fmly>
+                            <Cd>TRF</Cd>
+                            <SubFmlyCd>SEPA</SubFmlyCd>
+                        </Fmly>
+                    </Domn>
+                </BkTxCd>
+                <NtryDtls>
+                    <TxDtls>
+                        <AmtDtls>
+                            <InstdAmt>
+                                <Amt Ccy="EUR">200.00</Amt>
+                            </InstdAmt>
+                        </AmtDtls>
+                        <CcyXchg>
+                            <SrcCcy>CHF</SrcCcy>
+                            <TrgtCcy>EUR</TrgtCcy>
+                            <XchgRate>0.90909</XchgRate>
+                        </CcyXchg>
+                        <RltdPties>
+                            <Cdtr>
+                                <Nm>French Supplier SAS</Nm>
+                            </Cdtr>
+                            <CdtrAcct>
+                                <Id>
+                                    <IBAN>FR7630006000011234567890123</IBAN>
+                                </Id>
+                            </CdtrAcct>
+                        </RltdPties>
+                        <RmtInf>
+                            <Ustrd>Payment for supplies</Ustrd>
+                        </RmtInf>
+                    </TxDtls>
+                </NtryDtls>
+            </Ntry>
+
+            <!-- Entry 3: Inbound US (USD -> CHF) -->
+            <Ntry>
+                <Amt Ccy="CHF">90.00</Amt>
+                <CdtDbtInd>CRDT</CdtDbtInd>
+                <Sts>BOOK</Sts>
+                <BkTxCd>
+                    <Domn>
+                        <Cd>PMNT</Cd>
+                        <Fmly>
+                            <Cd>TRF</Cd>
+                            <SubFmlyCd>OTHR</SubFmlyCd>
+                        </Fmly>
+                    </Domn>
+                </BkTxCd>
+                <NtryDtls>
+                    <TxDtls>
+                        <AmtDtls>
+                            <InstdAmt>
+                                <Amt Ccy="USD">100.00</Amt>
+                            </InstdAmt>
+                        </AmtDtls>
+                        <CcyXchg>
+                            <SrcCcy>USD</SrcCcy>
+                            <TrgtCcy>CHF</TrgtCcy>
+                            <XchgRate>0.90</XchgRate>
+                        </CcyXchg>
+                        <RltdPties>
+                            <Dbtr>
+                                <Nm>US Tech Corp</Nm>
+                            </Dbtr>
+                        </RltdPties>
+                        <RmtInf>
+                            <Ustrd>Software License Fees</Ustrd>
+                        </RmtInf>
+                    </TxDtls>
+                </NtryDtls>
+            </Ntry>
+
+            <!-- Entry 4: Outbound US (CHF -> USD) -->
+            <Ntry>
+                <Amt Ccy="CHF">180.00</Amt>
+                <CdtDbtInd>DBIT</CdtDbtInd>
+                <Sts>BOOK</Sts>
+                <BkTxCd>
+                    <Domn>
+                        <Cd>PMNT</Cd>
+                        <Fmly>
+                            <Cd>TRF</Cd>
+                            <SubFmlyCd>OTHR</SubFmlyCd>
+                        </Fmly>
+                    </Domn>
+                </BkTxCd>
+                <NtryDtls>
+                    <TxDtls>
+                        <AmtDtls>
+                            <InstdAmt>
+                                <Amt Ccy="USD">200.00</Amt>
+                            </InstdAmt>
+                        </AmtDtls>
+                        <CcyXchg>
+                            <SrcCcy>CHF</SrcCcy>
+                            <TrgtCcy>USD</TrgtCcy>
+                            <XchgRate>1.11111</XchgRate>
+                        </CcyXchg>
+                        <RltdPties>
+                            <Cdtr>
+                                <Nm>Global Cloud Services</Nm>
+                            </Cdtr>
+                        </RltdPties>
+                        <RmtInf>
+                            <Ustrd>Monthly Subscription</Ustrd>
+                        </RmtInf>
+                    </TxDtls>
+                </NtryDtls>
+            </Ntry>
+
+        </Stmt>
+    </BkToCstmrStmt>
+</Document>
