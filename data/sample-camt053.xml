@@ -49,6 +49,12 @@
                 <Amt Ccy="CHF">200.00</Amt>
                 <CdtDbtInd>CRDT</CdtDbtInd>
                 <Sts>BOOK</Sts>
+                <BookgDt>
+                    <Dt>2023-10-25</Dt>
+                </BookgDt>
+                <ValDt>
+                    <Dt>2023-10-26</Dt>
+                </ValDt>
                 <BkTxCd>
                     <Domn>
                         <Cd>PMNT</Cd>

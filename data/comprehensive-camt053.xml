@@ -41,6 +41,12 @@
                 <Amt Ccy="CHF">110.00</Amt>
                 <CdtDbtInd>CRDT</CdtDbtInd>
                 <Sts>BOOK</Sts>
+                <BookgDt>
+                    <Dt>2023-11-05</Dt>
+                </BookgDt>
+                <ValDt>
+                    <Dt>2023-11-06</Dt>
+                </ValDt>
                 <BkTxCd>
                     <Domn>
                         <Cd>PMNT</Cd>
@@ -84,6 +90,12 @@
                 <Amt Ccy="CHF">220.00</Amt>
                 <CdtDbtInd>DBIT</CdtDbtInd>
                 <Sts>BOOK</Sts>
+                <BookgDt>
+                    <Dt>2023-11-10</Dt>
+                </BookgDt>
+                <ValDt>
+                    <Dt>2023-11-10</Dt>
+                </ValDt>
                 <BkTxCd>
                     <Domn>
                         <Cd>PMNT</Cd>
@@ -127,6 +139,12 @@
                 <Amt Ccy="CHF">90.00</Amt>
                 <CdtDbtInd>CRDT</CdtDbtInd>
                 <Sts>BOOK</Sts>
+                <BookgDt>
+                    <Dt>2023-11-15</Dt>
+                </BookgDt>
+                <ValDt>
+                    <Dt>2023-11-16</Dt>
+                </ValDt>
                 <BkTxCd>
                     <Domn>
                         <Cd>PMNT</Cd>
@@ -165,6 +183,12 @@
                 <Amt Ccy="CHF">180.00</Amt>
                 <CdtDbtInd>DBIT</CdtDbtInd>
                 <Sts>BOOK</Sts>
+                <BookgDt>
+                    <Dt>2023-11-20</Dt>
+                </BookgDt>
+                <ValDt>
+                    <Dt>2023-11-20</Dt>
+                </ValDt>
                 <BkTxCd>
                     <Domn>
                         <Cd>PMNT</Cd>
