@@ -112,13 +112,15 @@
 
         <fo:block font-size="10pt">
             <fo:table table-layout="fixed" width="100%" border="0.5pt solid black">
-                <fo:table-column column-width="20%"/>
+                <fo:table-column column-width="15%"/>
+                <fo:table-column column-width="15%"/>
                 <fo:table-column column-width="40%"/>
-                <fo:table-column column-width="20%"/>
-                <fo:table-column column-width="20%"/>
+                <fo:table-column column-width="15%"/>
+                <fo:table-column column-width="15%"/>
                 <fo:table-header background-color="#f0f0f0">
                     <fo:table-row>
-                        <fo:table-cell border="0.5pt solid black" padding="2pt"><fo:block font-weight="bold">Status</fo:block></fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt"><fo:block font-weight="bold">Booking Date</fo:block></fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt"><fo:block font-weight="bold">Value Date</fo:block></fo:table-cell>
                         <fo:table-cell border="0.5pt solid black" padding="2pt"><fo:block font-weight="bold">Details</fo:block></fo:table-cell>
                         <fo:table-cell border="0.5pt solid black" padding="2pt" text-align="right"><fo:block font-weight="bold">Debit</fo:block></fo:table-cell>
                         <fo:table-cell border="0.5pt solid black" padding="2pt" text-align="right"><fo:block font-weight="bold">Credit</fo:block></fo:table-cell>
@@ -128,7 +130,10 @@
                     <xsl:for-each select="camt:Ntry">
                         <fo:table-row>
                             <fo:table-cell border="0.5pt solid black" padding="2pt">
-                                <fo:block><xsl:value-of select="camt:Sts"/></fo:block>
+                                <fo:block><xsl:value-of select="camt:BookgDt/camt:Dt"/></fo:block>
+                            </fo:table-cell>
+                            <fo:table-cell border="0.5pt solid black" padding="2pt">
+                                <fo:block><xsl:value-of select="camt:ValDt/camt:Dt"/></fo:block>
                             </fo:table-cell>
                             <fo:table-cell border="0.5pt solid black" padding="2pt">
                                 <fo:block font-weight="bold">
