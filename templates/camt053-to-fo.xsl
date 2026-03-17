@@ -3,42 +3,74 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 xmlns:camt="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02"
-                exclude-result-prefixes="camt">
+                xmlns:barcode="http://barcode4j.krysalis.org/ns"
+                exclude-result-prefixes="camt barcode">
 
     <xsl:output method="xml" indent="yes"/>
 
     <xsl:template match="/">
         <fo:root>
             <fo:layout-master-set>
-                <fo:simple-page-master master-name="A4" page-height="29.7cm" page-width="21cm" margin="1cm">
-                    <fo:region-body margin-top="2cm" margin-bottom="2cm"/>
-                    <fo:region-before extent="2cm"/>
+                <fo:simple-page-master master-name="A4-regular" page-height="29.7cm" page-width="21cm" margin="1cm">
+                    <fo:region-body margin-top="3cm" margin-bottom="2cm" margin-left="1.5cm"/>
+                    <fo:region-before extent="3cm"/>
                     <fo:region-after extent="1cm"/>
+                    <fo:region-start extent="1.5cm"/>
                 </fo:simple-page-master>
+                <fo:simple-page-master master-name="A4-last" page-height="29.7cm" page-width="21cm" margin="1cm">
+                    <fo:region-body margin-top="3cm" margin-bottom="2cm" margin-left="1.5cm"/>
+                    <fo:region-before extent="3cm"/>
+                    <fo:region-after extent="1cm"/>
+                    <fo:region-start extent="1.5cm" region-name="last-page-start"/>
+                </fo:simple-page-master>
+                <fo:page-sequence-master master-name="statement-pages">
+                    <fo:repeatable-page-master-alternatives>
+                        <fo:conditional-page-master-reference master-reference="A4-last" page-position="last"/>
+                        <fo:conditional-page-master-reference master-reference="A4-regular"/>
+                    </fo:repeatable-page-master-alternatives>
+                </fo:page-sequence-master>
             </fo:layout-master-set>
 
-            <fo:page-sequence master-reference="A4">
-                <fo:static-content flow-name="xsl-region-before">
-                    <fo:block font-size="18pt" font-weight="bold" text-align="center">
-                        Account Statement (camt.053)
-                    </fo:block>
-                </fo:static-content>
-
-                <fo:static-content flow-name="xsl-region-after">
-                    <fo:block font-size="8pt" text-align="center">
-                        Page <fo:page-number/>
-                    </fo:block>
-                </fo:static-content>
-
-                <fo:flow flow-name="xsl-region-body">
-                    <xsl:apply-templates select="//camt:Stmt"/>
-                </fo:flow>
-            </fo:page-sequence>
+            <xsl:apply-templates select="//camt:Stmt"/>
         </fo:root>
     </xsl:template>
 
     <xsl:template match="camt:Stmt">
-        <xsl:if test="camt:Acct/camt:Ownr">
+        <fo:page-sequence master-reference="statement-pages">
+            <fo:static-content flow-name="xsl-region-before">
+                <fo:block font-size="18pt" font-weight="bold" text-align="center">
+                    Account Statement (camt.053)
+                </fo:block>
+                <!-- DataMatrix Barcode for Kern Printer -->
+                <fo:block-container absolute-position="absolute" top="-5mm" right="0mm" width="20mm">
+                    <fo:block>
+                        <barcode:barcode message="{camt:Id}">
+                            <barcode:datamatrix>
+                                <barcode:module-width>0.5mm</barcode:module-width>
+                            </barcode:datamatrix>
+                        </barcode:barcode>
+                    </fo:block>
+                </fo:block-container>
+            </fo:static-content>
+
+            <fo:static-content flow-name="xsl-region-after">
+                <fo:block font-size="8pt" text-align="center">
+                    Page <fo:page-number/>
+                </fo:block>
+            </fo:static-content>
+
+            <fo:static-content flow-name="xsl-region-start">
+                <xsl:call-template name="omr-marks"/>
+            </fo:static-content>
+
+            <fo:static-content flow-name="last-page-start">
+                <xsl:call-template name="omr-marks">
+                    <xsl:with-param name="is-last-page" select="true()"/>
+                </xsl:call-template>
+            </fo:static-content>
+
+            <fo:flow flow-name="xsl-region-body">
+                <xsl:if test="camt:Acct/camt:Ownr">
             <fo:block font-size="10pt" space-after="5mm">
                 <fo:block font-weight="bold">Account Holder:</fo:block>
                 <fo:block><xsl:value-of select="camt:Acct/camt:Ownr/camt:Nm"/></fo:block>
@@ -189,5 +221,44 @@
                 </fo:table-body>
             </fo:table>
         </fo:block>
+            </fo:flow>
+        </fo:page-sequence>
+    </xsl:template>
+
+    <!-- OMR Marks Template for Kern Printers -->
+    <xsl:template name="omr-marks">
+        <xsl:param name="is-last-page" select="false()"/>
+
+        <!-- Benchmark Mark (Always present) -->
+        <fo:block-container absolute-position="absolute" top="100mm" left="5mm" width="10mm" height="0.5pt" background-color="black">
+            <fo:block/>
+        </fo:block-container>
+
+        <!-- Safety Mark (Always present) -->
+        <fo:block-container absolute-position="absolute" top="108mm" left="5mm" width="10mm" height="0.5pt" background-color="black">
+            <fo:block/>
+        </fo:block-container>
+
+        <xsl:choose>
+            <xsl:when test="$is-last-page">
+                <!-- End of Set Mark (Present only on last page) -->
+                <fo:block-container absolute-position="absolute" top="116mm" left="5mm" width="10mm" height="0.5pt" background-color="black">
+                    <fo:block/>
+                </fo:block-container>
+                <!-- Parity Mark (Used to make total marks even)
+                     Benchmark (1) + Safety (1) + End of Set (1) = 3 (Odd)
+                     Add Parity to make it 4 (Even)
+                -->
+                <fo:block-container absolute-position="absolute" top="124mm" left="5mm" width="10mm" height="0.5pt" background-color="black">
+                    <fo:block/>
+                </fo:block-container>
+            </xsl:when>
+            <xsl:otherwise>
+                <!-- Parity Mark (Used to make total marks even)
+                     Benchmark (1) + Safety (1) = 2 (Even)
+                     No Parity mark needed
+                -->
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 </xsl:stylesheet>
