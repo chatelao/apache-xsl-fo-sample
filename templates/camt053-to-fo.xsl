@@ -3,7 +3,8 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:fo="http://www.w3.org/1999/XSL/Format"
                 xmlns:camt="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02"
-                exclude-result-prefixes="camt">
+                xmlns:bc="http://barcode4j.krysalis.org/ns"
+                exclude-result-prefixes="camt bc">
 
     <xsl:output method="xml" indent="yes"/>
 
@@ -13,55 +14,130 @@
     <xsl:template match="/">
         <fo:root>
             <fo:layout-master-set>
-                <fo:simple-page-master master-name="A4" page-height="29.7cm" page-width="21cm" margin="1cm">
-                    <fo:region-body margin-top="2cm" margin-bottom="2cm"/>
-                    <fo:region-before extent="2cm"/>
-                    <fo:region-after extent="1cm"/>
+                <!-- Master for Odd pages -->
+                <fo:simple-page-master master-name="A4-odd" page-height="29.7cm" page-width="21cm" margin="0.5cm">
+                    <fo:region-body margin-top="2.5cm" margin-bottom="2cm" margin-left="1.5cm"/>
+                    <fo:region-before extent="2.5cm"/>
+                    <fo:region-after extent="1.5cm"/>
+                    <fo:region-start region-name="omr-odd" extent="1.5cm"/>
                 </fo:simple-page-master>
+
+                <!-- Master for Even pages -->
+                <fo:simple-page-master master-name="A4-even" page-height="29.7cm" page-width="21cm" margin="0.5cm">
+                    <fo:region-body margin-top="2.5cm" margin-bottom="2cm" margin-left="1.5cm"/>
+                    <fo:region-before extent="2.5cm"/>
+                    <fo:region-after extent="1.5cm"/>
+                    <fo:region-start region-name="omr-even" extent="1.5cm"/>
+                </fo:simple-page-master>
+
+                <!-- Master for Last Odd page -->
+                <fo:simple-page-master master-name="A4-last-odd" page-height="29.7cm" page-width="21cm" margin="0.5cm">
+                    <fo:region-body margin-top="2.5cm" margin-bottom="2cm" margin-left="1.5cm"/>
+                    <fo:region-before extent="2.5cm"/>
+                    <fo:region-after extent="1.5cm"/>
+                    <fo:region-start region-name="omr-last-odd" extent="1.5cm"/>
+                </fo:simple-page-master>
+
+                <!-- Master for Last Even page -->
+                <fo:simple-page-master master-name="A4-last-even" page-height="29.7cm" page-width="21cm" margin="0.5cm">
+                    <fo:region-body margin-top="2.5cm" margin-bottom="2cm" margin-left="1.5cm"/>
+                    <fo:region-before extent="2.5cm"/>
+                    <fo:region-after extent="1.5cm"/>
+                    <fo:region-start region-name="omr-last-even" extent="1.5cm"/>
+                </fo:simple-page-master>
+
+                <fo:page-sequence-master master-name="A4-alternating">
+                    <fo:repeatable-page-master-alternatives>
+                        <fo:conditional-page-master-reference master-reference="A4-last-odd" page-position="last" odd-or-even="odd"/>
+                        <fo:conditional-page-master-reference master-reference="A4-last-even" page-position="last" odd-or-even="even"/>
+                        <fo:conditional-page-master-reference master-reference="A4-odd" odd-or-even="odd"/>
+                        <fo:conditional-page-master-reference master-reference="A4-even" odd-or-even="even"/>
+                    </fo:repeatable-page-master-alternatives>
+                </fo:page-sequence-master>
             </fo:layout-master-set>
 
-            <fo:page-sequence master-reference="A4">
-                <fo:static-content flow-name="xsl-region-before">
-                    <fo:table table-layout="fixed" width="100%">
-                        <fo:table-column column-width="50mm"/>
-                        <fo:table-column column-width="140mm"/>
-                        <fo:table-body>
-                            <fo:table-row>
-                                <fo:table-cell display-align="center">
-                                    <fo:block>
-                                        <fo:external-graphic src="url('../assets/logo.svg')" content-height="15mm" scaling="uniform"/>
-                                    </fo:block>
-                                </fo:table-cell>
-                                <fo:table-cell display-align="center">
-                                    <fo:block font-size="18pt" font-weight="bold" text-align="right">
-                                        <xsl:value-of select="$i18n/title"/>
-                                    </fo:block>
-                                </fo:table-cell>
-                            </fo:table-row>
-                        </fo:table-body>
-                    </fo:table>
-                </fo:static-content>
-
-                <fo:static-content flow-name="xsl-region-after">
-                    <fo:block font-size="8pt" text-align="center">
-                        <xsl:value-of select="$i18n/page"/>
-                        <xsl:text> </xsl:text>
-                        <fo:page-number/>
-                        <xsl:text> / </xsl:text>
-                        <fo:page-number-citation ref-id="last-page"/>
-                    </fo:block>
-                </fo:static-content>
-
-                <fo:flow flow-name="xsl-region-body">
-                    <xsl:apply-templates select="//camt:Stmt"/>
-                    <fo:block id="last-page"/>
-                </fo:flow>
-            </fo:page-sequence>
+            <xsl:apply-templates select="//camt:Stmt"/>
         </fo:root>
     </xsl:template>
 
     <xsl:template match="camt:Stmt">
-        <xsl:if test="camt:Acct/camt:Ownr">
+        <xsl:variable name="stmtId" select="generate-id(.)"/>
+        <fo:page-sequence master-reference="A4-alternating">
+            <fo:static-content flow-name="xsl-region-before">
+                <fo:table table-layout="fixed" width="100%" margin-left="1.5cm">
+                    <fo:table-column column-width="50mm"/>
+                    <fo:table-column column-width="125mm"/>
+                    <fo:table-body>
+                        <fo:table-row>
+                            <fo:table-cell display-align="center">
+                                <fo:block>
+                                    <fo:external-graphic src="url('../assets/logo.svg')" content-height="15mm" scaling="uniform"/>
+                                </fo:block>
+                            </fo:table-cell>
+                            <fo:table-cell display-align="center">
+                                <fo:block text-align="right">
+                                    <fo:instream-foreign-object width="20mm" height="20mm" content-width="20mm" content-height="20mm">
+                                        <bc:barcode>
+                                            <bc:datamatrix>
+                                                <bc:module-width>0.5mm</bc:module-width>
+                                                <bc:message>
+                                                    <xsl:value-of select="camt:Id"/>
+                                                </bc:message>
+                                            </bc:datamatrix>
+                                        </bc:barcode>
+                                    </fo:instream-foreign-object>
+                                </fo:block>
+                                <fo:block font-size="18pt" font-weight="bold" text-align="right">
+                                    <xsl:value-of select="$i18n/title"/>
+                                </fo:block>
+                            </fo:table-cell>
+                        </fo:table-row>
+                    </fo:table-body>
+                </fo:table>
+            </fo:static-content>
+
+
+            <!-- Common region-start for Odd pages -->
+            <fo:static-content flow-name="omr-odd">
+                <fo:block-container absolute-position="absolute" left="5mm" top="100mm" width="5mm" height="0.5mm" background-color="black"><fo:block/></fo:block-container>
+                <fo:block-container absolute-position="absolute" left="5mm" top="104mm" width="5mm" height="0.5mm" background-color="black"><fo:block/></fo:block-container>
+                <fo:block-container absolute-position="absolute" left="5mm" top="112mm" width="5mm" height="0.5mm" background-color="black"><fo:block/></fo:block-container>
+            </fo:static-content>
+
+            <!-- Common region-start for Even pages -->
+            <fo:static-content flow-name="omr-even">
+                <fo:block-container absolute-position="absolute" left="5mm" top="100mm" width="5mm" height="0.5mm" background-color="black"><fo:block/></fo:block-container>
+                <fo:block-container absolute-position="absolute" left="5mm" top="104mm" width="5mm" height="0.5mm" background-color="black"><fo:block/></fo:block-container>
+            </fo:static-content>
+
+            <!-- Common region-start for Last Odd page -->
+            <fo:static-content flow-name="omr-last-odd">
+                <fo:block-container absolute-position="absolute" left="5mm" top="100mm" width="5mm" height="0.5mm" background-color="black"><fo:block/></fo:block-container>
+                <fo:block-container absolute-position="absolute" left="5mm" top="104mm" width="5mm" height="0.5mm" background-color="black"><fo:block/></fo:block-container>
+                <fo:block-container absolute-position="absolute" left="5mm" top="112mm" width="5mm" height="0.5mm" background-color="black"><fo:block/></fo:block-container>
+                <fo:block-container absolute-position="absolute" left="5mm" top="108mm" width="5mm" height="0.5mm" background-color="black"><fo:block/></fo:block-container>
+            </fo:static-content>
+
+            <!-- Common region-start for Last Even page -->
+            <fo:static-content flow-name="omr-last-even">
+                <fo:block-container absolute-position="absolute" left="5mm" top="100mm" width="5mm" height="0.5mm" background-color="black"><fo:block/></fo:block-container>
+                <fo:block-container absolute-position="absolute" left="5mm" top="104mm" width="5mm" height="0.5mm" background-color="black"><fo:block/></fo:block-container>
+                <fo:block-container absolute-position="absolute" left="5mm" top="108mm" width="5mm" height="0.5mm" background-color="black"><fo:block/></fo:block-container>
+            </fo:static-content>
+
+            <fo:static-content flow-name="xsl-region-after">
+                <fo:block font-size="8pt" text-align="center" margin-left="1.5cm">
+                    <xsl:value-of select="$i18n/page"/>
+                    <xsl:text> </xsl:text>
+                    <fo:page-number/>
+                    <xsl:text> / </xsl:text>
+                    <fo:page-number-citation ref-id="{$stmtId}-last-page"/>
+                </fo:block>
+            </fo:static-content>
+
+            <fo:flow flow-name="xsl-region-body">
+
+                <xsl:if test="camt:Acct/camt:Ownr">
             <fo:block font-size="10pt" space-after="5mm">
                 <fo:block font-weight="bold"><xsl:value-of select="$i18n/account_holder"/></fo:block>
                 <fo:block><xsl:value-of select="camt:Acct/camt:Ownr/camt:Nm"/></fo:block>
@@ -223,5 +299,8 @@
                 </fo:table-body>
             </fo:table>
         </fo:block>
+                <fo:block id="{$stmtId}-last-page"/>
+            </fo:flow>
+        </fo:page-sequence>
     </xsl:template>
 </xsl:stylesheet>

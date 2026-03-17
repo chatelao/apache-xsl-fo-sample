@@ -17,6 +17,17 @@ fi
 mkdir -p $(dirname "$OUTPUT_PDF")
 
 # Run FOP
+CP=""
+if [ -d "lib" ]; then
+    for jar in lib/*.jar; do
+        CP="\$CP:\$jar"
+    done
+fi
+
+if [ -n "\$CP" ]; then
+    export CLASSPATH="\$CLASSPATH:\$CP"
+fi
+
 fop -xml "$INPUT_XML" -xsl "$XSLT_TEMPLATE" -param lang "$LANG" -pdf "$OUTPUT_PDF"
 
 if [ $? -eq 0 ]; then
