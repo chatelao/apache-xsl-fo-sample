@@ -11,6 +11,16 @@
                 <Id>
                     <IBAN>CH1234567890123456789</IBAN>
                 </Id>
+                <Ownr>
+                    <Nm>Robert Schneider AG</Nm>
+                    <PstlAdr>
+                        <StrtNm>Bahnhofstrasse</StrtNm>
+                        <BldgNb>1</BldgNb>
+                        <PstCd>8000</PstCd>
+                        <TwnNm>Zürich</TwnNm>
+                        <Ctry>CH</Ctry>
+                    </PstlAdr>
+                </Ownr>
                 <Ccy>CHF</Ccy>
             </Acct>
             <Bal>
