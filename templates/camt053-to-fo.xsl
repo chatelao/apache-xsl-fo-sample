@@ -218,11 +218,11 @@
                 <fo:table-column column-width="15%"/>
                 <fo:table-header background-color="#f0f0f0">
                     <fo:table-row>
-                        <fo:table-cell border="0.5pt solid black" padding="2pt"><fo:block font-weight="bold">Booking Date</fo:block></fo:table-cell>
-                        <fo:table-cell border="0.5pt solid black" padding="2pt"><fo:block font-weight="bold">Value Date</fo:block></fo:table-cell>
-                        <fo:table-cell border="0.5pt solid black" padding="2pt"><fo:block font-weight="bold">Details</fo:block></fo:table-cell>
-                        <fo:table-cell border="0.5pt solid black" padding="2pt" text-align="right"><fo:block font-weight="bold">Debit</fo:block></fo:table-cell>
-                        <fo:table-cell border="0.5pt solid black" padding="2pt" text-align="right"><fo:block font-weight="bold">Credit</fo:block></fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt"><fo:block font-weight="bold"><xsl:value-of select="$i18n/booking_date"/></fo:block></fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt"><fo:block font-weight="bold"><xsl:value-of select="$i18n/value_date"/></fo:block></fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt"><fo:block font-weight="bold"><xsl:value-of select="$i18n/details"/></fo:block></fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt" text-align="right"><fo:block font-weight="bold"><xsl:value-of select="$i18n/debit"/></fo:block></fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt" text-align="right"><fo:block font-weight="bold"><xsl:value-of select="$i18n/credit"/></fo:block></fo:table-cell>
                     </fo:table-row>
                 </fo:table-header>
                 <fo:table-body>

@@ -11,6 +11,8 @@
     <opening_balance>Opening Balance</opening_balance>
     <closing_balance>Closing Balance</closing_balance>
     <status>Status</status>
+    <booking_date>Booking Date</booking_date>
+    <value_date>Value Date</value_date>
     <details>Details</details>
     <debit>Debit</debit>
     <credit>Credit</credit>
