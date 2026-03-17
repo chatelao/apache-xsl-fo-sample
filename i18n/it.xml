@@ -11,6 +11,8 @@
     <opening_balance>Saldo d'apertura</opening_balance>
     <closing_balance>Saldo di chiusura</closing_balance>
     <status>Stato</status>
+    <booking_date>Data contabile</booking_date>
+    <value_date>Data valuta</value_date>
     <details>Dettagli</details>
     <debit>Addebito</debit>
     <credit>Accredito</credit>
