@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02">
+    <BkToCstmrStmt>
+        <GrpHdr>
+            <MsgId>MSG-001</MsgId>
+            <CreDtTm>2023-10-27T10:00:00Z</CreDtTm>
+        </GrpHdr>
+        <Stmt>
+            <Id>STMT-001</Id>
+            <Acct>
+                <Id>
+                    <IBAN>CH1234567890123456789</IBAN>
+                </Id>
+                <Ccy>CHF</Ccy>
+            </Acct>
+            <Bal>
+                <Tp>
+                    <CdOrPrtry>
+                        <Cd>OPBD</Cd>
+                    </CdOrPrtry>
+                </Tp>
+                <Amt Ccy="CHF">1000.00</Amt>
+                <Dt>
+                    <Dt>2023-10-01</Dt>
+                </Dt>
+            </Bal>
+            <Bal>
+                <Tp>
+                    <CdOrPrtry>
+                        <Cd>CLBD</Cd>
+                    </CdOrPrtry>
+                </Tp>
+                <Amt Ccy="CHF">1200.00</Amt>
+                <Dt>
+                    <Dt>2023-10-31</Dt>
+                </Dt>
+            </Bal>
+            <Ntry>
+                <Amt Ccy="CHF">200.00</Amt>
+                <CdtDbtInd>CRDT</CdtDbtInd>
+                <Sts>BOOK</Sts>
+                <BkTxCd>
+                    <Domn>
+                        <Cd>PMNT</Cd>
+                        <Fmly>
+                            <Cd>TRF</Cd>
+                            <SubFmlyCd>OTHR</SubFmlyCd>
+                        </Fmly>
+                    </Domn>
+                </BkTxCd>
+                <NtryDtls>
+                    <TxDtls>
+                        <Refs>
+                            <EndToEndId>REF-001</EndToEndId>
+                        </Refs>
+                        <RltdPties>
+                            <Dbtr>
+                                <Nm>John Doe</Nm>
+                            </Dbtr>
+                        </RltdPties>
+                    </TxDtls>
+                </NtryDtls>
+            </Ntry>
+        </Stmt>
+    </BkToCstmrStmt>
+</Document>
