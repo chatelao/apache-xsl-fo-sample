@@ -6,7 +6,7 @@ This project generates Swiss Account details as PDF from ISO 20022 `camt.053` XM
 
 The diagram below illustrates the generation process, including the transformation of XML input and internationalization files into XSL-FO, and the subsequent rendering to PDF by Apache FOP.
 
-![Architecture Diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/jules-software-engineer/swiss-account-statement-generator/main/architecture.puml)
+![Architecture Diagram](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/chatelao/apache-xsl-fo-sample/main/architecture.puml)
 
 ## Software Stack
 - **Apache FOP (Formatting Objects Processor)**: A print formatter driven by XSL formatting objects (XSL-FO) and an output independent formatter. It is used to render the XSL-FO tree into a PDF.
