@@ -111,6 +111,7 @@ def generate_camt(num_entries=200):
                 <Amt Ccy="CHF">{amount_chf:.2f}</Amt>
                 <CdtDbtInd>{indicator}</CdtDbtInd>
                 <Sts>BOOK</Sts>
+                <BookgDt><Dt>{entry_date.date().isoformat()}</Dt></BookgDt>
                 <ValDt><Dt>{entry_date.date().isoformat()}</Dt></ValDt>
                 <BkTxCd>
                     <Domn>

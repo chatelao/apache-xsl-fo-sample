@@ -1,0 +1,495 @@
+<?xml version="1.0" ?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02">
+  <BkToCstmrStmt>
+    <GrpHdr>
+      <MsgId>MSG-QRR-BATCH-001</MsgId>
+      <CreDtTm>2026-03-18T19:02:40.099451Z</CreDtTm>
+    </GrpHdr>
+    <Stmt>
+      <Id>STMT-QRR-BATCH-001</Id>
+      <Acct>
+        <Id>
+          <IBAN>CH1234567890123456789</IBAN>
+        </Id>
+        <Ccy>CHF</Ccy>
+      </Acct>
+      <Bal>
+        <Tp>
+          <CdOrPrtry>
+            <Cd>OPBD</Cd>
+          </CdOrPrtry>
+        </Tp>
+        <Amt Ccy="CHF">0.00</Amt>
+        <Dt>
+          <Dt>2023-12-01</Dt>
+        </Dt>
+      </Bal>
+      <Ntry>
+        <Amt Ccy="CHF">3400.00</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt>
+          <Dt>2023-12-15</Dt>
+        </BookgDt>
+        <ValDt>
+          <Dt>2023-12-15</Dt>
+        </ValDt>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-001</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 1</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 1</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-002</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 2</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 2</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-003</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 3</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 3</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-004</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 4</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 4</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-005</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 5</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 5</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-006</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 6</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 6</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-007</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 7</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 7</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-008</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 8</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 8</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-009</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 9</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 9</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-010</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 10</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 10</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-011</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 11</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 11</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-012</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 12</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 12</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-013</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 13</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 13</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-014</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 14</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 14</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-015</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 15</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 15</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-016</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 16</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 16</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-017</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 17</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 17</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-018</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 18</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 18</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-019</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 19</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 19</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-020</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 20</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 20</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-021</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 21</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 21</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-022</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 22</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 22</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-023</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 23</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 23</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-024</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 24</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 24</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-025</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 25</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 25</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-026</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 26</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 26</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-027</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 27</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 27</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-028</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 28</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 28</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-029</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 29</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 29</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-030</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 30</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 30</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-031</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 31</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 31</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-032</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 32</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 32</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-033</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 33</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 33</Ustrd>
+            </RmtInf>
+          </TxDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>QRR-REF-034</EndToEndId>
+            </Refs>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Debtor Number 34</Nm>
+              </Dbtr>
+            </RltdPties>
+            <RmtInf>
+              <Ustrd>QR-Reference for Bill 34</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Bal>
+        <Tp>
+          <CdOrPrtry>
+            <Cd>CLBD</Cd>
+          </CdOrPrtry>
+        </Tp>
+        <Amt Ccy="CHF">3400.00</Amt>
+        <Dt>
+          <Dt>2023-12-31</Dt>
+        </Dt>
+      </Bal>
+    </Stmt>
+  </BkToCstmrStmt>
+</Document>
