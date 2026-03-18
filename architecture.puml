@@ -1,0 +1,33 @@
+@startuml
+skinparam packageStyle rectangle
+
+package "Input" {
+  [camt.053 XML] as xml
+  [i18n XML] as i18n
+  folder "assets" {
+    [logo.svg] as logo
+  }
+}
+
+package "Transformation" {
+  [XSLT Processor] as xslt
+  [camt053-to-fo.xsl] as template
+}
+
+package "Rendering" {
+  [Apache FOP] as fop
+  [XSL-FO] as fo
+}
+
+package "Output" {
+  [PDF Statement] as pdf
+}
+
+xml --> xslt
+i18n --> xslt
+template --> xslt
+xslt --> fo
+fo --> fop
+logo --> fop : referenced in XSL-FO
+fop --> pdf
+@enduml
