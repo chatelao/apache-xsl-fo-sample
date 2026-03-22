@@ -201,7 +201,19 @@
                                 <fo:block><xsl:value-of select="camt:Dt/camt:Dt"/></fo:block>
                             </fo:table-cell>
                             <fo:table-cell border="0.5pt solid black" padding="2pt" text-align="right">
-                                <fo:block><xsl:value-of select="camt:Amt"/></fo:block>
+                                <fo:block>
+                                    <xsl:variable name="balAmt">
+                                        <xsl:choose>
+                                            <xsl:when test="camt:CdtDbtInd = 'DBIT'">
+                                                <xsl:value-of select="-(camt:Amt)"/>
+                                            </xsl:when>
+                                            <xsl:otherwise>
+                                                <xsl:value-of select="camt:Amt"/>
+                                            </xsl:otherwise>
+                                        </xsl:choose>
+                                    </xsl:variable>
+                                    <xsl:value-of select="format-number($balAmt, '#,##0.00')"/>
+                                </fo:block>
                             </fo:table-cell>
                         </fo:table-row>
                     </xsl:for-each>
@@ -211,11 +223,12 @@
 
         <fo:block font-size="10pt">
             <fo:table table-layout="fixed" width="100%" border="0.5pt solid black">
-                <fo:table-column column-width="15%"/>
-                <fo:table-column column-width="15%"/>
-                <fo:table-column column-width="40%"/>
-                <fo:table-column column-width="15%"/>
-                <fo:table-column column-width="15%"/>
+                <fo:table-column column-width="12%"/>
+                <fo:table-column column-width="12%"/>
+                <fo:table-column column-width="36%"/>
+                <fo:table-column column-width="12%"/>
+                <fo:table-column column-width="12%"/>
+                <fo:table-column column-width="16%"/>
                 <fo:table-header background-color="#f0f0f0">
                     <fo:table-row>
                         <fo:table-cell border="0.5pt solid black" padding="2pt"><fo:block font-weight="bold"><xsl:value-of select="$i18n/booking_date"/></fo:block></fo:table-cell>
@@ -223,10 +236,50 @@
                         <fo:table-cell border="0.5pt solid black" padding="2pt"><fo:block font-weight="bold"><xsl:value-of select="$i18n/details"/></fo:block></fo:table-cell>
                         <fo:table-cell border="0.5pt solid black" padding="2pt" text-align="right"><fo:block font-weight="bold"><xsl:value-of select="$i18n/debit"/></fo:block></fo:table-cell>
                         <fo:table-cell border="0.5pt solid black" padding="2pt" text-align="right"><fo:block font-weight="bold"><xsl:value-of select="$i18n/credit"/></fo:block></fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt" text-align="right"><fo:block font-weight="bold"><xsl:value-of select="$i18n/balance"/></fo:block></fo:table-cell>
                     </fo:table-row>
                 </fo:table-header>
                 <fo:table-body>
+                    <!-- Opening Balance Row -->
+                    <xsl:variable name="opbd" select="camt:Bal[camt:Tp/camt:CdOrPrtry/camt:Cd = 'OPBD']"/>
+                    <xsl:variable name="opbdAmt">
+                        <xsl:choose>
+                            <xsl:when test="$opbd/camt:CdtDbtInd = 'DBIT'">
+                                <xsl:value-of select="-$opbd/camt:Amt"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="$opbd/camt:Amt"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:variable>
+
+                    <fo:table-row font-style="italic" background-color="#fafafa">
+                        <fo:table-cell border="0.5pt solid black" padding="2pt">
+                            <fo:block><xsl:value-of select="$opbd/camt:Dt/camt:Dt"/></fo:block>
+                        </fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt">
+                            <fo:block/>
+                        </fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt">
+                            <fo:block><xsl:value-of select="$i18n/opening_balance"/></fo:block>
+                        </fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt">
+                            <fo:block/>
+                        </fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt">
+                            <fo:block/>
+                        </fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt" text-align="right">
+                            <fo:block><xsl:value-of select="format-number($opbdAmt, '#,##0.00')"/></fo:block>
+                        </fo:table-cell>
+                    </fo:table-row>
+
                     <xsl:for-each select="camt:Ntry">
+                        <xsl:variable name="currentEntries" select="preceding-sibling::camt:Ntry | ."/>
+                        <xsl:variable name="runningTotal">
+                            <xsl:value-of select="$opbdAmt + sum($currentEntries[camt:CdtDbtInd='CRDT']/camt:Amt) - sum($currentEntries[camt:CdtDbtInd='DBIT']/camt:Amt)"/>
+                        </xsl:variable>
+
                         <fo:table-row>
                             <fo:table-cell border="0.5pt solid black" padding="2pt">
                                 <fo:block><xsl:value-of select="camt:BookgDt/camt:Dt"/></fo:block>
@@ -293,19 +346,58 @@
                             <fo:table-cell border="0.5pt solid black" padding="2pt" text-align="right">
                                 <fo:block>
                                     <xsl:if test="camt:CdtDbtInd = 'DBIT'">
-                                        <xsl:value-of select="camt:Amt"/>
+                                        <xsl:value-of select="format-number(camt:Amt, '#,##0.00')"/>
                                     </xsl:if>
                                 </fo:block>
                             </fo:table-cell>
                             <fo:table-cell border="0.5pt solid black" padding="2pt" text-align="right">
                                 <fo:block>
                                     <xsl:if test="camt:CdtDbtInd = 'CRDT'">
-                                        <xsl:value-of select="camt:Amt"/>
+                                        <xsl:value-of select="format-number(camt:Amt, '#,##0.00')"/>
                                     </xsl:if>
+                                </fo:block>
+                            </fo:table-cell>
+                            <fo:table-cell border="0.5pt solid black" padding="2pt" text-align="right">
+                                <fo:block>
+                                    <xsl:value-of select="format-number($runningTotal, '#,##0.00')"/>
                                 </fo:block>
                             </fo:table-cell>
                         </fo:table-row>
                     </xsl:for-each>
+
+                    <!-- Closing Balance Row -->
+                    <xsl:variable name="clbd" select="camt:Bal[camt:Tp/camt:CdOrPrtry/camt:Cd = 'CLBD']"/>
+                    <xsl:variable name="clbdAmt">
+                        <xsl:choose>
+                            <xsl:when test="$clbd/camt:CdtDbtInd = 'DBIT'">
+                                <xsl:value-of select="-$clbd/camt:Amt"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="$clbd/camt:Amt"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:variable>
+
+                    <fo:table-row font-style="italic" background-color="#fafafa">
+                        <fo:table-cell border="0.5pt solid black" padding="2pt">
+                            <fo:block><xsl:value-of select="$clbd/camt:Dt/camt:Dt"/></fo:block>
+                        </fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt">
+                            <fo:block/>
+                        </fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt">
+                            <fo:block><xsl:value-of select="$i18n/closing_balance"/></fo:block>
+                        </fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt">
+                            <fo:block/>
+                        </fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt">
+                            <fo:block/>
+                        </fo:table-cell>
+                        <fo:table-cell border="0.5pt solid black" padding="2pt" text-align="right">
+                            <fo:block font-weight="bold"><xsl:value-of select="format-number($clbdAmt, '#,##0.00')"/></fo:block>
+                        </fo:table-cell>
+                    </fo:table-row>
                 </fo:table-body>
             </fo:table>
         </fo:block>
