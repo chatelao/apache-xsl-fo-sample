@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taxStatement xmlns="http://www.ech.ch/xmlns/eCH-0196/2.2">
+    <header>
+        <messageId>MSG-001-M</messageId>
+        <businessProcessId>BP-2023-002</businessProcessId>
+        <senderId>BANKCH01</senderId>
+    </header>
+    <statement>
+        <taxPeriod>2023</taxPeriod>
+        <statementId>STMT-2023-M-001</statementId>
+        <institution>
+            <name>Swiss Demo Bank</name>
+            <address>
+                <street>Bahnhofstrasse 1</street>
+                <postCode>8001</postCode>
+                <town>Zürich</town>
+            </address>
+        </institution>
+        <client>
+            <name>Jane Smith</name>
+            <address>
+                <street>Rue de la Gare 5</street>
+                <postCode>1201</postCode>
+                <town>Genève</town>
+            </address>
+        </client>
+        <accountList>
+            <account>
+                <accountNumber>CH12 0000 0000 0000 0000 2</accountNumber>
+                <currency>CHF</currency>
+                <balanceClose>15000.00</balanceClose>
+                <interestGross>50.00</interestGross>
+                <withholdingTax>17.50</withholdingTax>
+            </account>
+            <account>
+                <accountNumber>CH12 0000 0000 0000 0000 3</accountNumber>
+                <currency>EUR</currency>
+                <balanceClose>2500.00</balanceClose>
+                <interestGross>5.00</interestGross>
+                <withholdingTax>1.75</withholdingTax>
+            </account>
+        </accountList>
+        <securitiesList>
+            <security>
+                <isin>CH0012032048</isin>
+                <description>ROCHE HLDG AG-GENUSSCHEIN</description>
+                <quantity>10</quantity>
+                <currency>CHF</currency>
+                <marketValue>2500.00</marketValue>
+                <incomeGross>95.00</incomeGross>
+                <withholdingTax>33.25</withholdingTax>
+            </security>
+            <security>
+                <isin>CH0012005267</isin>
+                <description>NOVARTIS AG-REG</description>
+                <quantity>20</quantity>
+                <currency>CHF</currency>
+                <marketValue>1800.00</marketValue>
+                <incomeGross>64.00</incomeGross>
+                <withholdingTax>22.40</withholdingTax>
+            </security>
+        </securitiesList>
+    </statement>
+</taxStatement>

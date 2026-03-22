@@ -2,22 +2,35 @@
 <translations>
     <title>Relevé de compte (camt.053)</title>
     <page>Page</page>
-    <account_holder>Titulaire du compte :</account_holder>
-    <iban>IBAN :</iban>
-    <currency>Devise :</currency>
+    <account_holder>Titulaire du compte:</account_holder>
+    <iban>IBAN:</iban>
+    <currency>Devise:</currency>
     <balance_type>Type de solde</balance_type>
     <date>Date</date>
     <amount>Montant</amount>
     <opening_balance>Solde d'ouverture</opening_balance>
     <closing_balance>Solde de clôture</closing_balance>
     <status>Statut</status>
-    <booking_date>Date comptable</booking_date>
+    <booking_date>Date de comptabilisation</booking_date>
     <value_date>Date de valeur</value_date>
     <details>Détails</details>
     <debit>Débit</debit>
     <credit>Crédit</credit>
-    <ref>Réf :</ref>
-    <original_amount>Montant original :</original_amount>
-    <rate>Taux :</rate>
+    <ref>Réf:</ref>
+    <original_amount>Montant original:</original_amount>
+    <rate>Cours:</rate>
     <balance>Solde</balance>
+    <tax_statement_title>Relevé fiscal électronique (eCH-0196)</tax_statement_title>
+    <tax_period>Période fiscale:</tax_period>
+    <statement_id>ID du relevé:</statement_id>
+    <client>Client:</client>
+    <list_of_bank_accounts>Liste des comptes bancaires</list_of_bank_accounts>
+    <account_number>Numéro de compte</account_number>
+    <interest>Intérêt (Brut)</interest>
+    <list_of_securities>Liste des titres</list_of_securities>
+    <isin>ISIN</isin>
+    <description>Description</description>
+    <quantity>Quantité</quantity>
+    <market_value>Valeur fiscale</market_value>
+    <income>Revenu (Brut)</income>
 </translations>

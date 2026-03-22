@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taxStatement xmlns="http://www.ech.ch/xmlns/eCH-0196/2.2">
+    <header>
+        <messageId>MSG-001-L</messageId>
+        <senderId>BANKCH01</senderId>
+    </header>
+    <statement>
+        <taxPeriod>2023</taxPeriod>
+        <statementId>STMT-2023-L-001</statementId>
+        <institution>
+            <name>Swiss Demo Bank</name>
+            <address>
+                <street>Bahnhofstrasse 1</street>
+                <postCode>8001</postCode>
+                <town>Zürich</town>
+            </address>
+        </institution>
+        <client>
+            <name>Maximilian Power</name>
+            <address>
+                <street>Luxury Avenue 99</street>
+                <postCode>6900</postCode>
+                <town>Lugano</town>
+            </address>
+        </client>
+        <accountList>
+            <account>
+                <accountNumber>CH12 0000 0000 0000 0000 4</accountNumber>
+                <currency>CHF</currency>
+                <balanceClose>1250000.00</balanceClose>
+                <interestGross>1250.00</interestGross>
+                <withholdingTax>437.50</withholdingTax>
+            </account>
+        </accountList>
+        <securitiesList>
+            <!-- Generated 15 securities for L -->
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012138530</isin><description>CREDIT SUISSE GROUP AG-REG</description><quantity>500</quantity><currency>CHF</currency><marketValue>400.00</marketValue><incomeGross>0.00</incomeGross><withholdingTax>0.00</withholdingTax></security>
+            <security><isin>CH0011075394</isin><description>ZURICH INSURANCE GROUP AG</description><quantity>50</quantity><currency>CHF</currency><marketValue>22000.00</marketValue><incomeGross>1200.00</incomeGross><withholdingTax>420.00</withholdingTax></security>
+            <security><isin>US0378331005</isin><description>APPLE INC</description><quantity>10</quantity><currency>USD</currency><marketValue>1800.00</marketValue><incomeGross>24.00</incomeGross><withholdingTax>3.60</withholdingTax></security>
+            <security><isin>US5949181045</isin><description>MICROSOFT CORP</description><quantity>5</quantity><currency>USD</currency><marketValue>1900.00</marketValue><incomeGross>15.00</incomeGross><withholdingTax>2.25</withholdingTax></security>
+            <security><isin>CH0038863350</isin><description>NESTLE SA-REG</description><quantity>100</quantity><currency>CHF</currency><marketValue>10500.00</marketValue><incomeGross>295.00</incomeGross><withholdingTax>103.25</withholdingTax></security>
+            <security><isin>CH0012032048</isin><description>ROCHE HLDG AG-GENUSSCHEIN</description><quantity>20</quantity><currency>CHF</currency><marketValue>5000.00</marketValue><incomeGross>190.00</incomeGross><withholdingTax>66.50</withholdingTax></security>
+            <security><isin>CH0012005267</isin><description>NOVARTIS AG-REG</description><quantity>40</quantity><currency>CHF</currency><marketValue>3600.00</marketValue><incomeGross>128.00</incomeGross><withholdingTax>44.80</withholdingTax></security>
+            <security><isin>CH0009002962</isin><description>BARRY CALLEBAUT AG-REG</description><quantity>2</quantity><currency>CHF</currency><marketValue>3000.00</marketValue><incomeGross>56.00</incomeGross><withholdingTax>19.60</withholdingTax></security>
+            <security><isin>CH0012214059</isin><description>HOLCIM LTD</description><quantity>100</quantity><currency>CHF</currency><marketValue>6500.00</marketValue><incomeGross>250.00</incomeGross><withholdingTax>87.50</withholdingTax></security>
+            <security><isin>CH0210483332</isin><description>COMPAGNIE FINANCIERE RICHEMONT-REG</description><quantity>50</quantity><currency>CHF</currency><marketValue>5500.00</marketValue><incomeGross>112.50</incomeGross><withholdingTax>39.38</withholdingTax></security>
+            <security><isin>CH0012453913</isin><description>TEMENOS AG-REG</description><quantity>150</quantity><currency>CHF</currency><marketValue>10500.00</marketValue><incomeGross>165.00</incomeGross><withholdingTax>57.75</withholdingTax></security>
+            <security><isin>CH0010645932</isin><description>GIVAUDAN-REG</description><quantity>1</quantity><currency>CHF</currency><marketValue>3400.00</marketValue><incomeGross>67.00</incomeGross><withholdingTax>23.45</withholdingTax></security>
+            <security><isin>CH0012255151</isin><description>THE SWATCH GROUP AG-BR</description><quantity>30</quantity><currency>CHF</currency><marketValue>7200.00</marketValue><incomeGross>180.00</incomeGross><withholdingTax>63.00</withholdingTax></security>
+            <security><isin>CH0012005267</isin><description>SGS SA-REG</description><quantity>50</quantity><currency>CHF</currency><marketValue>4100.00</marketValue><incomeGross>160.00</incomeGross><withholdingTax>56.00</withholdingTax></security>
+        </securitiesList>
+    </statement>
+</taxStatement>

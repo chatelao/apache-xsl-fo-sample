@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taxStatement xmlns="http://www.ech.ch/xmlns/eCH-0196/2.2">
+    <header>
+        <messageId>MSG-001-XL</messageId>
+        <senderId>BANKCH01</senderId>
+    </header>
+    <statement>
+        <taxPeriod>2023</taxPeriod>
+        <statementId>STMT-2023-XL-001</statementId>
+        <institution>
+            <name>Swiss Large Bank Corp</name>
+            <address>
+                <street>Paradeplatz 8</street>
+                <postCode>8001</postCode>
+                <town>Zürich</town>
+            </address>
+        </institution>
+        <client>
+            <name>Richie Rich</name>
+            <address>
+                <street>Gold Coast Road 1</street>
+                <postCode>8700</postCode>
+                <town>Küsnacht</town>
+            </address>
+        </client>
+        <accountList>
+            <account><accountNumber>CH12 0000 0000 0000 0001 0</accountNumber><currency>CHF</currency><balanceClose>1000000.00</balanceClose><interestGross>1000.00</interestGross><withholdingTax>350.00</withholdingTax></account>
+            <account><accountNumber>CH12 0000 0000 0000 0001 1</accountNumber><currency>USD</currency><balanceClose>500000.00</balanceClose><interestGross>5000.00</interestGross><withholdingTax>0.00</withholdingTax></account>
+            <account><accountNumber>CH12 0000 0000 0000 0001 2</accountNumber><currency>EUR</currency><balanceClose>300000.00</balanceClose><interestGross>1500.00</interestGross><withholdingTax>0.00</withholdingTax></account>
+            <account><accountNumber>CH12 0000 0000 0000 0001 3</accountNumber><currency>GBP</currency><balanceClose>200000.00</balanceClose><interestGross>2000.00</interestGross><withholdingTax>0.00</withholdingTax></account>
+            <account><accountNumber>CH12 0000 0000 0000 0001 4</accountNumber><currency>CHF</currency><balanceClose>10000.00</balanceClose><interestGross>0.00</interestGross><withholdingTax>0.00</withholdingTax></account>
+        </accountList>
+        <securitiesList>
+            <!-- Generated 60 securities for XL to ensure multiple pages -->
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (1)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (2)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (3)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (4)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (5)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (6)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (7)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (8)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (9)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (10)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (11)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (12)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (13)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (14)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (15)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (16)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (17)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (18)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (19)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (20)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (21)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (22)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (23)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (24)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (25)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (26)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (27)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (28)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (29)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (30)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (31)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (32)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (33)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (34)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (35)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (36)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (37)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (38)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (39)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (40)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (41)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (42)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (43)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (44)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (45)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (46)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (47)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (48)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (49)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (50)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (51)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (52)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (53)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (54)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (55)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (56)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (57)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (58)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (59)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+            <security><isin>CH0012221716</isin><description>ABB LTD-REG (60)</description><quantity>100</quantity><currency>CHF</currency><marketValue>3500.00</marketValue><incomeGross>80.00</incomeGross><withholdingTax>28.00</withholdingTax></security>
+        </securitiesList>
+    </statement>
+</taxStatement>

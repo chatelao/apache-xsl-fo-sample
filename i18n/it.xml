@@ -8,16 +8,29 @@
     <balance_type>Tipo di saldo</balance_type>
     <date>Data</date>
     <amount>Importo</amount>
-    <opening_balance>Saldo d'apertura</opening_balance>
-    <closing_balance>Saldo di chiusura</closing_balance>
+    <opening_balance>Saldo iniziale</opening_balance>
+    <closing_balance>Saldo finale</closing_balance>
     <status>Stato</status>
-    <booking_date>Data contabile</booking_date>
+    <booking_date>Data di registrazione</booking_date>
     <value_date>Data valuta</value_date>
     <details>Dettagli</details>
     <debit>Addebito</debit>
     <credit>Accredito</credit>
     <ref>Rif:</ref>
     <original_amount>Importo originale:</original_amount>
-    <rate>Tasso:</rate>
+    <rate>Cambio:</rate>
     <balance>Saldo</balance>
+    <tax_statement_title>Certificato fiscale elettronico (eCH-0196)</tax_statement_title>
+    <tax_period>Periodo fiscale:</tax_period>
+    <statement_id>ID estratto:</statement_id>
+    <client>Cliente:</client>
+    <list_of_bank_accounts>Elenco dei conti bancari</list_of_bank_accounts>
+    <account_number>Numero di conto</account_number>
+    <interest>Interessi (Lordo)</interest>
+    <list_of_securities>Elenco dei titoli</list_of_securities>
+    <isin>ISIN</isin>
+    <description>Descrizione</description>
+    <quantity>Quantità</quantity>
+    <market_value>Valore fiscale</market_value>
+    <income>Reddito (Lordo)</income>
 </translations>

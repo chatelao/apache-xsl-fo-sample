@@ -5,19 +5,32 @@
     <account_holder>Kontoinhaber:</account_holder>
     <iban>IBAN:</iban>
     <currency>Währung:</currency>
-    <balance_type>Saldoart</balance_type>
+    <balance_type>Saldotyp</balance_type>
     <date>Datum</date>
     <amount>Betrag</amount>
     <opening_balance>Eröffnungssaldo</opening_balance>
     <closing_balance>Abschlusssaldo</closing_balance>
     <status>Status</status>
     <booking_date>Buchungsdatum</booking_date>
-    <value_date>Valuta</value_date>
+    <value_date>Valutadatum</value_date>
     <details>Details</details>
     <debit>Soll</debit>
     <credit>Haben</credit>
     <ref>Ref:</ref>
-    <original_amount>Ursprünglicher Betrag:</original_amount>
+    <original_amount>Originalbetrag:</original_amount>
     <rate>Kurs:</rate>
     <balance>Saldo</balance>
+    <tax_statement_title>Elektronischer Steuerauszug (eCH-0196)</tax_statement_title>
+    <tax_period>Steuerperiode:</tax_period>
+    <statement_id>Auszugs-ID:</statement_id>
+    <client>Kunde:</client>
+    <list_of_bank_accounts>Verzeichnis der Bankkonten</list_of_bank_accounts>
+    <account_number>Kontonummer</account_number>
+    <interest>Ertrag (Brutto)</interest>
+    <list_of_securities>Verzeichnis der Wertschriften</list_of_securities>
+    <isin>ISIN</isin>
+    <description>Bezeichnung</description>
+    <quantity>Anzahl</quantity>
+    <market_value>Steuerwert</market_value>
+    <income>Ertrag (Brutto)</income>
 </translations>
