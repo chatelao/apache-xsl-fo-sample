@@ -1,0 +1,2754 @@
+          E-Government-Standards                                                 Seite 1 von 51
+
+
+
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 –
+Technische Wegleitung – Technische Weg-
+leitung
+
+Name                        Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Weg-
+                            leitung
+
+eCH-Nummer                  eCH-0196
+
+Kategorie                   Standard
+
+Status                      Genehmigt
+
+Beschluss am                2022-06-02
+
+Ausgabedatum                2022-06-07
+
+Sprachen                    Deutsch (Original), Französisch (Übersetzung)
+
+Autoren                     Schweizerische Steuerkonferenz
+                            Michael Baeriswyl (michael.baeriswyl@ssk.ewv-ete.ch)
+                            Christian Holzreiter (christian.holzreiter@ssk.ewv-ete.ch)
+
+Herausgeber / Vertrieb      Verein eCH, Mainaustrasse 30, Postfach, 8034 Zürich
+                            T 044 388 74 64, F 044 388 71 80
+                            www.ech.ch / info@ech.ch
+
+
+
+
+Verein eCH                                                            www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+          E-Government-Standards                                                 Seite 2 von 51
+
+
+
+Zusammenfassung
+Die Beilage zur technischen Wegleitung ergänzt die Dokumentation des Standards mit der
+Thematik der Übermittlung der Daten und des Systemaufbaus. Zudem zeigt sie eine mögliche
+technische Umsetzung der Gesamtlösung auf. Hierzu wird der technische Ablauf vom Finan-
+zinstitut bis zum Scan-Center der kantonalen Steuerbehörde beschrieben.
+In der technischen Wegleitung werden die folgenden Themen behandelt:
+      Bezug von steuerlich qualifizierten Daten
+      Signatur hinzufügen
+      Signatur prüfen
+      Transformation in E-Tax-Filing
+      Durchführung der teilautomatisierte Veranlagung
+In der technischen Wegleitung wird für die nachfolgenden Themen auf die Beilage «Barcode
+Generierung Technische Wegleitung» verwiesen.
+      Erstellung der ID als schweizweit eindeutige Kennung
+      Erstellung der Seiten-Barcodes
+      Erstellung der Barcode-Blätter
+      Extrahierung XML aus dem Barcode
+Zusätzlich wird für die eingesetzten Open Source Software-Bibliotheken eine Einschätzung
+der Lizenzbedingungen (Stichwort: Copyleft) und deren Nutzung vorgenommen.
+Die technische Wegleitung ist aus Sicht SSK verbindlich.
+
+
+
+
+Verein eCH                                                           www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+          E-Government-Standards                                                                                    Seite 3 von 51
+
+
+
+Inhaltsverzeichnis
+1        Einleitung ...................................................................................................... 5
+1.1      Status ...................................................................................................................... 5
+1.2      Überblick................................................................................................................. 5
+1.3      Anwendungsgebiet ................................................................................................ 5
+1.4      Abgrenzung ............................................................................................................ 8
+2        Themen der technischen Wegleitung ......................................................... 9
+2.1      Steuerlich qualifizierte Daten beziehen ................................................................ 9
+2.1.1    Datenabgleich durchführen .................................................................................... 10
+2.1.2    Publikation eines Titels beantragen ........................................................................ 11
+2.1.3    Status einer Titelanfrage prüfen ............................................................................. 11
+2.1.4    Alternativer Datenbezug über SIX Financial Information ........................................ 11
+2.1.5    Alternativer Datenbezug über XML-Self Service..................................................... 12
+2.1.6    Alternative Bekanntgabe der benötigten Titel ......................................................... 13
+2.2      Standard um Attribute und Elemente erweitern ................................................. 14
+2.3      Standard validieren .............................................................................................. 15
+2.4      Standard um Signatur erweitern ......................................................................... 16
+2.5      Root Zertifikat erstellen ....................................................................................... 17
+2.6      Zertifikat erstellen ................................................................................................ 17
+2.7      Signatur hinzufügen............................................................................................. 18
+2.8      Signatur prüfen .................................................................................................... 19
+2.9      Transformation in eCH-0119 (E-Tax-Filing) ........................................................ 21
+2.9.1    Transformation Bankkontenverzeichnis .................................................................. 22
+2.9.2    Transformation Schuldenverzeichnis ...................................................................... 23
+2.9.3    Transformation Spesenverzeichnis ........................................................................ 24
+2.9.4    Transformation Wertschriftenverzeichnis ............................................................... 25
+2.9.5    Transformation Pauschale Steueranrechnung ....................................................... 27
+2.10     Teilautomatisierte Veranlagung durchführen .................................................... 28
+2.10.1   Stammdaten und Ereignisse zum Titel ermitteln..................................................... 30
+2.10.2   Steuerwert und Erträge zum Titel berechnen ......................................................... 31
+2.10.3   Publikation eines Titels beantragen ........................................................................ 33
+2.10.4   Status der Titelanfragen prüfen .............................................................................. 34
+3        API E-Steuerauszug.................................................................................... 35
+3.1      Erstellen und Platzieren des Barcodes im PDF ................................................. 35
+3.2      Auslesen des XML aus dem Barcode des PDF .................................................. 37
+4        Open Source Software ............................................................................... 39
+4.1      Apache PDFBoxTM ................................................................................................ 39
+4.2      Apache Santuario................................................................................................. 40
+4.3      Simple Logging Facade for Java......................................................................... 40
+4.4      OpenSSL ............................................................................................................... 40
+
+Verein eCH                                                                                         www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+            E-Government-Standards                                                                      Seite 4 von 51
+
+
+5          Sicherheitsüberlegungen ........................................................................... 40
+6          Haftungsausschluss/Hinweise auf Rechte Dritter ................................... 41
+7          Urheberrechte ............................................................................................. 41
+Anhang A – Referenzen & Bibliografie .................................................................. 42
+Anhang B – Mitarbeit & Überprüfung V 1.0 ........................................................... 43
+Anhang C – Abkürzungen und Glossar ................................................................. 45
+Anhang D – Abbildungsverzeichnis ...................................................................... 48
+Anhang E – Tabellenverzeichnis ............................................................................ 49
+Anhang F – Listings ................................................................................................ 50
+Anhang G – Bibliotheken ........................................................................................ 51
+
+
+
+
+Verein eCH                                                                               www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+           E-Government-Standards                                                          Seite 5 von 51
+
+
+
+1 Einleitung
+
+1.1 Status
+Genehmigt: Das Dokument wurde vom Expertenausschuss genehmigt. Es hat für das defi-
+nierte Einsatzgebiet im festgelegten Gültigkeitsbereich normative Kraft.
+
+
+
+1.2 Überblick
+Die Dokumentation des Standards befasst sich nicht im Detail mit der Thematik der Übermitt-
+lung der Daten, des Systemaufbaus und der technischen Umsetzung der Gesamtlösung.
+Die technische Wegleitung ergänzt die Dokumentation des Standards mit der Thematik der
+Übermittlung der Daten und des Systemaufbaus. Zudem zeigt sie die erforderlichen Prozesse
+für eine technische Umsetzung der Gesamtlösung auf.
+
+
+
+1.3 Anwendungsgebiet
+Nachfolgend sind die erforderlichen Prozesse für die technische Umsetzung der Gesamtlö-
+sung vom Finanzinstitut bis zum Scan-Center der kantonalen Steuerbehörde aufgeführt.
+
+
+
+
+Abbildung 1: Prozesse Finanzinstitut bis Scan-Center der kantonalen Steuerbehörde
+
+Hierbei ist eine Unterscheidung der Prozesse beim Finanzinstitut einerseits, in der Deklaration
+und in der Veranlagung bei den Steuerbehörden anderseits, erforderlich.
+Damit der E-Steuerauszug beim Finanzinstitut erstellt werden kann, sind die nachfolgenden
+Schritte durchzuführen:
+   Steuerlich qualifizierte Daten beziehen
+Verein eCH                                                                      www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+               E-Government-Standards                                                                 Seite 6 von 51
+
+
+       Die Kursliste kann als XML-Datei von der ESTV manuell heruntergeladen werden. Alter-
+       nativ kann über die EWS-Services1,2 ein automatisierter Datenbezug (Batchjob) eingerich-
+       tet werden.
+       Mit geringen Einschränkungen3,4,5,6 stehen die steuerlich qualifizierten Daten auch bei SIX
+       Financial Information zur Verfügung und können über den VDF bezogen werden.
+
+
+      Steuerauszug transformieren
+       Die Datengrundlage für den E-Steuerauszug stellt der heutige Steuerauszug der Finan-
+       zinstitute dar. Damit der E-Steuerauszug generiert werden kann, sind die Daten aus dem
+       heutigen Steuerauszug zu extrahieren, um die steuerlich qualifizierten Daten aus der Kurs-
+       liste anzureichern und in die XML Struktur des E-Steuerauszugs zu transformieren.
+
+      Signatur hinzufügen
+       Damit nachträgliche Manipulationen am Steuerauszug ausgeschlossen werden können,
+       ist das Signieren des E-Steuerauszugs erforderlich. Es ist eine eingebettete Signatur (en-
+       veloped) umzusetzen.
+      Steuerauszug bereitstellen
+       Der Steuerauszug im PDF-Format, der um die Barcode-Blätter ergänzt wird, wird dem
+       Kunden / Steuerpflichtigen im Online-Banking zum Download zur Verfügung gestellt wer-
+       den. Alternativ hierzu kann die Druckversion des Steuerauszugs, um die Barcode-Blätter
+       ergänzt, an den Kunden / Steuerpflichtigen versandt werden.
+
+       Grundsätzlich bleibt der Prozess hierbei unverändert. Es muss jedoch sichergestellt wer-
+       den, dass die um das Barcode-Blatt ergänzte PDF-Datei für diese Prozessschritte verwen-
+       det wird.
+Damit der E-Steuerauszug bei der Deklaration verarbeitet werden kann, sind die nachfolgen-
+den Schritte durchzuführen. Die Ausgestaltung ist durch die kantonalen Steuerbehörden in
+Abstimmung mit den Softwareherstellern vorzunehmen:
+      Steuerauszug importieren
+       In der Deklarationssoftware der kantonalen Steuerbehörde stehen Import-Möglichkeit für
+       den Steuerauszug im PDF-Format zur Verfügung.
+       Über diesen Import-Mechanismus kann der Steuerpflichtige den Steuerauszug im PDF-
+       Format in die Deklarationssoftware importieren. Sofern die Deklarationssoftware noch
+       nicht für den Import des XML bereit ist, kann das PDF in der Veranlagung verarbeitet wer-
+       den.7 Der Steuerauszug steht somit für nachfolgende Verarbeitungsschritte in der Dekla-
+       ration oder auch erst in der Veranlagung zur Verfügung.
+       Im Ergebnis kann eine zeitlich entkoppelte Implementierung des Standards bei den Finan-
+       zinstituten und der Deklaration erreicht werden. Erst wenn das Finanzinstitut die XML-Datei
+       liefert und die Deklarationssoftware diese verarbeiten kann, wird der Steuerpflichtige auf
+
+    1 EWS-Service Titel suchen ermöglicht Bezug eines Initial Load der Kursliste.
+
+    2 EWS-Service Titel suchen mit Angabe des Mutationsdatums ermöglicht Bezug eines Delta der Kursliste.
+
+    3 Steuerkurse in der Kursliste publizierter Titel werden nur bis Ende Januar an BCN: 200 korrigiert.
+
+    4 Steuerkurse in der Kursliste nachträglich publizierter Titel werden nur bis Ende Januar an BCN: 200 publiziert.
+
+    5 Unterscheidung steuerlicher Ereignisse in Gratisaktien, Portefeuille-Ausschüttung oder Sonstige nicht möglich.
+
+    6 Legenden aus der Kursliste z.B. (I) nicht verfügbar.
+
+7 Der Fall tritt dann ein, wenn das Finanzinstitut den Steuerauszug inkl. E-Steuerauszug an den Steuerpflichtigen
+
+    in einem Kanton liefert, dessen kantonale Steuerbehörde kein Pilotkanton zum E-Steuerauszug ist.
+Verein eCH                                                                              www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+          E-Government-Standards                                                  Seite 7 von 51
+
+
+    die Möglichkeit des automatischen Ausfüllens des Wertschriftenverzeichnisses aufmerk-
+    sam gemacht.
+
+   Signatur überprüfen
+    Anhand der extrahierten XML-Datei ist zu prüfen, ob eine digitale Signatur zum E-Steuer-
+    auszug vorliegt. Abhängig davon ist zu prüfen, ob die digitale Signatur des Finanzinstituts
+    und der Inhalt des Elements «taxStatement» korrekt sind.
+   Wertschriftenverzeichnis erstellen
+    Anhand der extrahierten XML-Datei kann das Wertschriftenverzeichnis mit den Positionen
+    aus dem E-Steuerauszug, das Formular DA-1, das Schuldenverzeichnis und die Vermö-
+    gensverwaltungskosten ergänzt werden. Hierbei sollten die Steuerwerte und Erträge auto-
+    matisch geprüft und Änderungen zur Übernahme angezeigt werden.
+    Die Validierung kann anhand einer hinterlegten Kursliste im XML-Format oder über die
+    EWS-Services Titel suchen und Titel berechnen bzw. Wertschriftenverzeichnis berechnen
+    erfolgen.
+    Sofern bei der Validierung Unterschiede zum E-Steuerauszug festgestellt werden, sollte
+    der Steuerpflichtige darüber informiert werden. Dieser kann dann die notwendigen Anpas-
+    sungen im Wertschriftenverzeichnis autorisieren.
+   Wertschriftenverzeichnis erfassen
+    Der Steuerpflichtige kann jederzeit manuelle Ergänzungen im Wertschriftenverzeichnis
+    vornehmen. Dies ist unabhängig davon, ob ein E-Steuerauszug importiert wurde.
+    Ein mögliches Szenario hierbei ist, dass der Steuerauszug als Druckversion vorliegt und
+    der Steuerpflichtige lediglich Steuerwert sowie die Erträge mit und ohne Verrechnung-
+    steuer im Wertschriftenverzeichnis erfasst. Der Steuerpflichtige reicht die Druckversion mit
+    ergänztem Barcode-Blatt ein. In der Veranlagung können dann die Details aus dem E-
+    Steuerauszug extrahiert und die Details im Wertschriftenverzeichnis hinterlegt werden.
+    Sofern der Steuerpflichtige Korrekturen am Wertschriftenverzeichnis vornimmt, sind diese
+    Zeilen entsprechend zu kennzeichnen bzw. nicht mit der Quelle Kursliste zu versehen. Es
+    muss hierbei sichergestellt sein, dass diese manuellen Korrekturen in der Veranlagung
+    erkannt und überprüft werden können.
+
+   Steuererklärung freigeben
+    Es muss sichergestellt werden, dass der notwendige Detailierungsgrad zum Wertschrif-
+    tenverzeichnis in der Veranlagung zur Verfügung steht.
+    Dies kann dadurch erfolgen, dass Detailinformationen in der Deklaration in den eCH-0119
+    (E-Tax-Filing) übernommen werden oder dass für die Veranlagung der Steuerauszug als
+    PDF (oder als Druckversion) zur Verfügung gestellt wird.
+
+Damit der E-Steuerauszug in der Veranlagung verarbeitet werden kann, sind die nachfolgen-
+den Schritte erforderlich:
+   Steuererklärung scannen
+    Es muss hierbei lediglich sichergestellt werden, dass es beim Scannen nicht zu einer Ver-
+    wechselung der Barcode-Blätter des E-Tax-Filing, des E-Lohnausweises und des E-Steu-
+    erauszugs kommt.
+    Damit die Barcode-Blätter eindeutig identifiziert werden können, muss auch auf dem Bar-
+    code-Blatt des E-Steuerauszugs ein CODE128C-Barcode (sog. Seitenbarcode) als Identi-
+    fikationscode vorhanden sein.
+
+Verein eCH                                                             www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+          E-Government-Standards                                                 Seite 8 von 51
+
+
+   Steuererklärung extrahieren
+    Der Prozess bleibt unverändert. Die Validierung des Wertschriftenverzeichnisses kann an-
+    hand einer hinterlegten Kursliste im XML-Format oder über die EWS-Services «Titel su-
+    chen» und «Titel berechnen» bzw. «Wertschriftenverzeichnis berechnen» erfolgen.
+    Sofern bei der Validierung des Wertschriftenverzeichnisses Unterschiede festgestellt wer-
+    den, ist das Wertschriftenverzeichnis für eine Überprüfung in der Veranlagung vorzusehen.
+
+   Steuerauszug scannen
+    Der E-Steuerauszug wird mit dem Barcode PDF417 Structured Append vom Finanzinstitut
+    erstellt. Das XML des E-Steuerauszugs kann aus dem Barcode-Blatt extrahiert werden.
+    Zur Identifikation des E-Steuerauszugs ist auf jedem Blatt ein CODE128C-Barcode hinzu-
+    zufügen.
+
+   Wertschriftenverzeichnis ergänzen
+    Auf Grundlage des XML zum E-Steuerauszug kann im Wertschriftenverzeichnis die Posi-
+    tion gesucht werden, bei der lediglich ein Steuerwert sowie der Ertrag mit und ohne Ver-
+    rechnungssteuer angegeben ist. Diese Summen müssen mit den Angaben aus dem E-
+    Steuerauszug übereinstimmen. Weiter können das Formular DA-1, das Schuldenverzeich-
+    nis und die Vermögensverwaltungskosten aktualisiert werden.
+    Die Validierung kann anhand einer hinterlegten Kursliste im XML-Format oder über die
+    EWS-Services Titel suchen und Titel berechnen bzw. Wertschriftenverzeichnis berechnen
+    erfolgen.
+    Sofern bei der Validierung des Wertschriftenverzeichnisses Unterschiede festgestellt wer-
+    den, ist das Wertschriftenverzeichnis für eine Überprüfung in der Veranlagung vorzusehen.
+
+   Veranlagung durchführen
+    Um den Prozess zu optimieren, wird empfohlen, eine teilautomatisierte Prüfung über die
+    EWS-Services Titel suchen und Titel berechnen bzw. Wertschriftenverzeichnis berechnen
+    durchzuführen. Durch die Verwendung der Services wird sichergestellt, dass immer der
+    letzte verfügbare Datenstand bei der Veranlagung zum Einsatz kommt.
+    Abhängig vom Szenario liegt der E-Steuerauszug mit detaillierten Angaben für die Veran-
+    lagung vor. Dieser kann direkt als Steuerauszug im PDF-Format mit Anlage oder in der
+    Druckversion als Barcode vorliegen.
+    Bei Titelkategorien, die der reinen oder modifizierten Differenzbesteuerung unterliegen,
+    sind für die korrekte Berechnung der Erträge zusätzliche Informationen z.B. aus dem Bond-
+    floor Pricing erforderlich. Liegen diese Informationen nicht im Detail im Wertschriftenver-
+    zeichnis vor, so können diese aus dem E-Steuerauszug extrahiert und für die korrekte
+    Berechnung verwendet werden.
+
+
+
+1.4 Abgrenzung
+Die folgenden Abgrenzungen werden hinsichtlich der technischen Wegleitung des Standards
+getroffen:
+       Die technische Wegleitung beschreibt lediglich eine mögliche Umsetzung der Gesamt-
+        lösung.
+       Die technische Wegleitung erhebt keinen Anspruch auf Vollständigkeit.
+
+
+
+Verein eCH                                                            www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+           E-Government-Standards                                                            Seite 9 von 51
+
+
+
+2 Themen der technischen Wegleitung
+
+2.1 Steuerlich qualifizierte Daten beziehen
+Die steuerlich qualifizierten Daten sind Titel- und Unternehmensstammdaten, Steuerwerte und
+steuerbare Erträge sowie spezifische Zusatzinformationen8. Diese werden von der ESTV in
+der Kursliste publiziert. Die steuerliche Qualifikation sowie die Generierung der Kursliste erfolgt
+mit der Applikation ICTAX. Der Datenbezug als XML-Datei kann über die Online-Kursliste oder
+mittels Web-Services über EWS-Services erfolgen. Nachfolgend ist der Datenbezug über die
+EWS-Services Titel suchen und Titelanfrage stellen beschrieben.
+
+
+
+
+Abbildung 2: Datenbezug über EWS-Services
+
+    Die vollständige Datengrundlage der Kursliste wird über EWS-Service Titel suchen mittels
+automatisiertem Batch-Job täglich bezogen.       Die von der Kursliste angeforderten Daten
+    werden über den EWS-Services Titel suchen ausgeliefert.       Auf Grundlage der Daten
+aus dem Kernbankensystem und den steuerlich qualifizierten Daten der Kursliste wird der
+Steuerauszug erstellt.
+    Wird beim täglichen Abgleich der Datengrundlage festgestellt, dass Titel in der Kursliste
+nicht publiziert sind, so werden über den EWS-Service Titelanfrage stellen die Publikation der
+fehlenden Titel in der Kursliste angefordert. Wichtig hierbei ist, dass der EWS-Service Titelan-
+frage stellen einen Chat-Mechanismus vorsieht, damit allfällige Fragen über diesen Workflow
+behandelt werden können.
+Die frühzeitige Bekanntgabe der Titel, die für die Steuerauszüge eines Jahres benötigt werden,
+ist wünschenswert. Hierdurch kann die Publikation dieser Titel auf das ganze Jahr verteilt wer-
+
+
+
+8 Wie beispielsweise Immobilienfonds mit direktem Grundbesitz, IUP-Titel, Ausschüttung von Kapitaleinlage-Re-
+
+ serven, Zinsen von Pflichtwandelanleihen und Anleihen mit Forderungsverzicht etc.
+Verein eCH                                                                       www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+            E-Government-Standards                                                  Seite 10 von 51
+
+
+den, damit diese im Februar des Folgejahres für die Erstellung der Steuerauszüge bereitste-
+hen. Dies hilft zudem, den Abdeckungsgrad der Kursliste zu erhöhen. Die steuerliche Qualifi-
+kation dieser Titel innerhalb weniger Tage oder Wochen ist durch die ESTV ansonsten nicht
+gewährleistet.
+
+
+2.1.1 Datenabgleich durchführen
+Über den EWS-Service Titel suchen können alle Titel aus der Kursliste über einen Initial Load
+und anschliessenden Delta-Lieferungen bezogen werden. Ziel ist es hierbei, alle Mutationen
+aus der Kursliste regelmässig mittels Batch-Job zu beziehen. Die Nutzung des EWS-Service
+Titel suchen ist im Kapitel Fehler! Verweisquelle konnte nicht gefunden werden. beschrie-
+ben.
+Der EWS-Service Titel suchen bietet diverse Attribute für die Suche an. Für den Initial Load
+oder Deltabezug sind allerdings nur die nachfolgenden Attribute relevant:
+       year
+       domain
+       maxResults
+       startWith
+       modificationDate
+Nachfolgend ist eine Beispiel-Abfrage für den Deltabezug dargestellt. Hierbei wird über eine
+Trefferliste iteriert, indem der Startpunkt und die Anzahl Treffer angegeben werden. Zusätzlich
+sollte ein Exception-Handling definiert werden, so dass bei einem Unterbruch (Timeout) die
+Anfrage mit den gleichen Parametern wiederholt wird.
+
+…
+<ews:searchSecurityRequest
+    year="2015"
+    domain="<your domain>"
+    maxCount="1000000"
+    maxResults="100"
+    startWith="101"
+    modificationDate="2016-01-01T00:00:00"/>
+…
+
+Listing 1: Titel suchen (Request) - Deltalieferung
+
+Die Titelanfrage liefert in der Antwort immer die Gesamtanzahl der Treffer sowie den Start-
+punkt und die Trefferanzahl zurück.
+
+…
+<service:searchSecurityResponse
+    count="58951"
+    creationDate="2016-02-08T15:29:01"
+    results="100"
+    startWith="101"
+    version="2.0.0.0"
+    xsi:schemaLocation="http://xmlns.estv.admin.ch/ictax/2.0.0/kursliste
+                        kursliste-2.0.0.xsd
+                        http://xmlns.estv.admin.ch/ews/2.0.0/ews-service
+                        ews-service-2.0.0.xsd"
+    year="2015"
+    xmlns:service="http://xmlns.estv.admin.ch/ews/2.0.0/ews-service"
+    xmlns:kursliste="http://xmlns.estv.admin.ch/ictax/2.0.0/kursliste"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+…
+</service:searchSecurityResponse>
+…
+
+Listing 2: Titel suchen (Response) - Delta-Lieferung
+
+
+
+
+Verein eCH                                                                 www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+            E-Government-Standards                                                         Seite 11 von 51
+
+
+2.1.2 Publikation eines Titels beantragen
+Über den EWS-Service Titelanfrage stellen kann die Publikation eines Titels, der nicht in der
+Kursliste publiziert ist, beantragt werden. Der EWS-Service Titelanfrage stellen kann aber
+auch für Anfragen zu einem Titel verwendet werden. Die Nutzung des EWS-Service Titelan-
+frage stellen ist im Kapitel Fehler! Verweisquelle konnte nicht gefunden werden. beschrie-
+ben.
+Hierbei können mit der Titelanfrage ein Text sowie ein Anhang übermittelt werden. Beim Hoch-
+laden einer Datei als Anhang wird ein Virenscan durchgeführt.
+Jede Titelanfrage erhält eine interne Nummer. Wird die interne Nummer beim EWS-Service
+Titelanfrage stellen mitgegeben, so wird keine neue Titelanfrage angelegt, sondern der Text
+und der Anhang an die bestehende Titelanfrage (der eigenen Domäne) angehängt.
+Nachfolgend ist ein Beispiel für eine Titelanfrage mit Text ohne Anhang dargestellt.
+
+…
+<ews:setSecurityRequestRequest
+    year="2015"
+    domain="<your domain>"
+    valorNumber="4000099"
+    reason="PUBLICATION">
+    <ews:contactPerson
+        email="test01d@<your domain>"
+        surName="Test"
+        country="CH"/>
+</ews:setSecurityRequestRequest>
+…
+
+Listing 3: Titelanfrage stellen (Request) - Titel publizieren
+
+
+2.1.3 Status einer Titelanfrage prüfen
+Über den EWS-Service Titelanfragen suchen kann der Bearbeitungsstatus zu einer oder meh-
+reren Titelanfragen (ausschliesslich) der eigenen Domäne überprüft und nachverfolgt werden.
+Die Domäne muss mitgegeben werden und wird anhand des Benutzers überprüft. Der Daten-
+schutz und das Bank- und Steuergeheimnis sind hierbei sichergestellt.
+
+…
+<ews:searchSecurityRequestRequest
+    year="2015"
+    domain="<your domain>"
+    modificationDate="2016-01-01T00:00:00"/>
+…
+
+Listing 4: Titelanfragen suchen (Request) - Titelanfragen mit Mutationsdatum suchen
+
+Über den EWS-Service Titelanfragen suchen kann ein Workflow abgebildet werden, der bei
+einer Rückfrage eine Interaktion des Anfragestellers auslöst, und nach Abschluss der Titelan-
+frage den auslösenden Workflow fortsetzt.
+Falls eine Rückfrage von der ESTV gestellt wird, ist diese Rückfrage über den EWS-Service
+Titelanfrage stellen zu beantwortet. Alternativ kann das automatische Versenden von E-Mails
+aktiviert werden. Diese sind durch den Anfragesteller zu beantworten.
+
+
+2.1.4 Alternativer Datenbezug über SIX Financial Information
+Die Applikation ICTAX verwendet den VDF als Grundlage zur steuerlichen Qualifikation der
+Titel in der Kursliste. Die ESTV verfügt über bidirektionale Schnittstellen zu SIX Financial In-
+formation. Zusätzlich nimmt die ESTV die steuerliche Qualifikation der BFP-Titel bei SIX Fi-
+nancial Information vor.
+
+Verein eCH                                                                        www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+           E-Government-Standards                                                               Seite 12 von 51
+
+
+Die ESTV liefert SIX Financial Information täglich Steuermeldungen (MGG: 297) zu Ereignis-
+sen, Tageskurse zu Devisen, Münzen und Edelmetallen in CHF. In einem jährlichen Prozess
+wird der Original-Börsenplatz zur Ermittlung des Jahresendkurses der in der Kursliste publi-
+zierten Titel zwischen der ESTV und SIX Financial Information festgelegt.
+Prinzipiell gilt, dass alle steuerlich qualifizierten Daten aus der Kursliste über den VDF
+bezogen werden können. Derzeit existierende Einschränkungen9 sind durch SIX Financial
+Information und die ESTV zu beseitigen. Ziel ist es, dass der VDF als Quelle für die steuerlich
+qualifizierten Daten der Kursliste uneingeschränkt von den Finanzinstituten verwendet werden
+können.
+Eine der wesentlichen Einschränkungen ist, dass der VDF und die Kursliste nur bis Ende Ja-
+nuar synchron gehalten werden. Danach werden Titel, die in der Kursliste für das Vorjahr auf-
+genommen werden, nicht mehr im VDF am Börsenplatz 200 (Eidgenössische Steuerverwal-
+tung) registriert. Somit sind die in der Kursliste publizierten Jahresendkurse für diese Titel über
+den VDF nicht verfügbar.
+Für den alternativen Datenbezug der steuerlich qualifizierten Datengrundlage über den VDF
+von SIX Financial Information wird auf die VDF Dokumentation verwiesen.
+
+
+2.1.5 Alternativer Datenbezug über XML-Self Service
+Über die externe Applikation von ICTAX (Kursliste) können sich Anwender erlaubter Domänen
+registrieren. Nach der Anmeldung kann das Kursliste XML im gewünschten Format als Initial
+oder Delta generiert werden.
+Produktion:               https://www.ictax.admin.ch/extern/login
+Abnahmeumgebung: https://www.ictax-a.admin.ch/extern/login
+Über den Menüpunkt XML Dateien kann der XML-Self Service aufgerufen werden. Hierbei
+kann das Jahr und das Format ausgewählt werden. Es werden nur die Dateien angezeigt, die
+für das Jahr und das Format erstellt wurden.
+
+
+
+
+9 Derzeit vorhandene Einschränkungen beim bidirektionalen Datenauschtausch zwischen ESTV und SIX:
+
+    Datenabgleich zwischen ESTV und SIX für die Vorjahresdaten findet nur bis Ende Januar des Folgejahres
+     statt.
+    Titel, die aufgrund von Titelanfragen in der Kursliste publiziert werden, werden nicht an SIX übermittelt und
+     stehen an BCN: 200 nicht zur Verfügung.
+    Manuell von der ESTV in der Kursliste erfasste Ereignisse und Erträge, die nicht als Steuermeldungen an SIX
+     übermittelt werden.
+
+
+Verein eCH                                                                          www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+             E-Government-Standards                                              Seite 13 von 51
+
+
+
+
+Abbildung 3: XML-Self Service
+
+Weiter kann nach der Domäne (eigene oder estv.admin.ch) eingeschränkt werden. Dies ist
+wichtig, falls man ein Delta erzeugen will. Wählt man kein Bezugsdatum aus, so wird immer
+ein Initial erzeugt. Wählt man ein Bezugsdatum aus, so wird ein Delta mit diesem Bezugsda-
+tum erstellt. D.h. es werden nur die geänderten Titel für das Kursliste XML berücksichtigt.
+Auf der Abnahmeumgebung gibt es hierbei einen wesentlichen Unterschied. Wird für das ak-
+tuelle Jahr eine XML Datei erzeugt, dann wird eine „Fake“-Kursliste erzeugt. Hierbei werden
+die Devisenkurse bzw. Ausschüttungen und Jahresendkurse zu den Titeln aus dem vergan-
+genen Jahr ergänzt. Dies erfolgt nur sofern ein Titel zum aktuellen Jahr noch gültig ist.
+
+
+2.1.6 Alternative Bekanntgabe der benötigten Titel
+Verwendet ein Finanzinstitut den VDF als Quelle für die steuerlich qualifizierten Daten und
+verzichtet auf die Nutzung des EWS-Service Titelanfrage stellen, so existiert derzeit kein Me-
+chanismus um der ESTV nicht in der Kursliste publizierte Titel frühzeitig bekannt zu geben.
+Damit dies trotzdem möglich ist, ist in der externen Applikation von ICTAX10 ein Import-Me-
+chanismus zur Verfügung gestellt. Damit können die Finanzinstitute Listen von VN oder ISIN
+über eine gesicherte Verbindung hochladen. Hierbei ist sichergestellt, dass der Datenschutz
+sowie das Bank- und Steuergeheimnis eingehalten werden und die importieren Listen nur Nut-
+zer der gleichen Domäne sehen können.
+Beim Import wird festgestellt, welche Titel noch nicht in der Kursliste publiziert sind und ent-
+sprechende Titelanfragen, analog dem EWS-Service Titelanfrage stellen, werden ausgelöst.
+Die Titelanfragen können in der externen Applikation von ICTAX nachvollzogen werden. Diese
+werden in Form einer Liste mit Bearbeitungsstatus dargestellt. Hierbei ist sichergestellt, dass
+der Datenschutz sowie das Bank- und Steuergeheimnis eingehalten werden und die Titelan-
+fragen nur Nutzer der gleichen Domäne sehen können.
+Sollte zu einem konkreten Fall eine Rückfrage durch die ESTV erforderlich werden, z.B. wenn
+ein Jahresbericht zu einem Thesaurierungsfonds benötigt wird, erfolgt die Kommunikation
+über die externe Applikation mittels Bearbeitungsstatus bzw. mittels automatisch generierter
+E-Mails.
+Der Informationsaustausch via E-Mail ist so umgesetzt, dass die Antwort auf eine von ICTAX
+
+
+ 10 https://www.ictax.admin.ch/extern/login
+
+
+Verein eCH                                                             www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+           E-Government-Standards                                                         Seite 14 von 51
+
+
+generierte E-Mail automatisch verarbeitet wird und die Antwort an die ursprünglichen Titelan-
+fragen angehängt werden. Im Ergebnis führen beide Wege - externe Applikation oder E-Mail -
+zum gleichen Ergebnis.
+
+
+
+2.2 Standard um Attribute und Elemente erweitern
+Der Standard berücksichtigt lediglich Attribute und Elemente, die für die Steuerbehörden rele-
+vant sind. Sind z.B. für Archivierungszwecke weitere finanzinstitutsspezifische Attribute und
+Elemente hinzuzufügen, dann kann der Standard hierzu erweitert werden. Nachfolgend ist ein
+Beispiel für ein finanzinstitutsspezifisches XML-Schema dargestellt, dass den Standard erwei-
+tert.
+
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:ext="http://mydomain/xmlns/eCH-0196-ext/2"
+           targetNamespace="http://mydomain/xmlns/eCH-0196-ext/2"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified"
+           version="1">
+  <xs:attribute name="totalLumpSumTaxCredit" type="xs:decimal"/>
+  <xs:attribute name="totalNonRecoverableTax" type="xs:decimal"/>
+  <xs:attribute name="totalAdditionalWithHoldingTaxUSA" type="xs:decimal"/>
+  <xs:element name="additional">
+    <xs:complexType>
+      <xs:attribute name="id" type="xs:long" use="required"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+
+Listing 5: Standard um Attribute und Elemente erweitern - eCH-0196-2-0-ext.xsd
+
+Dem Standard können beliebige Attribute und Elemente hinzugefügt werden. Im XML-Schema
+des Standards sind diese mit processContents="lax" definiert. Aus diesem Grund muss bei der
+Validierung in der Deklaration und Veranlagung eine finanzinstitutsspezifische Erweiterung
+nicht über die in der XML-Datei angegebene URL erreichbar sein.
+ABER: Die Entwicklung auf Seite Finanzinstitut sollte so erfolgen, als wären die beliebigen
+Attribute und Elemente im Standard mit processContents="strict" definiert. Hierdurch wird ver-
+hindert, dass wenn in einer XML-Datei ein zusätzliches Attribut oder Element falsch bezeichnet
+wird, dieses bei der Validierung unbemerkt bleibt. Bei der Validierung auf Seite Finanzinstitut
+werden falsch bezeichnete Attribute und Elemente einer Erweiterung aufgrund processCon-
+tents="lax" nicht bemerkt.
+Nachfolgend ist ein Auszug einer XML-Datei als Beispiel dargestellt, das zusätzliche Attribute
+und ein Element in den Standard integriert.
+
+<?xml version="1.0" encoding="UTF-8"?>
+<taxStatement xmlns="http://www.ech.ch/xmlns/eCH-0196/2"
+              id="CH8000512345678902015123101"
+              creationDate="2016-02-15T12:00:00"
+              taxPeriod="2015"
+              periodFrom="2015-01-01"
+              periodTo="2015-12-31"
+              canton="SG"
+              totalTaxValue="360093"
+              totalGrossRevenueA="2750"
+              totalGrossRevenueACanton="2750"
+              totalGrossRevenueB="4233.6"
+              totalGrossRevenueBCanton="4233.6"
+              totalWithHoldingTaxClaim="962.5"
+              ext:totalLumpSumTaxCredit="0"
+              ext:totalNonRecoverableTax="0"
+              ext:totalAdditionalWithHoldingTaxUSA="39.8"
+              minorVersion="1"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns:eCH-0097="http://www.ech.ch/xmlns/eCH-0097/4"
+              xmlns:ext="http://mydomain/xmlns/eCH-0196-ext/1"
+              xsi:schemaLocation="http://www.ech.ch/xmlns/eCH-0196/2
+
+Verein eCH                                                                       www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+              E-Government-Standards                                                          Seite 15 von 51
+
+
+
+                                    http://www.ech.ch/xmlns/eCH-0196/2/eCH-0196-2-0.xsd
+                                    http://www.ech.ch/xmlns/eCH-0097/4
+                                    http://www.ech.ch/xmlns/eCH-0097/4/eCH-0097-4-0.xsd
+                                    http://mydomain/xmlns/eCH-0196-ext/2
+                                    eCH-0196-2-0-ext.xsd">
+...
+  </listOfLumpSumTaxCredit>
+  <ext:additional id="12345"/>
+</taxStatement>
+
+Listing 6: Standard um Attribute und Elemente erweitern - test-ext.xml
+
+Hervorgehoben sind die zusätzlichen Attribute und das Element, das in den Standard integriert
+wurde.
+
+
+
+2.3 Standard validieren
+In einer XML Datei sollten grundsätzlich alle benötigten Schemata durch die Verwendung von
+xsi:schemaLocation angegeben werden. Hierdurch wird sichergestellt, dass das Öffnen einer
+XML-Datei mittels XML-Editor ohne Validierungsfehler abläuft.
+Damit die Validierung ohne Abhängigkeiten auf eine externe URL möglich ist, wird empfohlen,
+alle für die Validierung notwendigen XML-Schemata lokal vorzuhalten. Diese sind:
+          http://www.ech.ch/xmlns/eCH-0007/6/eCH-0007-6-0.xsd
+          http://www.ech.ch/xmlns/eCH-0008/3/eCH-0008-3-0.xsd
+          http://www.ech.ch/xmlns/eCH-0010/6/eCH-0010-7-0.xsd
+          http://www.ech.ch/xmlns/eCH-0097/2/eCH-0097-4-0.xsd
+          http://www.ech.ch/xmlns/eCH-0196/1/eCH-0196-2-0.xsd
+          eCH-0196-2-0-ext.xsd       [nur bei Erweiterung]
+Aufgrund der nachfolgenden, hervorgehobenen Anweisungen im Standard wird beim Öffnen
+des XML-Schemas bzw. der XML-Datei grundsätzlich auf http://www.ech.ch/xmlns zugegrif-
+fen.
+
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:eCH-0007="http://www.ech.ch/xmlns/eCH-0007/6"
+           xmlns:eCH-0008="http://www.ech.ch/xmlns/eCH-0008/3"
+           xmlns:eCH-0010="http://www.ech.ch/xmlns/eCH-0010/7"
+           xmlns:eCH-0097="http://www.ech.ch/xmlns/eCH-0097/4"
+           xmlns:eCH-0196="http://www.ech.ch/xmlns/eCH-0196/2"
+           targetNamespace="http://www.ech.ch/xmlns/eCH-0196/2"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified"
+           version="1.0">
+...
+<xs:import namespace="http://www.ech.ch/xmlns/eCH-0007/6"
+           schemaLocation="http://www.ech.ch/xmlns/eCH-0007/6/eCH-0007-6-0.xsd"/>
+<xs:import namespace="http://www.ech.ch/xmlns/eCH-0008/3"
+           schemaLocation="http://www.ech.ch/xmlns/eCH-0008/3/eCH-0008-3-0.xsd"/>
+<xs:import namespace="http://www.ech.ch/xmlns/eCH-0010/7"
+           schemaLocation="http://www.ech.ch/xmlns/eCH-0010/6/eCH-0010-7-0.xsd"/>
+<xs:import namespace="http://www.ech.ch/xmlns/eCH-0097/4"
+           schemaLocation="http://www.ech.ch/xmlns/eCH-0097/2/eCH-0097-4-0.xsd"/>
+...
+</xs:schema>
+
+Listing 7: Auszug aus dem Standard - eCH-0196-2-0.xsd
+
+Bei der Validierung der XML-Datei können die Referenzen hingegen aufgelöst werden. Somit
+existiert bei der Validierung keine Abhängigkeit mehr auf die URL http://www.ech.ch/xmlns11.
+Hierdurch sind auch keine Performanceprobleme in der Produktion beim Validieren der XML
+
+
+11
+     Die Validierung einer XML Datei ohne Netzverbindung zeigt, dass die Referenzen aufgelöst werden können.
+Verein eCH                                                                        www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+               E-Government-Standards                                                            Seite 16 von 51
+
+
+Dateien zu erwarten.
+Nachfolgend ist ein Beispiel dargestellt, mit dem die Validierung der XML-Datei, basierend auf
+dem Standard selbst und einer Erweiterung zum Standard, durchgeführt werden kann.
+
+import java.io.File;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+
+public class XMLValidateFile
+{
+  public static void main (String[] args)
+  {
+    try
+    {
+      String         lang = "http://www.w3.org/2001/XMLSchema";
+      SchemaFactory sf    = SchemaFactory.newInstance (lang);
+      StreamSource[] ss   = new StreamSource[args.length-1];
+
+         for (int i=0;i<args.length-1;i++)
+           ss[i] = new StreamSource (new File (args[i+1]));
+
+         StreamSource xml = new StreamSource (new File (args[0]));
+         Schema       sc = sf.newSchema      (ss);
+         Validator    va = sc.newValidator ();
+
+         va.validate (xml);
+
+          System.out.println (args[0] + ": valid");
+        }
+        catch (SAXParseException e)
+        {
+          System.out.println (e.getMessage      () + "\nline:  " +
+                               e.getLineNumber () + "\ncolumn: " +
+                               e.getColumnNumber());
+        }
+        catch (SAXException e)
+        {
+          System.out.println (e.getMessage () + "\n");
+        }
+        catch (Exception e)
+        {
+          e.printStackTrace ();
+        }
+    }
+}
+
+Listing 8: Standard validieren - XMLValidateFile.java
+
+Über die nachfolgenden Anweisungen kann die Validierung einer XML Datei durchgeführt wer-
+den.
+
+javac XMLValidateFile.java
+
+java XMLValidateFile test-ext.xml eCH-0007-6-0.xsd eCH-0008-3-0.xsd eCH-0010-7-0.xsd eCH-0097-4-0.xsd eCH-0
+196-2-0.xsd eCH-0196-2-0-ext.xsd
+
+Listing 9: Standard validieren - CMD ausführen
+
+
+
+
+2.4 Standard um Signatur erweitern
+Durch die Integration des XML-Schemas XMLDSIG12 kann die XML-Datei signiert werden. Im
+nachfolgenden Beispiel ist eine XML-Datei mit eingehüllter Signatur13 dargestellt. Hierzu wird
+
+
+12 http://www.w3.org/2000/09/xmldsig#
+
+13 http://www.di-mgt.com.au/xmldsig2.html#twotypes
+
+    Example for the enveloped signature of the KITH - Norwegian Centre for Informatics in Health and Social Care.
+Verein eCH                                                                           www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+            E-Government-Standards                                                           Seite 17 von 51
+
+
+lediglich das Element Signature vor dem abschliessenden Root-Element eingefügt. Eine An-
+passung oder Erweiterung des Standards ist dabei nicht erforderlich.
+
+...
+<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+<SignedInfo>
+<CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments"/>
+<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+<Reference URI="">
+<Transforms>
+<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+</Transforms>
+<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+<DigestValue>...</DigestValue>
+</Reference>
+</SignedInfo>
+<SignatureValue>...</SignatureValue>
+<KeyInfo>
+<X509Data>
+<X509SubjectName>...</X509SubjectName>
+<X509Certificate>...</X509Certificate>
+</X509Data>
+</KeyInfo>
+</Signature>
+</taxStatement>
+
+Listing 10: Standard um Signatur erweitern
+
+Wichtig ist, dass im Element KeyInfo das Element X509SubjectName sowie das Element
+X509Certificate (Public Key) eingebunden sind. Nur so kann zu einem späteren Zeitpunkt si-
+chergestellt werden, wer das Zertifikat ausgestellt hat, mit dem die XML-Datei signiert wurde.
+Die Angabe nur des Element KeyValue ist hierfür nicht ausreichend. Zusätzlich ist RSA an-
+stelle von DSA zu verwenden.
+
+
+
+2.5 Root Zertifikat erstellen
+Über das Programm OpenSSL kann eine selbst signierte Certificate Authority erstellt werden.
+Eine selbst signierte Certificate Authority ist nicht geeignet für ein Produktionssystem. Für die
+Entwicklung ist sie aber ausreichend.
+Nachfolgend ist ein Beispiel dargestellt, mit dem eine selbst signierte Certificate Authority er-
+stellt werden kann.14
+
+openssl genrsa -aes256 -passout pass:caca -out ca.key 2048
+openssl req -x509 -new -nodes -key ca.key -passin pass:caca -sha256 -days 1024 -out ca.crt
+
+Country Name (2 letter code) [AU]: CH
+State or Province Name (full name) [Some-State]: ZH
+Locality Name (eg, city) []:
+Organization Name (eg, company) [Internet Widgits Pty Ltd]: Company
+Organizational Unit Name (eg, section) []:
+Common Name (e.g. server FQDN or YOUR name) []: company.com
+Email Address []:
+
+openssl x509 -in ca.crt -text -noout
+
+Listing 11: Selbst signierte Certificate Authority erstellen
+
+
+
+
+2.6 Zertifikat erstellen
+Ausgehend von einer existierenden Certificate Authority ist ein Zertifikat für die Signierung
+aller von einem Finanzinstitut ausgestellten Steuerauszüge erforderlich. Über das Programm
+
+
+14 https://www.sslshopper.com/article-most-common-openssl-commands.htm
+
+
+Verein eCH                                                                     www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+             E-Government-Standards                                                                 Seite 18 von 51
+
+
+OpenSSL kann ein Zertifikat für die Signierung erstellt werden.
+Nachfolgend ist ein Beispiel dargestellt, mit dem ein signiertes Zertifikat anhand einer Certifi-
+cate Authority erstellt werden kann.
+
+openssl genrsa -aes256 -passout pass:certcert -out cert.key 2048
+openssl req -new -key cert.key -passin pass:certcert -out cert.csr
+
+Country Name (2 letter code) [AU]: CH
+State or Province Name (full name) [Some-State]: ZH
+Locality Name (eg, city) []:
+Organization Name (eg, company) [Internet Widgits Pty Ltd]: Company
+Organizational Unit Name (eg, section) []: Tax
+Common Name (e.g. server FQDN or YOUR name) []: tax.company.com
+Email Address []:
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+
+openssl x509 -req -days 1024 -in cert.csr -CA ca.crt -CAkey ca.key -passin pass:caca -CAcreateserial -out c
+ert.crt
+
+openssl pkcs12 -export -out cert.pfx –passout pass:pfxpfx -inkey cert.key -passin pass:certcert -in cert.cr
+t
+
+openssl x509 -in cert.crt -text -noout
+
+Listing 12: Zertifikat erstellen
+
+Für die Signierung der XML-Datei wird eine pkcs12-Datei15 (mit Public und Private Key) benö-
+tigt.
+
+
+
+2.7 Signatur hinzufügen
+Über die Open Source Software Bibliothek Apache Santuario kann ein XML signiert werden.
+Nachfolgend ist ein Beispiel dargestellt, mit dem eine eingehüllte Signatur dem XML hinzuge-
+fügt wird.16,17,18
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.security.*;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+import javax.xml.crypto.dsig.*;
+import javax.xml.crypto.dsig.dom.DOMSignContext;
+import javax.xml.crypto.dsig.keyinfo.*;
+import javax.xml.crypto.dsig.spec.*;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.apache.jcp.xml.dsig.internal.dom.XMLDSigRI;
+import org.w3c.dom.Document;
+
+
+
+
+15
+    https://en.wikipedia.org/wiki/PKCS_12
+  In cryptography, PKCS #12 defines an archive file format for storing many cryptography objects as a single file. It
+  is commonly used to bundle a private key with its X.509 certificate or to bundle all the members of a chain of trust.
+16 Mit Altova XML Spy kann eine eingehüllte Signatur in eine XML-Datei eingefügt werden. Hierzu ist im Menü XML
+
+  | Create XML Signature auszuwählen. Danach ist ein geeignetes Zertifikat zur Signatur über Select auszuwählen.
+17 Die aus Kapitel 2.6 erstelle pkcs12-Datei mit Public und Private Key ist unter eigene Zertifikate zu installieren,
+
+  damit diese im Altova XML Spy ausgewählt werden.
+18 Die installierten Zertifikate können unter Windows über das Programm mmc über Menü Datei | Snap-In hinzufü-
+
+  gen/entfernen über die Auswahl Zertifikate hinzufügen (Eigenes Benutzerkonto) angezeigt und entfernt werden.
+Verein eCH                                                                              www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+               E-Government-Standards                                                          Seite 19 von 51
+
+
+
+public class XMLAddSignature
+{
+  public static void main (String[] args)
+  {
+    try
+    {
+      XMLSignatureFactory sf = XMLSignatureFactory.getInstance ("DOM",new XMLDSigRI());
+      XMLSignatureFactory sf = XMLSignatureFactory.getInstance ("DOM",(Provider)Class.forName (pn).newInst
+ance ());
+      Reference           ref = sf.newReference ("",sf.newDigestMethod (DigestMethod.SHA1,null),Collections
+.singletonList (sf.newTransform (Transform.ENVELOPED,(TransformParameterSpec)null)),null,null);
+      SignedInfo          si = sf.newSignedInfo (sf.newCanonicalizationMethod (CanonicalizationMethod.INCL
+USIVE_WITH_COMMENTS,(C14NMethodParameterSpec)null),
+                                                  sf.newSignatureMethod (SignatureMethod.RSA_SHA1,null),Col
+lections.singletonList (ref));
+      FileInputStream     fis = new FileInputStream (args[1]);
+      KeyStore            ks = KeyStore.getInstance ("pkcs12","SunJSSE");
+
+         ks.load (fis,args[2].toCharArray ());
+
+         Enumeration<String> aliases = ks.aliases          ();
+         String              alias   = aliases.nextElement ();
+         X509Certificate     cert    = (X509Certificate)ks.getCertificate (alias);
+         PrivateKey          key     = (PrivateKey)ks.getKey (alias,args[2].toCharArray ());
+
+         System.out.println (cert.toString    ());
+         System.out.println (key.getAlgorithm ());
+         System.out.println (key.getEncoded   ());
+         System.out.println (key.getFormat    ());
+
+         KeyInfoFactory kif = sf.getKeyInfoFactory ();
+         List<Object>   list = new ArrayList<>     ();
+
+         list.add (cert.getSubjectX500Principal ().getName ());
+         list.add (cert);
+
+         X509Data xd = kif.newX509Data (list);
+         KeyInfo ki = kif.newKeyInfo (Collections.singletonList (xd));
+
+         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance ();
+         dbf.setNamespaceAware (true);
+         Document doc = dbf.newDocumentBuilder ().parse (new FileInputStream (args[0]));
+
+         DOMSignContext sc        = new DOMSignContext (key,doc.getDocumentElement ());
+         XMLSignature   signature = sf.newXMLSignature (si,ki);
+
+         signature.sign (sc);
+
+         OutputStream       os    = new FileOutputStream (args[0]);
+         TransformerFactory tf    = TransformerFactory.newInstance ();
+         Transformer        trans = tf.newTransformer ();
+
+          trans.transform (new DOMSource (doc),new StreamResult (os));
+        }
+        catch (Exception e)
+        {
+          e.printStackTrace ();
+        }
+    }
+}
+
+Listing 13: Signatur hinzufügen - XMLAddSignature.java
+
+Über die nachfolgenden Anweisungen kann eine eingehüllte Signatur mit einer pkcs12 -Datei
+mit Public und Private Key dem XML hinzugefügt werden.
+
+javac -cp xmlsec-2.0.8.jar XMLAddSignature.java
+
+java -cp .;commons-logging-1.2.jar;xmlsec-2.0.8.jar;slf4j-api-1.7.25.jar;slf4j-simple-1.7.25.jar XMLAddSign
+ature test-ext.xml cert.pfx pfxpfx
+
+Listing 14: Signatur hinzufügen - CMD ausführen
+
+
+
+
+2.8 Signatur prüfen
+Über die Open Source Software Bibliothek Apache Santuario kann die eingehüllte Signatur
+eines XML geprüft werden. Nachfolgend ist ein Beispiel dargestellt, mit dem die Signatur eines
+Verein eCH                                                                        www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+               E-Government-Standards                                                        Seite 20 von 51
+
+
+XML überprüft wird.
+
+import java.io.FileInputStream;
+import java.security.*;
+import java.security.cert.X509Certificate;
+import java.util.Iterator;
+import java.util.List;
+import javax.xml.crypto.*;
+import javax.xml.crypto.dsig.*;
+import javax.xml.crypto.dom.*;
+import javax.xml.crypto.dsig.dom.DOMValidateContext;
+import javax.xml.crypto.dsig.keyinfo.*;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.apache.jcp.xml.dsig.internal.dom.XMLDSigRI;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+
+public class XMLValidateSignature
+{
+  public static void main (String[] args)
+  {
+    try
+    {
+      XMLSignatureFactory sf = XMLSignatureFactory.getInstance ("DOM",new XMLDSigRI());
+
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance ();
+        dbf.setNamespaceAware (true);
+        Document doc = dbf.newDocumentBuilder ().parse (new FileInputStream (args[0]));
+
+        NodeList           nl = doc.getElementsByTagNameNS (XMLSignature.XMLNS,"Signature");
+        DOMValidateContext vc = new DOMValidateContext (new KeyValueKeySelector (),nl.item (0));
+
+        XMLSignature signature = sf.unmarshalXMLSignature (vc);
+
+        if (signature.validate (vc))
+        {
+          System.out.println ("Signature passed core validation");
+        }
+        else
+        {
+          System.out.println ("Signature failed core validation");
+
+          boolean sv = signature.getSignatureValue ().validate (vc);
+
+          System.out.println ("Signature validation status: " + sv);
+
+          Iterator i = signature.getSignedInfo ().getReferences ().iterator ();
+
+          for (int j=0;i.hasNext ();j++)
+          {
+            boolean ref = ((Reference)i.next ()).validate (vc);
+
+              System.out.println("ref[" + j + "] validity status: " + ref);
+          }
+        }
+      }
+      catch (Exception e)
+      {
+        e.printStackTrace ();
+      }
+  }
+
+
+  private static class KeyValueKeySelector extends KeySelector
+  {
+    public KeySelectorResult select (KeyInfo             keyInfo,
+                                     KeySelector.Purpose purpose,
+                                     AlgorithmMethod     method,
+                                     XMLCryptoContext    context)
+      throws KeySelectorException
+      {
+        Iterator ki = keyInfo.getContent ().iterator ();
+
+          while (ki.hasNext ())
+          {
+            XMLStructure structure = (XMLStructure)ki.next();
+
+              if (!(structure instanceof X509Data))
+                continue;
+
+              X509Data data = (X509Data)structure;
+              Iterator di   = data.getContent ().iterator ();
+
+              while (di.hasNext ())
+              {
+                Object o = di.next ();
+
+Verein eCH                                                                        www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+                   E-Government-Standards                                                          Seite 21 von 51
+
+
+
+                    if (!(o instanceof X509Certificate))
+                      continue;
+
+                    X509Certificate cert = (X509Certificate)o;
+                    PublicKey       key = cert.getPublicKey ();
+
+                    System.out.println (cert.toString    ());
+                    System.out.println (key.getAlgorithm ());
+                    System.out.println (key.getEncoded   ());
+                    System.out.println (key.getFormat    ());
+
+                    if ((key.getAlgorithm    ().equalsIgnoreCase ("DSA")                      &&
+                         method.getAlgorithm ().equalsIgnoreCase (SignatureMethod.DSA_SHA1)) ||
+                        (key.getAlgorithm    ().equalsIgnoreCase ("RSA")                      &&
+                         method.getAlgorithm ().equalsIgnoreCase (SignatureMethod.RSA_SHA1)))
+                    {
+                      return new SimpleKeySelectorResult (key);
+                    }
+                  }
+                }
+                throw new KeySelectorException ("No key found!");
+            }
+
+
+        private static class SimpleKeySelectorResult implements KeySelectorResult
+        {
+          private PublicKey key;
+
+            SimpleKeySelectorResult (PublicKey key) { this.key = key; }
+
+            public Key getKey () { return key; }
+        }
+    }
+}
+
+Listing 15: Signatur prüfen - XMLValidateSignature.java
+
+Über die nachfolgenden Anweisungen kann die Signatur eines XML überprüft werden.
+
+javac -cp xmlsec-2.0.8.jar XMLValidateSignature.java
+
+java -cp .;commons-logging-1.2.jar;xmlsec-2.0.8.jar;slf4j-api-1.7.25.jar;slf4j-simple-1.7.25.jar XMLValidat
+eSignature test-ext.xml
+
+Listing 16: Signatur prüfen - CMD ausführen
+
+
+
+
+2.9 Transformation in eCH-0119 (E-Tax-Filing)
+Über den Standard können die folgenden Informationen transportiert werden:
+               Bankkontenverzeichnis
+               Schuldenverzeichnis
+               Spesenverzeichnis
+               Wertschriftenverzeichnis
+               Verzeichnis Pauschale Steueranrechnung
+Im Standard sind deutlich mehr Informationen enthalten als im E-Tax-Filing19 abgebildet wer-
+den können. Deshalb ist es zur Validierung der Informationen in der Veranlagung wichtig, dass
+die XML-Datei als Anlage im PDF oder als Barcode in den Veranlagungsprozess gelangt.
+Eine mögliche Transformation des Standards in das E-Tax-Filing ist in den nachfolgenden
+Unterkapiteln beschrieben. Wichtig hierbei ist, dass kantonale Erweiterungen des Standards
+keine Berücksichtigung finden.
+
+
+
+
+    19 http://www.ech.ch/vechweb/page?p=dossier&documentNumber=eCH-0119&documentVersion=3.0
+
+
+Verein eCH                                                                              www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+             E-Government-Standards                                                              Seite 22 von 51
+
+
+2.9.1 Transformation Bankkontenverzeichnis
+Das Bankkontenverzeichnis aus dem Standard kann in die Struktur des Wertschriften- und
+Guthabenverzeichnisses des E-Tax-Filing transformiert werden.
+Nachfolgend ist die Struktur des Wertschriften- und Guthabenverzeichnisses des E-Tax-Filing
+dargestellt.
+              listOfLiabilitiesType                          bankAccountType
+
++   bankAccount                       0..1         +   cantonalExtension         0..1
++   securityEntry                     0..n            IBANNumber                0..1
++   cantonExtension                   0..1            postAccountNumber         0..1
++   totalTaxValue                     0..1            bankAccountNumber         0..1
++   subtotalGrossRevenueA1            0..1            bankName                  0..1
++   subtotalGrossRevenueB             0..1            bankClearingNumber        0..1
++   subtotalGrossRevenueA2            0..1            accountOwner              0..1
++   totalGrossRevenue                 0..1
+   locationAndDate                   0..1
+   attachedPCListOfSecurities        0..1
+                                                             securityEntryType
+   attachedForms                     0..1
+   attachedFormDA1                   0..1         +   cantonalExtension         0..1
+   attachedClearing                  0..1            code                      0..1
+   note                              0..1            originalCurrency          0..1
+   carryOverSupplementary1TaxValue   0..1            faceValueQuantity         0..1
+   carryOverSupplementary1RevenueA   0..1            securitiesNumber          0..1
+   carryOverSupplementary1RevenueB   0..1            detailedDescription       0..1
+   carryOverSupplementary2TaxValue   0..1            addition                  0..1
+   carryOverSupplementary2RevenueA   0..1            divestiture               0..1
+   carryOverSupplementary2RevenueB   0..1            taxValueEndOfYear         0..1
+   carryOverFormDA1TaxValue          0..1            grossRevenueA             0..1
+   carryOverFormDa1RevenueB          0..1            grossRevenueB             0..1
+   totalQualifiedInvestments         0..1
+   withholdingTax                    0..1
+
+                                                              taxAmountType
+
+                                                   + cantonalExtension           0..1
+                                                    cantonalTax                 0..1
+                                                    federalTax                  0..1
+
+
+Abbildung 4: eCH-0119 - Struktur des Wertschriften- und Guthabenverzeichnisses
+
+Nachfolgend ist die Transformation des Standards ausgehend vom Bankkontenverzeichnis
+dargestellt.
+
+
+
+
+Verein eCH                                                                              www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+            E-Government-Standards                                                                Seite 23 von 51
+
+
+ eCH-0196                       eCH-0119                          Beschreibung / Inhalt
+ Element / Attribut             Element / Attribut
+ listOfBankAccounts[].bankAc- securityEntry[].originalCur-        Original-Währung
+ count.bankAccountCurrency    rency
+
+ -                              securityEntry[].faceValue-        Nennwert oder Stückzahl
+                                Quantity
+
+ -                              securityEntry[].securitiesNum-    Valoren-Nummer
+                                ber
+
+ listOfBankAccounts[].bankAc- securityEntry[].detailed-           Genaue Bezeichnung der Vermögenswerte
+ count.bankAccountNumber      Description
+
+ -                              securityEntry[].addition          Zugangsdatum (Kauf/Eröffnung)
+
+ -                              securityEntry[].divestiture       Abgangsdatum (Verkauf/Saldierung)
+
+ listOfBankAccounts[].bankAc- securityEntry[].taxValue-           Steuerwert am Ende des Jahres
+ count.totalTaxValue          EndOfYear
+
+ listOfBankAccounts[].bankAc- securityEntry[].grossReve-          Bruttoertrag für Wert A
+ count.totalGrossRevenueA     nueA
+
+ listOfBankAccounts[].bankAc- securityEntry[].grossReve-          Bruttoertrag für Wert B
+ count.totalGrossRevenueB     nueB
+
+ -                              totalTaxValue                     Total Steuerwert; Ziffer: 400
+
+ -                              subTotalGrossRevenueA1            Zwischentotal Bruttoerträge A; Ziffer: 539
+
+ -                              subTotalGrossRevenueB             Zwischentotal Bruttoerträge B; Ziffer: 542
+
+ -                              subTotalGrossRevenueA2            Übertrag Bruttoertrag A in Kolonne Bruttoertrag
+                                                                  B; Ziffer: 539
+
+ -                              totalGrossRevenue                 Total Bruttoertrag A+B; Ziffer: 150
+
+ -20,21                         withholdingTax                    Verrechnungssteueranspruch; Ziffer: 540
+Tabelle 1: Transformation Bankkontenverzeichnis in E-Tax-Filing
+
+Im Anschluss an die Übernahme der Daten sind die Summen im E-Tax-Filing neu zu bilden.
+
+
+2.9.2 Transformation Schuldenverzeichnis
+Das Schuldenverzeichnis aus dem Standard kann in die Struktur des Schuldenverzeichnisses
+des E-Tax-Filing transformiert werden.
+Nachfolgend ist die Struktur des Schuldenverzeichnisses des E-Tax-Filing dargestellt.
+
+
+
+
+20 Der Verrechnungssteueranspruch ist bei jedem Bankkonto im Standard hinterlegt und ist im Verrechnungssteu-
+
+ eranspruch des E-Tax-Filing zu berücksichtigen.
+21 Das Feld ist berechnet aus dem Feld „subTotalGrossRevenueA1“, in dieses Zwischentotal fliessen weitere Er-
+
+ träge A mit ein z.B. mehrere eSteuerausüge oder zusätzliche manuelle Erfassung.
+Verein eCH                                                                           www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+              E-Government-Standards                                                                              Seite 24 von 51
+
+
+
+             listOfLiabilitiesType                                                liabilitiesListingType
+
+ +   privateLiabilities                    0..n                          +   cantonalExtension             0..1
+ +   businessLiabilities                   0..n                             identification                0..1
+ +   cantonExtension                       0..1                             liability                     0..1
+    totalPrivateLiabilities               0..1                             liabilityInterest             0..1
+    totalPrivateLiabilitiesInterest       0..1
+    totalBusinessLiabilities              0..1
+    totalBusinessLiabilitiesInterest      0..1
+    totalAmountLiabilities                0..1
+    totalAmountLiabilitiesInterest        0..1
+
+
+Abbildung 5: eCH-0119 - Struktur des Schuldenverzeichnisses
+
+Nachfolgend ist die Transformation des Standards ausgehend vom Schuldenverzeichnis dar-
+gestellt.
+ eCH-0196                               eCH-0119                                  Beschreibung / Inhalt
+ Element / Attribut                     Element / Attribut
+ institution.name +                     privateLiabilities[].identification Identifikation des Gläubigers. Dies können eine
+ listOfLiabilities[].liabilityAc-                                           Person, eine Firma, eine Bezeichnung für eine
+ count.bankAccountName                                                      Hypothek oder weiteres sein.
+
+ listOfLiabilities[].liabilityAc-       privateLiabilities[].liability            Schuldenbetrag
+ count.totalTaxValue
+
+ listOfLiabilities[].liabilityAc-       privateLiabilities[].liabilityInte-       Schuldzinsbetrag
+ count.totalGrossRevenueB               rest
+
+ -                                      totalPrivateLiabilities                   A. Total der Privatschulden; Ziffer: 3200
+
+ -                                      totalPrivateLiabilitiesInterest           A. Total des Privatschuldenzinses; Ziffer: 3201
+
+ -                                      totalAmountLiabilities                    C. Total Schulden (A.+B.); Ziffer: 470
+
+ -                                      totalAmountLiabilitiesInterest            C. Total Schuldenzins (A.+B.); Ziffer: 250
+Tabelle 2: Transformation Schuldenverzeichnis in E-Tax-Filing
+
+Im Anschluss an die Übernahme der Daten sind die Summen im E-Tax-Filing neu zu bilden.
+
+
+2.9.3 Transformation Spesenverzeichnis
+Die Kosten für die Verwaltung des beweglichen Privatvermögens können bis zu einem Höchst-
+betrag abgezogen werden (siehe jeweilige Wegleitung zur Steuererklärung natürlicher Perso-
+nen). Das Spesenverzeichnis kann in die Struktur der Seite 3 des Hauptformulars der Steuer-
+erklärung natürlicher Personen transformiert werden.
+Nachfolgend ist die Struktur der Seite 3 des Hauptformulars der Steuererklärung natürlicher
+Personen dargestellt.
+
+
+
+
+Verein eCH                                                                                            www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+              E-Government-Standards                                                              Seite 25 von 51
+
+
+
+                        deductionType                                                 taxAmountType
+
+ +     jobExpensesPartner1                             0..1                 + cantonalExtension             0..1
+ +     jobExpensesPartner1                             0..1                  cantonalTax                   0..1
+ +     amountLiabilitiesInterest                       0..1                  federalTax                    0..1
+ +     paymentAlimony                                  0..1
+ +     paymentAlimonyChild                             0..1
+ +     paymentPensionDeduction                         0..1
+ +     provision3aPartner1Deduction                    0..1
+ +     provision3aPartner2Deduction                    0..1
+ +     insuranceAndInterest                            0..1
+ +     furtherDeductionProvision                       0..1
+ +     furtherDeductionJobOrientedFurtherEducationCost 0..1
+ +     furtherDeductionFinancialManagement             0..1
+ +     furtherDeductionHandicap                        0..1
+ +     furtherDeductionFreeTaxAmount                   0..1
+ +     furtherDeductionNonparentalSuperVision          0..1
+ +     employmentBothPartner                           0..1
+ +     totalAmountDeduction                            0..1
+ +     cantonExtension                                 0..1
+      paymentPensionTotal                             0..1
+      provision3aPartner1Effective                    0..1
+      provision3aPartner2Effective                    0..1
+      furtherDeductionFreeTax                         0..1
+
+
+Abbildung 6: eCH-0119 - Seite 3 des Hauptformulars der Steuererklärung
+
+Nachfolgend ist die Transformation des Standards ausgehend vom Spesenverzeichnis darge-
+stellt.
+ eCH-0196                           eCH-0119                       Beschreibung / Inhalt
+ Element / Attribut                 Element / Attribut
+ -22                                furtherDeductionFinancialMa-   16.3 Verwaltung Privatvermögen; Ziffer: 283
+                                    nagement[].federalTax
+
+                                    furtherDeductionFinancialMa-   16.3 Verwaltung Privatvermögen; Ziffer: 283
+                                    nagement[].cantonalTax
+
+Tabelle 3: Transformation Spesenverzeichnis in E-Tax-Filing
+
+
+2.9.4 Transformation Wertschriftenverzeichnis
+Das Wertschriftenverzeichnis aus dem eCH-0196-Standard ist in die Struktur des Wertschrif-
+ten- und Guthabenverzeichnisses (siehe Abbildung 4) des E-Tax-Filing (eCH-0119-Standard)
+zu transformieren.
+Nachfolgend ist die Transformation des eCH-0196-Standards ausgehend vom Wertschriften-
+verzeichnis des E-Steuerauszug dargestellt.
+
+
+
+
+22 Nicht möglich, da zu diesem Wert auch weitere hinzugerechnet werden können müssen z.B. mehrere eSteuer-
+
+ auszüge bzw. zusätzliche manuelle Erfassungen. Um dies vollständig importieren zu können, bräuchte es im
+ eCH-0119 eine Tabelle mit den Spesenpositionen und allenfalls auch auf den Formularen.
+Verein eCH                                                                          www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+            E-Government-Standards                                                                  Seite 26 von 51
+
+
+ eCH-0196                          eCH-0119                         Beschreibung / Inhalt
+ Element / Attribut                Element / Attribut
+ listOfSecurites[].depot[].se-     securityEntry[].originalCur-     Original-Währung
+ curity[].currency                 rency
+
+ listOfSecurites[].depot[].secu-   securityEntry[].faceValue-       Nennwert oder Stückzahl
+ rity[].stock[].quantity23         Quantity
+
+ listOfSecurites[].depot[].secu-   securityEntry[].securitiesNum-   Valoren-Nummer
+ rity[].valorNumber                ber
+              oder
+ listOfSecurites[].depot[].secu-
+ rity[].isin
+
+ listOfSecurites[].depot[].se-     securityEntry[].detailed-        Genaue Bezeichnung der Vermögenswerte
+ curity[].securityName             Description
+
+
+
+ listOfSecurites[].depot[].secu-   securityEntry[].addition         Zugangsdatum (Kauf/Eröffnung)25
+ rity[].stock[].referenceDate24
+
+ listOfSecurites[].depot[].secu-   securityEntry[].divestiture      Abgangsdatum (Verkauf/Saldierung)27
+ rity[].stock[].referenceDate26
+
+ listOfSecurites[].depot[].secu-   securityEntry[].taxValue-        Steuerwert am Ende des Jahres
+ rity[].taxValue[].value28         EndOfYear
+
+ ∑listOfSecurites[].depot[].se-    securityEntry[].grossReve-       Bruttoertrag für Wert A
+ curity[].payment[].grossReve-     nueA
+ nueA29
+
+ ∑listOfSecurites[].depot[].se-    securityEntry[].grossReve-       Bruttoertrag für Wert B
+ curity[].payment[].grossReve-     nueB
+ nueB30
+
+ -                                 totalTaxValue                    Total Steuerwert; Ziffer: 400
+
+ -                                 subTotalGrossRevenueA1           Zwischentotal Bruttoerträge A; Ziffer: 539
+
+ -                                 subTotalGrossRevenueB            Zwischentotal Bruttoerträge B; Ziffer: 542
+
+ -                                 subTotalGrossRevenueA2           Übertrag Bruttoertrag A in Kolonne Bruttoertrag
+                                                                    B; Ziffer: 539
+
+ -                                 totalGrossRevenue                Total Bruttoertrag A+B; Ziffer: 150
+
+ -                                 withholdingTax                   Verrechnungssteueranspruch; Ziffer: 540
+
+
+23 Der Bestand und die Mutationen unter Berücksichtigung von Teilzugängen und -abgängen sind nach dem First
+
+  In/First Out-Prinzip aufzulösen, so dass diese in der Struktur (Nennwert oder Stückzahl; Valoren-Nummer; Zu-
+  gangsdatum und Abgangsdatum) abgebildet werden können.
+24 Abhängig davon, ob eine Mutation vorliegt und die Anzahl (Stück oder Nominal) eine positive Zahl ist.
+
+25 Betrifft nur komplette Positionen Zugänge innerhalb eines Steuerjahres und Mutationen werden vom Kanton ZH
+
+  ausschliesslich in der kantonalen Erweiterung abgehandelt.
+26 Abhängig davon, ob eine Mutation vorliegt und die Anzahl (Stück oder Nominal) eine negative Zahl ist.
+
+27 Betrifft nur komplette Positionen Abgänge innerhalb eines Steuerjahres und Mutationen werden vom Kanton ZH
+
+  ausschliesslich in der kantonalen Erweiterung abgehandelt.
+28 Abhängig davon, ob die Anzahl (Stück oder Nominal) zum Steuerwert mit der Anzahl in der Zeile im Wertschrif-
+
+  tenverzeichnis übereinstimmt, kann der Wert 1:1 übernommen werden. Ansonsten ist anhand des Steuerkurses
+Verein eCH                                                                             www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+            E-Government-Standards                                                            Seite 27 von 51
+
+
+Tabelle 4: Transformation Wertschriftenverzeichnis in E-Tax-Filing
+
+Bei der Datenübernahme in der Deklaration oder Veranlagung ist zu jeder Position im Wert-
+schriftenverzeichnis eine Prüfung aufgrund der hinterlegten Kursliste-Daten durchzuführen.
+Im Anschluss an die Übernahme der Daten sind die Summen31 im E-Tax-Filing neu zu bilden.
+
+
+2.9.5 Transformation Pauschale Steueranrechnung
+Ausländische Dividenden und Zinsen, für welche die pauschale Steueranrechnung beantragt
+wird sowie amerikanische Kapitalerträge, die um den zusätzlichen Steuerrückbehalt USA ge-
+kürzt wurden, sind im Antragsformular DA-1 aufzuführen.32
+Das Verzeichnis Pausschale Steueranrechnung aus dem Standard ist in die Struktur des Wert-
+schriften- und Guthabenverzeichnisses (siehe Abbildung 4) des E-Tax-Filing zu transformie-
+ren.
+Nachfolgend ist die Transformation des Standards ausgehend vom Verzeichnis Pauschale
+Steueranrechnung dargestellt.
+ eCH-0196                       eCH-0119                         Beschreibung / Inhalt
+ Element / Attribut             Element / Attribut
+ -                              carryOverFormDA1TaxValue         Übertrag ab Formular DA-1: Steuerwert am
+                                                                 31.12.20..; Ziffer: 2370
+
+ -                              carryOverFormDA1RevenueB         Übertrag ab Formular DA-1: Bruttoertrag B; Zif-
+                                                                 fer: 2371
+Tabelle 5: Transformation Verzeichnis Pauschale Steueranrechnung in E-Tax-Filing
+
+Bei der Datenübernahme in der Deklaration oder Veranlagung ist zu jeder Position im Wert-
+schriftenverzeichnis eine Prüfung aufgrund der hinterlegten Kursliste-Daten durchzuführen.
+
+
+
+
+ (Stückpreis oder Prozentwert) und der Anzahl (Stück oder Nominal) der Steuerwert auszurechnen.
+29 Abhängig davon, ob die Anzahl (Stück oder Nominal) zu den Erträgen mit der Anzahl in der Zeile im Wertschrif-
+
+  tenverzeichnis übereinstimmt, kann der Wert 1:1 übernommen werden. Ansonsten ist anhand des Bruttoertrages
+  pro Stück oder Nominal und der Anzahl (Stück oder Nominal) der Bruttoertrag der Rubrik A auszurechnen.
+30 Abhängig davon, ob die Anzahl (Stück oder Nominal) zu den Erträgen mit der Anzahl in der Zeile im Wertschrif-
+
+  tenverzeichnis übereinstimmt, kann der Wert 1:1 übernommen werden. Ansonsten ist anhand des Bruttoertrages
+  pro Stück oder Nominal und der Anzahl (Stück oder Nominal) der Bruttoertrag der Rubrik B auszurechnen.
+31 Damit die Summen gebildet werden können ist undefinierte = 0 zu verwenden. Dies kann zu einem späteren
+
+  Zeitpunkt in der Veranlagung zur Korrektur der Summen im Wertschriften- und Guthabenverzeichnis führen.
+32
+  Pauschale Steueranrechnung / Zusätzlicher Steuerrückbehalt USA
+ Mit zahlreichen Ländern bestehen Abkommen zur Vermeidung oder Milderung der Doppelbesteuerung. Auslän-
+ dische Dividenden und Zinsen, für welche die pauschale Steueranrechnung beantragt wird sowie amerikanische
+ Kapitalerträge, die um den zusätzlichen Steuerrückbehalt USA gekürzt wurden, sind im Antragsformular DA-1
+ aufzuführen…
+ Es sind die jeweiligen Vorgaben der zuständigen kantonalen Steuerbehörden einzuhalten.
+
+Verein eCH                                                                         www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+           E-Government-Standards                                               Seite 28 von 51
+
+
+
+2.10 Teilautomatisierte Veranlagung durchführen
+In der Deklaration und Veranlagung können die Titel im Wertschriftenverzeichnis über die
+EWS-Services Titel suchen und Titel berechnen überprüft werden. In der Veranlagung kann
+die Publikation eines nicht publizierten Titels über den EWS-Service Titelanfrage stellen und
+Titelanfragen suchen bei der ESTV beantragt und nachverfolgt werden.
+Nachfolgend ist der Ablauf des Veranlagungsprozesses beginnend vom Finanzinstitut über
+den Steuerpflichtigen bis zur Deklaration und Veranlagung dargestellt.
+
+
+
+
+Abbildung 7: Teilautomatisierte Veranlagung über EWS-Services
+
+Abhängig davon, ob der Steuerpflichtige den Steuerauszug auf elektronischem Wege erhält
+oder auf Papier zugestellt bekommt, ergeben sich zwei Szenarien.
+     Der Steuerpflichtige kann den Steuerauszug als PDF mit dem XML als Anhang im Online-
+Banking-Portal seiner Bank herunterladen. Ein zusätzlicher Workflow für den Bezug des XML
+ist somit nicht erforderlich, da das XML Bestandteil des PDF ist.     Die Druckversion des
+Steuerauszugs wird dem Steuerpflichtigen inklusive den Barcode-Blättern zur Verfügung ge-
+stellt.
+    Der Steuerpflichtige lädt das PDF in die vom jeweiligen Kanton zur Verfügung gestellte
+Deklarationssoftware. Unterstützt die Deklarationssoftware den neuen Standard «eCH-196: E-
+Steuerauszug», so kann das XML als Anlage im PDF extrahiert und das Wertschriftenver-
+zeichnis automatisch ausgefüllt werden.      Anschliessend können die Titel im Wertschriften-
+verzeichnis über den EWS-Service Titel suchen oder Titel berechnen überprüft werden.
+    Der Steuerpflichtige muss das Wertschriftenverzeichnis weiterhin manuell ausfüllen. In Ab-
+hängigkeit von den Vereinbarungen des Finanzinstituts mit den kantonalen Steuerbehörden
+sind lediglich die Summen vom Steuerpflichtigen zu erfassen. Da keine Detailinformationen zu
+
+
+Verein eCH                                                           www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+          E-Government-Standards                                                  Seite 29 von 51
+
+
+den Titeln vorhanden sind, ist auch keine Überprüfung der Angaben im Wertschriftenverzeich-
+nis möglich.
+    Der Steuerpflichtige übermittelt die Steuererklärung einschliesslich des Wertschriftenver-
+zeichnisses elektronisch an die zuständige kantonale Steuerbehörde.       Der Steuerpflichtige
+sendet die Steuererklärung einschliesslich des Wertschriftenverzeichnisses physisch an die
+zuständige kantonale Steuerbehörde. Der gedruckte Steuerauszug mit den Barcode-Blättern
+wird vom Steuerpflichtigen der Steuerdeklaration beigelegt.
+Scan-Center (möglicher Ablauf):
+Ist der Steuererklärung ein gedruckter Steuerauszug mit Barcode-Blättern beigefügt, so kann
+das XML beim Scannen der Barcode-Blätter im Scan-Center der Kantone extrahiert werden.
+Um den E-Steuerauszug als solchen zu erkennen, kann der Seiten-Barcode (siehe Kapitel
+Fehler! Verweisquelle konnte nicht gefunden werden.) ausgelesen und die Formular-Nr. (
+196: E-Steuerauszug) ausgewertet werden.
+Falls mehr als ein Steuerauszug vom gleichen Finanzinstitut vom Steuerpflichtigen einge-
+reicht wird, ist beim Scan-Prozess ein Zwischenblatt vorzusehen. Hierdurch wird vermieden,
+dass die Blätter der Steuerauszüge beim Scan-Prozess durcheinandergeraten. Sind die Steu-
+erauszüge hingegen von unterschiedlichen Finanzinstituten, so können die einzelnen Blätter
+des Steuerauszugs anhand der unterschiedlichen Clearing-Nr. im Seiten-Barcode identifiziert
+und wieder korrekt zusammengefügt werden.
+Im unkomprimierten Teil des PDF417 Structured Append ist der PDFMacroFileName mit der
+eindeutige ID (siehe Kapitel 3.2) des Steuerauszugs bzw. des XML hinterlegt. Diese ID ist bei
+den Metadaten des eingescannten Steuerauszugs zu berücksichtigen bzw. zu hinterlegen.
+Anschliessend wird der eingescannte Steuerauszug zusammen mit allen anderen eingescann-
+ten Unterlagen der Steuererklärung z.B. an den ZH eGov-Server übermittelt oder archiviert.
+Nach Abschluss des Scan-Prozesses ist in einem nachgelagerten Schritt die XML-Datei aus
+dem PDF417 Barcode zu extrahieren. Anhand der ID (siehe Kapitel Fehler! Verweisquelle k
+onnte nicht gefunden werden.) aus den PDFMacroFileName bzw. XML erfolgt die Zuord-
+nung zum gedruckten, eingescannten Steuerauszug.
+Somit liegen alle Details des Steuerauszugs in elektronischer Form vor und können bei der
+Veranlagung in das Wertschriftenverzeichnis übernommen werden.
+Falls im Wertschriftenverzeichnis vom Steuerpflichtigen nur das Total Vermögen und
+Erträge erfasst wurde, kann anhand der ID (siehe Kapitel Fehler! Verweisquelle konnte n
+icht gefunden werden.), die in der Bezeichnung der Vermögenswerte hinterlegt wurde,
+eine Zuordnung erfolgen. Die XML-Datei kann ausgewertet und das Wertschriftenverzeich-
+nis um die detaillierten Angaben aus dem elektronischen Steuerauszug ergänzt werden.
+   In der Veranlagung werden die Wertschriftenverzeichnisse teilautomatisiert über die EWS-
+Services Titel suchen und Titel berechnen geprüft. Die Angaben im Wertschriftenverzeichnis
+werden dabei mit den Angaben aus der Kursliste der ESTV verglichen.
+     Ist ein Titel nicht in der Kursliste publiziert, dann kann über den EWS-Service Titelanfrage
+stellen bei der ESTV die Publikation des Titels beantragt oder eine Anfrage zum Titel gestellt
+werden. Der Status der Titelanfrage kann über den EWS-Service Titelanfragen suchen abge-
+fragt werden.
+Damit eine teilautomatisierte Veranlagung durchgeführt werden kann, müssen zu den Titeln
+die folgenden Informationen im Wertschriftenverzeichnis verfügbar sein:
+      VN / ISIN (nicht kotierte Titel UID)
+      Anzahl / Nennwert (abhängig von der Notationsart)
+      Zugangsdatum (bei IUP-Titeln oder Zuzug innerhalb des Jahres zwingend erforderlich)
+Verein eCH                                                             www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+           E-Government-Standards                                                   Seite 30 von 51
+
+
+       Abgangsdatum (bei Verkauf oder Rückzahlung erforderlich)
+       Steuerwert (falls zum Bewertungsstichtag im Bestand)
+       Steuerbarer Ertrag mit Verrechnungssteuer
+       Steuerbarer Ertrag ohne Verrechnungssteuer
+Fallabhängig sind zusätzlich folgende Informationen erforderlich:
+       Kaufpreis (bei reiner Differenzbesteuerung)
+       Verkaufspreis (bei reiner Differenzbesteuerung)
+       DA-1 und Steuerrückbehalt USA (falls ein Doppelbesteuerungsabkommen existiert)
+Die nachfolgenden Informationen können für eine manuelle Prüfung der Titel im Wertschrif-
+tenverzeichnis hilfreich sein:
+       Land
+       Währung
+       Unternehmens-/Titelbezeichnung
+       Wechselkurs (für Kaufpreis in Fremdwährung bei reiner Differenzbesteuerung)
+       Wechselkurs (für Verkaufspreis in Fremdwährung bei reiner Differenzbesteuerung)
+Abhängig von den Angaben zu den Titeln im Wertschriftenverzeichnis sind bei BFP/IUP-Titeln,
+Teilzugänge und -abgänge zum gleichen Titel gemäss dem First-In / First-Out - Prinzip als
+einzelne Zeilen im Wertschriftenverzeichnis abzubilden. Hierdurch kann die Notwendigkeit der
+nachträglichen Transformation der Zeilen im Wertschriftenverzeichnis vermieden werden.
+
+
+2.10.1 Stammdaten und Ereignisse zum Titel ermitteln
+Auf Grundlage der vom EWS-Service Titel suchen zurückgelieferten Daten können die einzel-
+nen Attribute im Wertschriftenverzeichnis überprüft und gegebenenfalls korrigiert werden. Die
+Nutzung des EWS-Service Titel suchen ist im Kapitel Fehler! Verweisquelle konnte nicht g
+efunden werden. beschrieben.
+Der EWS-Service Titel suchen bietet diverse Attribute für die Suche an. Für die Ermittlung der
+Stammdaten und Ereignisse zu einem Titel sind nachfolgende Attribute relevant:
+       year
+       referenceDate
+       domain
+       valorNumber
+       isin
+Nachfolgend ist eine Beispiel-Abfrage für die Ermittlung der Stammdaten und Ereignisse zu
+einem Titel dargestellt.
+
+…
+<ews:searchSecurityRequest
+    year="2015"
+    referenceDate="2015-12-31"
+    domain="<your domain>"
+    valorNumber="908440"/>
+…
+
+Listing 17: Titel suchen (Request) - Stammdaten und Ereignisse zum Titel
+
+Die Titelsuche liefert in der Antwort immer die Gesamtanzahl der Treffer sowie den Startpunkt
+und die Trefferanzahl zurück. Zusätzlich werden die Stammdaten und Ereignisse zum Titel
+zurück geliefert.
+
+…
+<service:searchSecurityResponse
+    count="1"
+    creationDate="2016-02-20T15:56:20"
+
+Verein eCH                                                                 www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+           E-Government-Standards                                                    Seite 31 von 51
+
+
+
+    results="1"
+    version="2.0.0.0"
+    xsi:schemaLocation="http://xmlns.estv.admin.ch/ictax/2.0.0/kursliste
+                        kursliste-2.0.0.xsd
+                        http://xmlns.estv.admin.ch/ews/2.0.0/ews-service
+                        ews-service-2.0.0.xsd"
+    year="2015"
+    xmlns:service="http://xmlns.estv.admin.ch/ews/2.0.0/ews-service"
+    xmlns:kursliste="http://xmlns.estv.admin.ch/ictax/2.0.0/kursliste"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+…
+    <service:share
+        country="US"
+        currency="USD"
+        id="31265"
+        institutionId="5658"
+        institutionName="Apple Inc."
+        isin="US0378331005"
+        nominalValue="0.00001"
+        securityAppendix="Stammaktien"
+        securityGroup="SHARE"
+        securityType="SHARE.COMMON"
+        valorNumber="908440">
+        <kursliste:yearend
+            id="150031265"
+            quotationType="PIECE"
+            taxValueCHF="108.19"/>
+        <kursliste:payment
+            currency="USD"
+            exDate="2015-02-05"
+            exchangeRate="0.928467"
+            id="1093854"
+            paymentDate="2015-02-12"
+            paymentValue="0.47"
+            paymentValueCHF="0.43637"/>
+        <kursliste:payment
+            currency="USD"
+            exDate="2015-05-07"
+            exchangeRate="0.915202"
+            id="1134406"
+            paymentDate="2015-05-14"
+            paymentValue="0.52"
+            paymentValueCHF="0.4759"/>
+        <kursliste:payment
+            currency="USD"
+            exDate="2015-08-06"
+            exchangeRate="0.976185"
+            id="1182153"
+            paymentDate="2015-08-13"
+            paymentValue="0.52"
+            paymentValueCHF="0.50761"/>
+        <kursliste:payment
+            currency="USD"
+            exDate="2015-11-05"
+            exchangeRate="1.00344"
+            id="1219856"
+            paymentDate="2015-11-12"
+            paymentValue="0.52"
+            paymentValueCHF="0.52178"/>
+    </service:share>
+</service:searchSecurityResponse>
+…
+
+Listing 18: Titel suchen (Response) - Stammdaten und Ereignisse zum Titel
+
+Für die unterjährige Veranlagung kann mit einem Stichtag ungleich 31.12. gesucht werden. In
+diesem Fall wird zusätzlich zum Jahresendkurs auch der Tageskurs zurück geliefert.
+
+
+2.10.2 Steuerwert und Erträge zum Titel berechnen
+Auf Grundlage der vom EWS-Service Titel berechnen zurückgelieferten Daten können die ein-
+zelnen Vermögenswerte im Wertschriftenverzeichnis überprüft und gegebenenfalls korrigiert
+werden. Die Nutzung des EWS-Service Titel berechnen ist im Kapitel Fehler! Verweisquelle k
+onnte nicht gefunden werden. beschrieben.
+Der EWS-Service Titel berechnen bietet diverse Attribute für die Berechnung eines Vermö-
+genswerts an. Für die Berechnung eines Vermögenswerts sind die nachfolgenden Attribute
+
+Verein eCH                                                                  www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+            E-Government-Standards                                                     Seite 32 von 51
+
+
+relevant:
+       year
+       referenceDate
+       domain
+       valorNumber
+       isin
+       quantity
+       quotationType
+       purchaseDate                     (falls der Zugang innerhalb des Jahres ist)
+       dispositionDate
+Bei einem Titel, der der modifizierten Differenzbesteuerung (IUP=1; BFP=1) unterliegt, ist zu-
+sätzlich auch das Attribut anzugeben:
+       purchaseDate                     (auch dann, falls der Zugang ausserhalb des Jahres ist)
+Bei einem Titel, der der reinen Differenzbesteuerung (IUP=1; BFP=0) unterliegt, sind zusätz-
+lich auch diese Attribute anzugeben:
+       purchaseDate                     (auch dann, falls der Zugang ausserhalb des Jahres ist)
+       purchaseExchangeRate             (falls der Titel in Fremdwährung ist)
+       purchaseRateTotal                (falls der Titel in Fremdwährung ist)
+       purchaseRateTotalCHF
+       dispositionDate                  (nur bei Abgang)
+       dispositionExchangeRate          (nur bei Abgang, falls der Titel in Fremdwährung ist)
+       dispositionRateTotal             (nur bei Abgang, falls der Titel in Fremdwährung ist)
+       dispositionRateTotalCHF          (nur bei Abgang)
+Bei einer Wandlung (IUP=0; BFP=1) sind zusätzlich auch diese Attribute anzugeben:
+       conversionDate                   (anstelle des Abgangsdatum)
+       conversionExchangeRate           (falls der Titel in Fremdwährung ist)
+Angaben zur juristischen oder natürlichen Person sind nur bei nicht kotierten Titeln relevant.
+Bei der Berechnung eines kotierten Titels sind keine Angaben zur juristischen oder natürlichen
+Person zu machen.
+Nachfolgend ist ein Beispiel für die Berechnung eines Vermögenswerts dargestellt.
+
+…
+<ews:calcSecurityRequest
+    year="2015"
+    domain="ksta.zh.ch"
+    quotationType="PIECE"
+    quantity="100"
+    valorNumber="1026592"
+    dispositionDate="2015-11-14"
+    useDefault="1"/>
+…
+
+Listing 19: Titel berechnen (Request) - Berechnung eines Vermögenswerts
+
+Konnte die Berechnung durchgeführt werden, so wird dies in der Antwort signalisiert. Alle De-
+tails der Berechnung werden für die Nachvollziehbarkeit in der Antwort zurück geliefert.
+
+…
+<service:securityEntry
+    available="1"
+    calculated="1"
+    country="DE"
+    currency="EUR"
+    dispositionDate="2015-11-14"
+    isin="DE0005557508"
+    name="Deutsche Telekom AG, DE"
+    nominalValue="0"
+
+Verein eCH                                                                www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+           E-Government-Standards                                                   Seite 33 von 51
+
+
+
+    paymentValueTotalCHFWithHoldingTax="0"
+    paymentValueTotalCHFWithoutHoldingTax="52.242"
+    quantity="100"
+    quotationType="PIECE"
+    securityGroup="SHARE"
+    securityId="32143"
+    taxValueTotalCHF="0"
+    valorNumber="1026592">
+    <ews:taxValue
+        currency="CHF"
+        id="150032143"
+        nominalValue="0"
+        quantity="0"
+        quotationType="PIECE"
+        taxValueCHF="18.14"
+        taxValueTotalCHF="0"/>
+    <ews:payment
+        currency="EUR"
+        exDate="2015-05-22"
+        exchangeRate="1.0446"
+        id="1157044"
+        nominalValue="0"
+        paymentDate="2015-06-17"
+        paymentValue="0.5"
+        paymentValueCHF="0.5223"
+        paymentValueTotal="0"
+        paymentValueTotalCHF="0"
+        paymentValueTotalCHFWithHoldingTax="0"
+        paymentValueTotalCHFWithoutHoldingTax="0"
+        quantity="0"
+        quotationType="PIECE"
+        sign="(Z)"
+        withHoldingTax="0"/>
+    <ews:payment
+        currency="EUR"
+        exDate="2015-05-22"
+        exchangeRate="1.04485"
+        id="1157043"
+        nominalValue="0"
+        paymentDate="2015-06-23"
+        paymentValue="0.5"
+        paymentValueCHF="0.52242"
+        paymentValueTotal="50"
+        paymentValueTotalCHF="52.242"
+        paymentValueTotalCHFWithHoldingTax="0"
+        paymentValueTotalCHFWithoutHoldingTax="52.242"
+        quantity="100"
+        quotationType="PIECE"
+        withHoldingTax="0"/>
+</service:securityEntry>
+…
+
+Listing 20: Titel berechnen (Response) - Berechnung eines Vermögenswerts
+
+Um den steuerbaren Ertrag mit und ohne Verrechnungssteueranspruch anhand der Details
+berechnen zu können, sind die entsprechenden Attribute in den Elementen Ausschüttungen,
+modifizierte Differenzbesteuerung, reine Differenzbesteuerung, Wandlung und Originaldiskont
+zu berücksichtigen.
+In der Antwort werden grundsätzlich alle Ausschüttungen und der Steuerwert (falls vorhanden)
+zum Titel zurück geliefert. Entscheidend dafür ist die Anzahl im jeweiligen Element. Ist eine
+Ausschüttung oder ein Steuerwert für die Berechnung nicht zu berücksichtigen, dann ist als
+Anzahl eine 0 angegeben.
+
+
+2.10.3 Publikation eines Titels beantragen
+Über den EWS-Service Titelanfrage stellen kann die Publikation eines Titels, der nicht in der
+Kursliste publiziert ist, beantragt werden. Der EWS-Service Titelanfrage stellen kann aber
+auch für Anfragen zu einem Titel verwendet werden. Die Nutzung des EWS-Service Titelan-
+frage stellen ist im Kapitel Fehler! Verweisquelle konnte nicht gefunden werden. beschrie-
+ben.
+Hierbei können mit der Titelanfrage ein Text sowie ein Anhang übermittelt werden. Beim Hoch-
+laden einer Datei als Anhang wird ein Virenscan durchgeführt.
+Verein eCH                                                                 www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+            E-Government-Standards                                                        Seite 34 von 51
+
+
+Jede Titelanfrage erhält eine interne Nummer. Wird die interne Nummer beim EWS-Service
+Titelanfrage stellen mitgegeben, so wird keine neue Titelanfrage angelegt, sondern der Text
+und der Anhang an die bestehende Titelanfrage (der eigenen Domäne) angehängt.
+Nachfolgend ist ein Beispiel für eine Titelanfrage mit Text ohne Anhang dargestellt.
+
+…
+<ews:setSecurityRequestRequest
+    year="2015"
+    domain="<your domain>"
+    valorNumber="4000099"
+    reason="PUBLICATION">
+    <ews:contactPerson
+        email="test01d@<your domain>"
+        surName="Test"
+        country="CH"/>
+</ews:setSecurityRequestRequest>
+…
+
+Listing 21: Titelanfrage stellen (Request) - Titel publizieren
+
+
+2.10.4 Status der Titelanfragen prüfen
+Über den EWS-Service Titelanfragen suchen kann der Bearbeitungsstatus zu einer oder meh-
+reren Titelanfragen (ausschliesslich) der eigenen Domäne überprüft und nachverfolgt werden.
+Die Nutzung des EWS-Service Titelanfragen suchen ist im Kapitel Fehler! Verweisquelle k
+onnte nicht gefunden werden. beschrieben.
+Die Domäne muss mitgegeben werden und wird anhand des Benutzers überprüft. Es ist mög-
+lich, dass einer Domäne (Kanton) mehrere andere Domänen (Städte) untergeordnet sind. Nur
+dann ist eine andere Domäne als die des aufrufenden Benutzers erlaubt. Der Datenschutz und
+das Bank- und Steuergeheimnis sind damit sichergestellt.
+
+…
+<ews:searchSecurityRequestRequest
+    year="2015"
+    domain="<your domain>"
+    modificationDate="2016-01-01T00:00:00"/>
+…
+
+Listing 22: Titelanfragen suchen (Request) - Titelanfragen mit Mutationsdatum suchen
+
+Über den EWS-Service Titelanfragen suchen kann ein Workflow abgebildet werden, der bei
+einer Rückfrage eine Interaktion des Anfragestellers auslöst und nach Abschluss der Titelan-
+frage den auslösenden Workflow fortsetzt.
+Falls eine Rückfrage von der ESTV gestellt wird, ist diese Rückfrage der ESTV über den EWS-
+Service Titelanfrage stellen zu beantwortet. Alternativ kann das automatische Versenden von
+E-Mails aktiviert werden, die dann durch den Anfragesteller zu beantworten ist.
+
+
+
+
+Verein eCH                                                                       www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+           E-Government-Standards                                                 Seite 35 von 51
+
+
+
+3 API E-Steuerauszug
+Die API zum E-Steuerauszug hat das Ziel die Finanzinstitute, Deklarations- und Veranlagungs-
+software bei Erstellen und Auslesen des XML aus dem PDF E-Steuerauszugs zu unterstützen.
+Die API besteht hierbei im Kern aus den zwei Teilen:
+       Erstellen und Platzieren des Barcodes im PDF
+       Auslesen des XML aus dem Barcode im PDF
+Als Voraussetzung um die API verwenden zu können, muss man die im Anhang G – Biblio-
+theken aufgeführten Bibliotheken verwenden. Diese sind mit Ausnahme der Barcode-Biblio-
+theken Open Source Software. Die API wird als Open Source Software unter Apache Lizenz
+V 2.0 über die nachfolgende URL zur Verfügung gestellt. Die Quellen, Java Doc und Beispiele
+stehen ebenfalls über die nachfolgende URL in der Datei taxstatement-api-2.2.zip zur
+Verfügung.
+        https://esteuer.ewv-ete.ch/de/api/
+Um die API in einem neuen oder bestehenden Programm zu integrieren, muss der CLASS-
+PATH ergänzt werden und mindestens die folgenden Bibliotheken umfassen:
+    CLASSPATH=…;taxstatement-api-2.2.jar;commons-logging-1.2.jar;fontbox-2.0.17.jar;pdfbox-
+    2.0.17.jar;rbarcode.jar;rpdf417vision.jar rvision.jar;bcpkix-jdk15on-1.58.jar;bcprov-
+    jdk15on-1.58.jar;xmlsec-2.0.8.jar;slf4j-api-1.7.25.jar;slf4j-simple-1.7.25.jar
+
+Mit den nachfolgenden Schaltern kann die API konfiguriert werden. Es können zusätzliche
+Informationen dargestellt werden:
+    -Dcom.java4less.vision.maxarea=90000 -Dthreads=2 -Dprint=true -Drender=true
+
+Über den Parameter com.java4less.vision.maxarea wird die Grösse für das Auslesen
+des Barcodes definiert.
+Der Parameter threads definiert den Default-Wert für die Parallelisierung der Verarbeitung
+beim Auslesen der Barcodes. Die Extraktion des XML aus den Barcodes mittels zweier Paral-
+lelprozessen wird empfohlen.
+Der Parameter print definiert die Ausgabe von zusätzlichen Informationen. So wird z.B. der
+Inhalt der einzelnen Barcode-Semgente als Hexdump dargestellt.
+Falls die Barcode-Images nicht direkt aus dem PDF ausgelesen werden können, erzwingt der
+Parameter render, dass eine PDF Seite bei Bedarf vollständig als Image im RAM aufgebaut
+und dann ausgelesen wird. Diese hat den Vorteil, dass voraussichtlich alle Barcode-Segmente
+ausgelesen werden können. Dies bringt immer dann eine schlechtere Performance mit sich,
+wenn die Barcode-Segmente aufgrund des Render-Prozess zweimal verarbeitet werden müs-
+sen. Es wird empfohlen den Schalter render zu setzen, damit die Barcode-Segmente zuver-
+lässiger ausgelesen werden können.
+
+
+
+3.1 Erstellen und Platzieren des Barcodes im PDF
+Nachfolgend sind die Methoden der API beschrieben, die für das Generieren und Platzieren
+des Barcodes im PDF verwendet werden können. Für die Qualitätssicherung wird auf die Me-
+thoden aus dem Kapitel 3.2 verwiesen.
+   Barcode generieren
+    BufferedImage[] barCodeXML(byte[] xml)
+
+
+Verein eCH                                                           www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+          E-Government-Standards                                                Seite 36 von 51
+
+
+    Die Funktion ermöglicht die Generierung der Barcode-Segmente als Images aus dem XML
+    E-Steuerauszug. Die generierten Images haben eine Minimalauflösung von 1x1 Pixel pro
+    Barcode-Element. Die Formatierung der Barcode-Segmente erfolgt beim Platzieren im
+    PDF. Dies hat den Vorteil, dass das PDF E-Steuerauszug möglichst wenig Speicherplatz
+    benötigt.
+    Vor dem Aufruf der Funktion kann das XML digital signiert werden. Die ID, die als
+    PDFMacroFileName im Barcode hinterlegt wird, wird aus dem XML E-Steuerauszug aus-
+    gelesen.
+   Seiten-Barcode generieren
+    BufferedImage pageBarCode(String id)
+
+    Die Funktion ermöglicht die Generierung des Seiten-Barcodes als Images für das PDF E-
+    Steuerauszug. Die ID muss gemäss Kapitel Fehler! Verweisquelle konnte nicht gefun-
+    den werden. aufgebaut sein.
+   Barcode hinzufügen
+    void addBarCode(PDDocument pdd, PDPage pdp, BufferedImage[] images, int page)
+    void addBarCode(PDDocument pdd, PDPage pdp, BufferedImage[] images, int page,
+    float x, double distanceCM, double scaling)
+
+    Die Funktion ermöglicht das Platzieren der Barcode-Segmente als Images auf der referen-
+    zierten Seite in einem PDF Dokument. Für die Positionierung werden Default-Werte ver-
+    wendet, die durch das aufrufende Programm übersteuert werden können.
+    Vor dem Aufruf der Funktion wird erwartet, dass auf einer neuen Seite lediglich das Layout
+    und die Seitennummerierung hinzugefügt wird. Zudem ist die Seite vor dem Aufruf der
+    Funktion im A4 Hochformat um 90° zu rotieren.
+    Der Funktion sind alle Barcode-Images und die jeweilige Seitennummer beginnend mit 1
+    zu übergeben. Auf jeder Seite im PDF können maximal 6x Barcode-Segmente dargestellt
+    werden (siehe Attribut BARCODE_SEGMENTS_PER_PAGE). So werden auf der ersten Seite
+    die Barcode-Images 1-6 und auf der zweiten Seite die Barcode-Images 7-12 usw. in das
+    PDF eingefügt.
+   Seiten-Barcode hinzufügen
+    void addPageBarCode(PDDocument pdd, PDPage pdp, BufferedImage image)
+
+    void addPageBarCode(PDDocument pdd, PDPage pdp, BufferedImage image, float x,
+    float y, double scaling)
+
+    Die Funktion ermöglicht das Platzieren des Seiten-Barcodes als Images auf der referen-
+    zierten Seite in einem PDF Dokument. Für die Positionierung werden Default-Werte ver-
+    wendet, die durch das aufrufende Programm übersteuert werden können.
+    Vor dem Aufruf der Funktion wird erwartet, dass auf einer neuen Seite lediglich das Layout
+    und die Seitennummerierung hinzugefügt wird. Zudem ist die Seite vor dem Aufruf der
+    Funktion im A4 Hochformat um 90° zu rotieren.
+   XML signieren
+    byte[] signXML(byte[] xml, KeyStore ks, String password)
+
+    byte[] signXML(byte[] xml, String pkcs12, String password)
+
+    Die Funktion ermöglicht die Signierung des XML anhand eines Zertifikats. Hierbei muss es
+    sich nicht zwingend um ein XML E-Steuerauszug handeln.
+    Um das Zertifikat aus einem Key Store öffnen zu können, muss das Passwort des Zertifi-
+    kats übergeben werden. Anstelle eines Key Store kann auch Name und Pfad einer
+Verein eCH                                                           www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+          E-Government-Standards                                                Seite 37 von 51
+
+
+    PKCS12-Datei übergeben werden. Anhand der PKCS12-Datei wird für die weitere Verar-
+    beitung ein Key Store erzeugt.
+
+
+
+3.2 Auslesen des XML aus dem Barcode des PDF
+Nachfolgend sind die Methoden der API beschrieben, die für das Auslesen des XML aus
+dem Barcode des PDF verwendet werden können.
+   XML extrahieren
+    byte[] extractXML(PDDocument pdd)
+
+    byte[] extractXML(PDDocument pdd, int threads)
+
+    byte[] extractXML(PDDocument pdd, int threads, boolean render)
+
+    Die Funktion ermöglicht das Auslesen des XML aus einem PDF E-Steuerauszug. Hierbei
+    könnend die Default-Werte zur Anzahl der Threads für die Parallelisierung der Verarbei-
+    tung und zum Rendern durch das aufrufende Programm übersteuert werden.
+    Die Funktion liefert das dekomprimierte XML aus dem Barcode im PDF E-Steuerauszug
+    zurück. Die Funktion verarbeitet hierzu das PDF beginnend bei der letzten Seite. Die Ver-
+    arbeitung bricht dann ab, wenn alle Barcode-Segmente ausgelesen werden konnten.
+    Sollte im ersten Verarbeitungsschritt kein Barcode identifiziert werden können, so wird ab-
+    hängig vom Default-Wert bzw. der Angabe des Rendern-Attributs ein zweiter Verarbei-
+    tungsschritt durchgeführt. Hierbei wird die Seite vollständig als Image im RAM aufgebaut
+    und das XML aus den Barcode-Segmenten ausgelesen. Die Verarbeitung bricht dann ab,
+    wenn alle Barcode-Segmente ausgelesen werden konnten.
+   XML validieren
+    boolean validateXML(byte[] xml)
+
+    Die Funktion ermöglicht die Validierung des XML E-Steuerauszug anhand der relevanten
+    XML Schemata eCH-0007-6-0.xsd, eCH-0008-3-0.xsd, eCH-0010-7-0.xsd,
+    eCH-0097-4-0.xsd und eCH-0196-2-0.xsd. Diese XML Schemata sind Bestandteil
+    der Bibliothek taxstatement-api-2.0.jar.
+   XML Signatur prüfen
+    boolean verifyXML(byte[] xml)
+
+    Die Funktion ermöglicht die Prüfung der digitalen Signatur des XML E-Steuerauszug. Hier-
+    bei wird der Public Key aus der Signatur des XML ausgelesen und das XML anhand der
+    Prüfsummen in der digitalen Signatur auf Abweichungen überprüft.
+
+
+
+
+Verein eCH                                                            www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+          E-Government-Standards                                                Seite 38 von 51
+
+
+
+
+Verein eCH                                                           www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+              E-Government-Standards                                                                   Seite 39 von 51
+
+
+
+4 Open Source Software
+Der Einsatz von Open Source Software birgt das Risiko des Copyleft33. Hierbei sollte grund-
+sätzlich auf die Modifikation einer Open Source Software-Bibliothek verzichtet und lediglich die
+Open Source Software Bibliothek eingebunden werden. Auch wenn die Lizenzbedingungen
+eine Modifikation an einer Open Source Software Bibliothek erlauben, so können sich Lizenz-
+bedingungen zu einem späteren Zeitpunkt ändern.
+Wichtig ist, dass das Einbinden einer Open Source Software Bibliothek entweder über die
+Lizenzbedingung unter Auflagen z.B. Apache V 2.034 erlaubt ist, oder durch eine spezielle
+Ausnahme wie WITH CLASSPATH EXCEPTION bei z.B. GPL V2.035 geregelt ist.
+Nachfolgend sind für jede der im Dokument vorgeschlagenen Open Source Software-Biblio-
+theken die Lizenzbedingungen und die Empfehlung zur Nutzung aufgeführt.
+
+
+
+4.1 Apache PDFBoxTM
+Die Open Source Software Bibliothek Apache PDFBoxTM 36 unterliegt der Apache Lizenz V 2.0.
+Das Einbinden der Open Source Software Bibliothek Apache PDFBoxTM setzt einen Copyright-
+Hinweis (wie im Open Source Software Quellcode enthalten ist) voraus.
+Die Open Source Software Bibliothek Apache PDFBoxTM ist lediglich in den CLASSPATH ein-
+zubinden. Modifikationen an der Open Source Software Bibliothek Apache PDFBoxTM sind
+nicht durchzuführen.
+
+
+
+
+33 https://de.wikipedia.org/wiki/Copyleft
+
+ Das Copyleft ist eine Klausel in urheberrechtlichen Nutzungslizenzen, die festschreibt, dass Bearbeitungen des
+ Werks nur dann erlaubt sind, wenn alle Änderungen mit mindestens den gleichen oder zumindest ähnlichen Frei-
+ heiten weitergegeben werden.
+34
+     http://www.apache.org/licenses/LICENSE-2.0.html
+  To apply the Apache License to your work, attach the following boilerplate notice, with the fields enclosed by
+  brackets "[]" replaced with your own identifying information. (Don't include the brackets!) The text should be en-
+  closed in the appropriate comment syntax for the file format. We also recommend that a file or class name and
+  description of purpose be included on the same "printed page" as the copyright notice for easier identification
+  within third-party archives.
+35 http://www.gnu.org/software/classpath/license.html
+
+  Classpath is distributed under the terms of the GNU General Public License with the following clarification and
+  special exception.
+  Linking this library statically or dynamically with other modules is making a combined work based on this library.
+  Thus, the terms and conditions of the GNU General Public License cover the whole combination.
+  As a special exception, the copyright holders of this library give you permission to link this library with independent
+  modules to produce an executable, regardless of the license terms of these independent modules, and to copy
+  and distribute the resulting executable under terms of your choice, provided that you also meet, for each linked
+  independent module, the terms and conditions of the license of that module. An independent module is a module
+  which is not derived from or based on this library. If you modify this library, you may extend this exception to your
+  version of the library, but you are not obligated to do so. If you do not wish to do so, delete this exception statement
+  from your version.
+  As such, it can be used to run, create and distribute a large class of applications and applets. When GNU
+  Classpath is used unmodified as the core class library for a virtual machine, compiler for the java languge,
+  or for a program written in the java programming language it does not affect the licensing for distributing
+  those programs directly.
+36
+     http://pdfbox.apache.org/
+
+Verein eCH                                                                                www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+               E-Government-Standards                                           Seite 40 von 51
+
+
+
+4.2 Apache Santuario
+Die Open Source Software Bibliothek Apache Santuario37 unterliegt der Apache Lizenz V 2.0.
+Das Einbinden der Open Source Software Bibliothek Apache Santuario setzt einen Copyright-
+Hinweis (wie im Open Source Software Quellcode enthalten ist) voraus.
+Die Open Source Software Bibliothek Apache Santuario ist lediglich in den CLASSPATH ein-
+zubinden. Modifikationen an der Open Source Software Bibliothek Apache Santuario sind
+nicht durchzuführen.
+
+
+
+4.3 Simple Logging Facade for Java
+Die Simple Logging Facade for Java (SLF4J)38 ist eine Open Source Software Bibliothek.
+Diese wird für Apache Santuario (siehe Kapitel 4.2) benötigt. Das Einbinden der Open Source
+Software Bibliothek Simple Logging Facade for Java setzt einen Copyright-Hinweis39 voraus.
+Die Open Source Software Bibliothek Simple Logging Facade for Java ist lediglich in den
+CLASSPATH einzubinden. Modifikationen an der Open Source Software Bibliothek Simple
+Logging Facade for Java sind nicht durchzuführen.
+
+
+
+4.4 OpenSSL
+Für den Einsatz von OpenSSL40 gilt die CLA41. Ein Zertifikat kann mittels OpenSSL erstellt
+werden.
+
+
+
+5 Sicherheitsüberlegungen
+Die im Rahmen des vorliegenden Standards ausgetauschten Daten sind gemäss Bundesge-
+setz über den Datenschutz (vom 19. Juni 1992, vgl. Art. 3 Abs. c) besonders schützenswert.
+Die ausgetauschten Daten unterliegen zudem dem Bank- und Steuergeheimnis (Bundesge-
+setz über Banken und Sparkassen, vgl. Art. 47).
+Die Speicherung und Übertragung dieser Daten darf nur auf Grund und im Rahmen von be-
+stehenden rechtlichen Grundlagen erfolgen und hat die gesetzlichen Datenschutzbestimmun-
+gen zu befolgen. Die nötigen Vorkehrungen sind zu treffen, dass die Daten fehlerfrei übertra-
+gen und vor, während und nach der Übertragung nur von dazu autorisierten Personen einge-
+sehen werden können.
+
+
+
+
+37
+     http://santuario.apache.org/
+38
+     http://www.slf4j.org/
+39
+     http://www.slf4j.org/license.html
+40 https://www.openssl.org/community/binaries.html
+
+41
+ https://www.openssl.org/policies/cla.html
+ We are following the practice of the Apache Software Foundation.
+Verein eCH                                                           www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+          E-Government-Standards                                                 Seite 41 von 51
+
+
+
+6 Haftungsausschluss/Hinweise auf Rechte Dritter
+eCH-Standards, welche der Verein eCH dem Benutzer zur unentgeltlichen Nutzung zur Ver-
+fügung stellen oder welche eCH referenzieren, haben nur den Status von Empfehlungen. Der
+Verein eCH haftet in keinem Fall für Entscheidungen oder Massnahmen, welche der Benutzer
+auf Grund dieser Dokumente trifft und/oder ergreift. Der Benutzer ist verpflichtet, die Doku-
+mente vor deren Nutzung selbst zu überprüfen und sich gegebenenfalls beraten zu lassen.
+eCH-Standards können und sollen die technische, organisatorische oder juristische Beratung
+im konkreten Einzelfall nicht ersetzen.
+In eCH-Standards referenzierte Dokumente, Verfahren, Methoden, Produkte und Standards
+sind unter Umständen markenrechtlich, urheberrechtlich oder patentrechtlich geschützt. Es
+liegt in der ausschliesslichen Verantwortlichkeit des Benutzers, sich die allenfalls erforderli-
+chen Rechte bei den jeweils berechtigten Personen und/oder Organisationen zu beschaffen.
+Obwohl der Verein eCH all seine Sorgfalt darauf verwendet, die eCH-Standards sorgfältig aus-
+zuarbeiten, kann keine Zusicherung oder Garantie auf Aktualität, Vollständigkeit, Richtigkeit
+bzw. Fehlerfreiheit der zur Verfügung gestellten Informationen und Dokumente gegeben wer-
+den. Der Inhalt von eCH-Standards kann jederzeit und ohne Ankündigung geändert werden.
+Jede Haftung für Schäden, welche dem Benutzer aus dem Gebrauch der eCH-Standards ent-
+stehen ist, soweit gesetzlich zulässig, wegbedungen.
+
+
+
+7 Urheberrechte
+Wer eCH-Standards erarbeitet, behält das geistige Eigentum an diesen. Allerdings verpflichtet
+sich der Erarbeitende, sein betreffendes geistiges Eigentum oder seine Rechte an geistigem
+Eigentum anderer, sofern möglich, den jeweiligen Fachgruppen und dem Verein eCH kosten-
+los zur uneingeschränkten Nutzung und Weiterentwicklung im Rahmen des Vereinszweckes
+zur Verfügung zu stellen.
+Die von den Fachgruppen erarbeiteten Standards können unter Nennung der jeweiligen Urhe-
+ber von eCH unentgeltlich und uneingeschränkt genutzt, weiterverbreitet und weiterentwickelt
+werden.
+eCH-Standards sind vollständig dokumentiert und frei von lizenz- und/oder patentrechtlichen
+Einschränkungen. Die dazugehörige Dokumentation kann unentgeltlich bezogen werden.
+Diese Bestimmungen gelten ausschliesslich für die von eCH erarbeiteten Standards, nicht je-
+doch für Standards oder Produkte Dritter, auf welche in den eCH-Standards Bezug genommen
+wird. Die Standards enthalten die entsprechenden Hinweise auf die Rechte Dritter.
+
+
+
+
+Verein eCH                                                             www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+          E-Government-Standards                                                Seite 42 von 51
+
+
+
+Anhang A – Referenzen & Bibliografie
+[eCH-0007-6-0] eCH-0007: Datenstandard Gemeinden
+[eCH-0008-3-0] eCH-0008: Datenstandard Staaten und Gebiete
+[eCH-0010-7-0] eCH-0010: Datenstandard Postadresse für natürliche Personen, Firmen, Orga-
+               nisationen und Behörden
+[eCH-0097-4-0] eCH-0097: Datenstandard Unternehmensidentifikation
+[eCH-0119-2-3] eCH-0119: E-Tax Filing
+[eCH-0196-2-0] eCH-0196: E-Steuerauszug
+                  Barcode Generierung Technische Wegleitung
+
+
+
+
+Verein eCH                                                           www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+          E-Government-Standards                                                Seite 43 von 51
+
+
+
+Anhang B – Mitarbeit & Überprüfung V 1.0
+ Name, Vorname             Organisation              Abteilung / Verantwortlich für
+ Roos, Tom                 Abraxas Informatik AG
+ Gämperle, Sacha           Arizon (Raiffeisen)
+ Frei, Dieter              KSTA BE                   Leiter Veranlagungssysteme / Abteilung
+                                                     Projekte und Systeme
+ Arreger, Moritz           Credit Suisse
+ Beuthe, Thomas            Credit Suisse
+ Hess, Thomas              Credit Suisse             Tax Business Solution Architecture
+ Meier, Joe                DSA, SSK                  Leiter Systemverbund EWV/WVK
+ Baechler, David           DV Bern
+ Meister, Thomas           DV Bern
+ Gennari, Franco           ESTV                      Abteilung Erhebung, Teamleiter Wert-
+                                                     schriften und Finanzderivate
+ Ildeniz, Levent           ESTV                      Informationssicherheitsbeauftragter und
+                                                     Datenschutzberater
+ von Sprecher, Andreas     Hüppi & von Sprecher      Rechtsbeistand SSK
+ Loewner, Jan              Information Factory
+ Ullmann, Carsten          Information Factory
+ Alig, Severin             Interact Consulting
+ Schulla, Jörg             Interact Consulting
+ Buess, Bruno              NetConsult                Controlling SSK
+ Ringler, Marcel           Ringler Informatik
+ Socher, Stephanie         Ringler Informatik
+ Schuler, Oskar            KSTA SZ
+ Hubacek, Daniel           KSTV VD, stellv. DSA      Responsable de secteur - fortune mobi-
+                                                     lière et immobilière
+ Koeppel, Daniel           KSTA VS                   VSTax
+ Burgdorfer, Michael       KSTA ZH                   DA Wertschriften, Revisor
+ Franchi, Gualtiero        KSTA ZH                   DA Logistik, Applikationsverantwortlicher
+ Heiniger, Markus          KSTA ZH                   FV ZHprivateTax
+ Kuhn, Alain               KSTA ZH                   DA Wertschriften, Revisor
+ Rotert, Marco             ZKB
+ Server, Marko             ZKB
+
+
+
+
+Verein eCH                                                           www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+           E-Government-Standards                                                               Seite 44 von 51
+
+
+Versionsverlauf:
+ Ver-
+           Datum             Instanz / Person   Bemerkung
+ sion
+ 0.1       26.10.2015        C. Holzreiter      Entwurf
+
+ 0.2       26.02.2016        C. Holzreiter      Zum internen Review
+
+ 0.3       29.02.2016        C. Holzreiter      Zum externen Review
+
+ 0.4       05.03.2016        C. Holzreiter      Beispiele ergänzen
+
+ 0.5       08.03.2016        C. Holzreiter      Einpflegen der Review-Befunde
+
+ 0.6       09.03.2016        C. Holzreiter      Einpflegen der Review-Befunde
+
+ 0.7       10.03.2016        C. Holzreiter      Einpflegen der Review-Befunde
+
+ 0.8       21.04.2016        C. Holzreiter      Einpflegen der Review-Befunde
+
+ 0.9       26.04.2016        C. Holzreiter      Einpflegen der Review-Befunde
+
+ 0.91      13.05.2016        C. Holzreiter      Einpflegen der Review-Befunde
+
+ 0.92      13.05.2016        C. Holzreiter      Einpflegen der Review-Befunde
+
+ 1.0       19.05.2016        C. Holzreiter      Finale Version
+
+ 1.01      11.04.2017        C. Holzreiter      Anpassung Programmbeispiele gemäss Testfallgenerator
+
+ 1.1       12.06.2017        C. Holzreiter      API dokumentieren
+
+ 2.0       14.05.2018        C. Holzreiter      Anpassung zum Standard eCH-0196 V 2.0
+
+ 2.0       01.06.2018        C. Holzreiter      Einpflegen der Review-Befunde
+
+ 2.0       15.09.2018        C. Holzreiter      CODE128 anstelle von EAN128
+
+ 2.1       08.12.2018        C. Holzreiter      Beilage eCH-0196 V 2.1
+
+ 2.2       15.06.2021        C. Holzreiter      Beilage eCH-0196 V 2.2.0
+
+ 2.2       19.01.2022        C. Holzreiter      Barcode Generierung Technische Wegleitung
+
+ 2.2       04.03.2022        C. Holzreiter      Einpflegen der Review-Befunde
+
+Tabelle 6: Versionsverlauf
+
+
+
+
+Verein eCH                                                                          www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+           E-Government-Standards                                               Seite 45 von 51
+
+
+
+Anhang C – Abkürzungen und Glossar
+API                    Eine Programmierschnittstelle, genauer Schnittstelle zur Anwendungs-
+                       programmierung, häufig nur kurz API genannt (englisch application pro-
+                       gramming interface, wörtlich «Anwendungsprogrammierschnittstelle»),
+                       ist ein Programmteil, der von einem Softwaresystem anderen Program-
+                       men zur Anbindung an das System zur Verfügung gestellt wird. (Quelle:
+                       Wikipedia)
+BCN                    Börsencode-Nummer
+                       Technischer Identifikationsschlüssel eines Börsenplatzes bei SIX Fi-
+                       nancial Information.
+BCN: 200               Börsencode-Nummer: 200
+                       Technischer Börsenplatz für die Publikation der Steuerkurse der in der
+                       Kursliste publizierten Titel.
+BFP                    Bondfloor Pricing
+                       Die Datengrundlage für die Berechnung der modifizierten Differenzbe-
+                       steuerung eines Titels.
+Copyleft               Das Copyleft ist eine Klausel in urheberrechtlichen Nutzungslizenzen,
+                       die festschreibt, dass Bearbeitungen des Werks nur dann erlaubt sind,
+                       wenn alle Änderungen mit mindestens den gleichen oder zumindest
+                       ähnlichen Freiheiten weitergegeben werden. Sie soll verhindern, dass
+                       veränderte Fassungen des Werks mit Nutzungseinschränkungen wei-
+                       tergegeben werden, die das Original nicht hat. Das Copyleft setzt vor-
+                       aus, dass Vervielfältigungen und Bearbeitungen in irgendeiner Weise
+                       erlaubt sind. Für sich gesehen macht es jedoch keine darüberhinaus-
+                       gehenden Aussagen über Art und Umfang der eigentlichen Lizenz und
+                       kann daher in inhaltlich sehr unterschiedlichen Lizenzen eingesetzt
+                       werden.
+                       Copyleft kam ursprünglich bei Lizenzen für freie Software auf. Dort er-
+                       zwingt es, dass Fortentwicklungen eines freien Ur-Programms wie-
+                       derum frei sind und frei bleiben. Man spricht beim Copyleft deswegen
+                       von einem viralen Effekt. Es verhindert so, dass Lizenznehmer das Pro-
+                       gramm durch proprietäre Erweiterungen in die proprietäre Domäne
+                       überführen. Die bekannteste Copyleft-Lizenz ist die GNU General Pu-
+                       blic License (GPL). Später fand das gleiche Prinzip auch bei Lizenzen
+                       für freie Inhalte Anwendung. Copyleft ist kein notwendiger Bestandteil
+                       einer Lizenz für freie Software. So hat etwa die BSD-Lizenz kein Copy-
+                       left, dennoch sind darunter freigegebene Programme freie Software.
+DBA                    Doppelbesteuerungsabkommen
+ESTV                   Eidgenössische Steuerverwaltung
+E-Steuerauszug         Elektronischer Steuerauszug
+EWS                    Elektronische Wertschriften
+                       Ist eine Sammlung von Services zum Datenbezug in der Deklaration
+                       bzw. zum Datenaustausch in der Veranlagung zwischen den kantona-
+                       len Steuerbehörden und der ESTV.
+
+
+
+Verein eCH                                                           www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+            E-Government-Standards                                                Seite 46 von 51
+
+
+Fachgruppe             Projektmitarbeiter, beteiligte Finanzinstitute, beteiligte Steuerverwaltun-
+                       gen und beteiligte Softwarehersteller.
+First-In / First-Out   Das Prinzip, in welcher Reihenfolge Transaktionen bei Zu- und Abgän-
+                       gen zu berücksichtigen sind. Beim First-In / First-Out sind immer die
+                       jeweils ältesten Zugänge, bei dem oder den Abgängen zu berücksichti-
+                       gen.
+ISIN                   International Securities Identification Number
+                       Die ISIN ist eine zwölfstellige Buchstaben-Zahlen-Kombination und
+                       stellt eine Identifikation für ein Wertpapier dar, das an der Börse gehan-
+                       delt wird. Der Aufbau der ISIN wird in der ISO 6166 beschrieben.
+                       (Quelle: Wikipedia)
+IUP                    Intéret unique prédominant
+                       Besteuerung gemäss Art. 20 Abs. 1 Buchstabe b DBG (vgl. Kreisschrei-
+                       ben Nr. 15 vom 07.02.2007,Quelle: ESTV)
+Kursliste              Die Kursliste ist eine Sammlung steuerlich qualifizierter Titel, die die
+                       Grundlage für die Deklaration und Veranlagung kotierter Titel in der
+                       Schweiz darstellt.
+                       Die Kursliste wird von der ESTV erstellt und laufend erweitert. Aktuell
+                       verfügt die Kursliste über einen Abdeckungsgrad von mehr als 90% al-
+                       ler kotierter Titel, die für die Deklaration oder Veranlagung in der
+                       Schweiz benötigt werden.
+KSTA                   Kantonales Steueramt
+KSTV                   Kantonale Steuerverwaltung
+NIUP                   Nicht IUP
+UID                    Unternehmensidentifikation
+                       Der eindeutige Schlüssel eines CH-Unternehmens gemäss Bundesamt
+                       für Statistik.
+URI                    Uniform Resource Identifier
+                       Ein Uniform Resource Identifier (Abk. URI, englisch für einheitlicher Be-
+                       zeichner für Ressourcen) ist ein Identifikator und besteht aus einer Zei-
+                       chenfolge, die zur Identifizierung einer abstrakten oder physischen Res-
+                       source dient. URIs werden zur Bezeichnung von Ressourcen (wie Web-
+                       seiten, sonstigen Dateien, Aufruf von Webservices, aber auch z. B. E-
+                       Mail-Empfängern) im Internet und dort vor allem im WWW eingesetzt.
+                       (Quelle: Wikipedia)
+VDF                    Valor Data Feed
+                       Der Datenfeed von SIX Financial Information, der die Datengrundlage
+                       zur steuerlichen Qualifizierung kotierter Wertschriften durch die ESTV
+                       darstellt. Der VDF ist kostenpflichtig.
+VN                     Valorennummer
+                       Der eindeutige, technische Schlüssel eines Titels im VDF gemäss SIX
+                       Financial Information.
+XML                    Extensible Markup Language
+                       Die Extensible Markup Language (engl. für „erweiterbare Auszeich-
+                       nungssprache“), abgekürzt XML, ist eine Auszeichnungssprache zur
+Verein eCH                                                              www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+          E-Government-Standards                                                Seite 47 von 51
+
+
+                       Darstellung hierarchisch strukturierter Datensätze in Form von Textda-
+                       ten. XML wird u. a. für den plattform- und implementierungsunabhängi-
+                       gen Austausch von Datensätzen zwischen Computersystemen einge-
+                       setzt, über das Internet insbesondere. (Quelle: Wikipedia)
+XML-Schema             XML-Schema, abgekürzt XSD (XML-Schema-Definition), ist eine Emp-
+                       fehlung des W3C zum Definieren von Strukturen für XML-Dokumente.
+                       Anders als bei den klassischen XML-DTDs wird die Struktur in Form
+                       eines XML-Dokuments beschrieben. Darüber hinaus wird eine grosse
+                       Anzahl von Datentypen unterstützt. (Quelle: Wikipedia)
+
+
+
+
+Verein eCH                                                           www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+             E-Government-Standards                                                                      Seite 48 von 51
+
+
+
+Anhang D – Abbildungsverzeichnis
+Abbildung 1: Prozesse Finanzinstitut bis Scan-Center der kantonalen Steuerbehörde .......... 5
+
+Abbildung 2: Datenbezug über EWS-Services ....................................................................... 9
+
+Abbildung 3: XML-Self Service ............................................................................................ 13
+
+Abbildung 4: eCH-0119 - Struktur des Wertschriften- und Guthabenverzeichnisses ............ 22
+
+Abbildung 5: eCH-0119 - Struktur des Schuldenverzeichnisses ........................................... 24
+
+Abbildung 6: eCH-0119 - Seite 3 des Hauptformulars der Steuererklärung .......................... 25
+
+Abbildung 7: Teilautomatisierte Veranlagung über EWS-Services ....................................... 28
+
+
+
+
+Verein eCH                                                                                  www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+             E-Government-Standards                                                                          Seite 49 von 51
+
+
+
+Anhang E – Tabellenverzeichnis
+Tabelle 1: Transformation Bankkontenverzeichnis in E-Tax-Filing ....................................... 23
+
+Tabelle 2: Transformation Schuldenverzeichnis in E-Tax-Filing ........................................... 24
+
+Tabelle 3: Transformation Spesenverzeichnis in E-Tax-Filing .............................................. 25
+
+Tabelle 4: Transformation Wertschriftenverzeichnis in E-Tax-Filing ..................................... 27
+
+Tabelle 5: Transformation Verzeichnis Pauschale Steueranrechnung in E-Tax-Filing .......... 27
+
+Tabelle 6: Versionsverlauf.................................................................................................... 44
+
+
+
+
+Verein eCH                                                                                     www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+              E-Government-Standards                                                                          Seite 50 von 51
+
+
+
+Anhang F – Listings
+Listing 1: Titel suchen (Request) - Deltalieferung ................................................................. 10
+
+Listing 2: Titel suchen (Response) - Delta-Lieferung ............................................................ 10
+
+Listing 3: Titelanfrage stellen (Request) - Titel publizieren ................................................... 11
+
+Listing 4: Titelanfragen suchen (Request) - Titelanfragen mit Mutationsdatum suchen ........ 11
+
+Listing 5: Standard um Attribute und Elemente erweitern - eCH-0196-2-0-ext.xsd ............... 14
+
+Listing 6: Standard um Attribute und Elemente erweitern - test-ext.xml ............................... 15
+
+Listing 7: Auszug aus dem Standard - eCH-0196-2-0.xsd .................................................... 15
+
+Listing 8: Standard validieren - XMLValidateFile.java........................................................... 16
+
+Listing 9: Standard validieren - CMD ausführen ................................................................... 16
+
+Listing 10: Standard um Signatur erweitern ......................................................................... 17
+
+Listing 11: Selbst signierte Certificate Authority erstellen ..................................................... 17
+
+Listing 12: Zertifikat erstellen ............................................................................................... 18
+
+Listing 13: Signatur hinzufügen - XMLAddSignature.java ..................................................... 19
+
+Listing 14: Signatur hinzufügen - CMD ausführen ................................................................ 19
+
+Listing 15: Signatur prüfen - XMLValidateSignature.java ..................................................... 21
+
+Listing 16: Signatur prüfen - CMD ausführen ....................................................................... 21
+
+Listing 17: Titel suchen (Request) - Stammdaten und Ereignisse zum Titel ......................... 30
+
+Listing 18: Titel suchen (Response) - Stammdaten und Ereignisse zum Titel ...................... 31
+
+Listing 19: Titel berechnen (Request) - Berechnung eines Vermögenswerts ....................... 32
+
+Listing 20: Titel berechnen (Response) - Berechnung eines Vermögenswerts ..................... 33
+
+Listing 21: Titelanfrage stellen (Request) - Titel publizieren ................................................. 34
+
+Listing 22: Titelanfragen suchen (Request) - Titelanfragen mit Mutationsdatum suchen ...... 34
+
+
+
+
+Verein eCH                                                                                      www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+             E-Government-Standards                                                                Seite 51 von 51
+
+
+
+Anhang G – Bibliotheken
+Die SSK empfiehlt den Einsatz der folgenden Open Source-Bibliotheken für die Erstellung
+des E-Steuerauszugs. Diese wurden auf Ihre Einsetzbarkeit und Qualität anhand der vorlie-
+genden Programmeispiele geprüft.
+bcpkix-jdk15on-1.58.jar    https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk15on/1.58
+
+bcprov-jdk15on-1.58.jar    https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on/1.58
+
+commons-logging-1.2.jar http://mvnrepository.com/artifact/commons-logging/commons-logging/1.2
+
+pdfbox-2.0.9.jar           http://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox/2.0.9
+
+fontbox-2.0.9.jar          http://mvnrepository.com/artifact/org.apache.pdfbox/fontbox/2.0.9
+
+slf4j-api-1.7.25.jar       http://mvnrepository.com/artifact/org.slf4j/slf4j-api/1.7.25
+
+slf4j-simple-1.7.25.jar    http://mvnrepository.com/artifact/org.slf4j/slf4j-simple/1.7.25
+
+xmlsec-2.0.8.jar           http://mvnrepository.com/artifact/org.apache.santuario/xmlsec/2.0.8
+
+Aufgrund des Einsatzes in verschiedenen Deklarationssoftwarelösungen stellt die Nutzung der
+nachfolgenden Bibliothek für die Barcode-Erstellung aus Sicht SSK eine bewährte Lösung
+dar. Diese wurde auf Ihre Einsetzbarkeit und Qualität anhand der vorliegenden Programmbei-
+spiele geprüft.
+rbarcode.jar               http://www.java4less.com/rbard10.zip
+
+                           lib\rbarcode.jar [Demo]
+
+                           http://www.java4less.com/licenseRBarcode_e.htm
+                           http://www.java4less.com/barcodes/barcodes.php?info=order
+
+
+Für die Qualitätssicherung kann die nachfolgende Bibliothek zu Validierung der erzeugten Bar-
+codes eingesetzt werden. Diese wurde auf Ihre Einsetzbarkeit und Qualität anhand eines vor-
+liegenden Programmbeispiels geprüft. Einen solchen Validierungsschritt vorzusehen, ist aber
+nicht verbindlich für die Finanzinstitute.
+rvision.jar42,43           http://www.java4less.com/vision/vision.php?info=download
+
+rpdf417vision.jar          [evaluation version only]
+
+                           http://www.java4less.com/vision/vision.php?info=license
+                           http://www.java4less.com/order/order-rvisionPDF-java.shtml
+
+
+
+
+42 Barcode-Images können z.B. mittels Barcode-Reader (siehe     http://online-barcode-reader.inliteresearch.com/)
+  oder BC-Tester (siehe http://www.bctester.de/de/home.html) überprüft werden. Die Lizenzbedingungen sind hier-
+  bei zu beachten. Für einen Test müssen alle PDF417-Segmente in ein einziges Barcode-Image kopiert werden.
+  Abhängig vom Testprogramm kann dieses mit der Auflösung ein Pixel im Barcode-Image umgehen. Für einen
+  Test sollte daher die Skalierung so eingestellt werden, dass diese möglichst nahe dem Scanprozess entspricht.
+  D.h. ein Pixel im Barcode-Image sollte mit einer Höhe von 0.08 cm (31.75 dpi) und einer Breite von 0.042 cm
+  (60.48 dpi) dargestellt werden. Bei einer Auflösung von 300x300 dpi beim Scannen, wird 1x1 Pixel im nicht ska-
+  lierten Barcode-Image dann etwa 10x5 Pixel im skalierten Barcode-Image.
+43 Der Inhalt der PDF-417-Segmente kann z.B. über die SDK http://www.inliteresearch.com/cisdk ausgelesen wer-
+
+  den. Die Lizenzbedingungen sind hierbei zu beachten.
+Verein eCH                                                                                www.ech.ch / info@ech.ch
+Beilage zu eCH-196 E-Steuerauszug V2.2.0 – Technische Wegleitung / Genehmigt / 2022-06-07
+

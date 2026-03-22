@@ -1,0 +1,827 @@
+          E-Government-Standards                                                 Seite 1 von 19
+
+
+
+Beilage zu eCH-0196 V2.2.0 – Barcode Gene-
+rierung – Technische Wegleitung
+
+Name                        Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Techni-
+                            sche Wegleitung
+
+eCH-Nummer                  Ergänzung zu eCH
+
+Kategorie                   Standard
+
+Status                      Genehmigt
+
+Beschluss am                2022-06-02
+
+Ausgabedatum                2022-06-07
+
+Sprachen                    Deutsch (Original), Französisch (Übersetzung)
+
+Autoren                     Schweizerische Steuerkonferenz
+                            Michael Baeriswyl (michael.baeriswyl@ssk.ewv-ete.ch)
+                            Christian Holzreiter (christian.holzreiter@ssk.ewv-ete.ch)
+
+Herausgeber / Vertrieb      Verein eCH, Mainaustrasse 30, Postfach, 8034 Zürich
+                            T 044 388 74 64, F 044 388 71 80
+                            www.ech.ch / info@ech.ch
+
+
+
+
+Verein eCH                                                            www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+          E-Government-Standards                                                 Seite 2 von 19
+
+
+
+Zusammenfassung
+Die technische Wegleitung ergänzt die Dokumentation des jeweiligen eCH-Standards mit der
+Thematik Übermittlung der Daten mittels Barcode und deren eindeutige Identifikation.
+In der technischen Wegleitung werden die folgenden Themen behandelt:
+      ID als schweizweit eindeutige Kennung erstellen
+      1D-Seiten-Barcode erstellen
+      2D-Barcode-Blatt erstellen
+      XML aus Barcode extrahieren
+Zusätzlich wird für die eingesetzten Open Source Software-Bibliotheken eine Einschätzung
+der Lizenzbedingungen (Stichwort: Copyleft) und deren Nutzung vorgenommen.
+Die technische Wegleitung ist aus Sicht SSK verbindlich.
+
+
+
+
+Verein eCH                                                           www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+            E-Government-Standards                                                                                   Seite 3 von 19
+
+
+
+Inhaltsverzeichnis
+1         Einleitung ...................................................................................................... 4
+1.1       Status ...................................................................................................................... 4
+1.2       Überblick................................................................................................................. 4
+1.3       Anwendungsgebiet ................................................................................................ 4
+1.4       Abgrenzung ............................................................................................................ 5
+2         Themen der technischen Wegleitung ......................................................... 6
+2.1       ID als schweizweit eindeutige Kennung erstellen ............................................... 6
+2.2       2D-Barcode-Image erstellen .................................................................................. 6
+2.3       2D-Barcode-Blatt hinzufügen ................................................................................ 7
+2.4       1D-Seiten-Barcode-Image erstellen ...................................................................... 7
+2.5       XML aus 2D-Barcodes extrahieren ....................................................................... 9
+3         Open Source Software ................................................................................. 9
+3.1       Apache PDFBoxTM ................................................................................................ 10
+3.2       Apache Santuario................................................................................................. 10
+3.3       Simple Logging Facade for Java......................................................................... 10
+3.4       OpenSSL ............................................................................................................... 10
+4         Sicherheitsüberlegungen ........................................................................... 11
+5         Haftungsausschluss/Hinweise auf Rechte Dritter ................................... 12
+6         Urheberrechte ............................................................................................. 12
+Anhang A – Referenzen & Bibliografie .................................................................. 13
+Anhang B – Mitarbeit & Überprüfung .................................................................... 13
+Anhang C – Abkürzungen und Glossar ................................................................. 14
+Anhang D – Abbildungsverzeichnis ...................................................................... 15
+Anhang E – Tabellenverzeichnis ............................................................................ 15
+Anhang F – Bibliotheken ........................................................................................ 16
+Anhang G – 1D-Seiten-Barcode des Steuerauszugs ............................................ 17
+
+
+
+
+Verein eCH                                                                                          www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+          E-Government-Standards                                                 Seite 4 von 19
+
+
+
+1 Einleitung
+
+1.1 Status
+Genehmigt: Das Dokument wurde vom Expertenausschuss genehmigt. Es hat für das defi-
+nierte Einsatzgebiet im festgelegten Gültigkeitsbereich normative Kraft.
+
+
+
+1.2 Überblick
+Die Dokumentation eines eCH-Standards befasst sich nicht im Detail mit der Thematik der
+Übermittlung der Daten, des Systemaufbaus und der technischen Umsetzung der Gesamtlö-
+sung.
+Die technische Wegleitung ergänzt die Dokumentation des Standards mit der Thematik der
+Übermittlung der Daten und deren eindeutige Identifikation.
+
+
+
+1.3 Anwendungsgebiet
+Damit ein Dokument automatisiert verarbeitet werden kann, müssen mindestens die nachfol-
+genden Schritte von der jeweiligen Organisation bei der Erstellung des Dokuments durchge-
+führt werden:
+   ID als schweizweit eindeutige Kennung erstellen
+    Im jeweiligen Standard ist das Attribut ID im XML aufzuführen. Die ID ist als schweizweit
+    eindeutige Kennung des Dokuments vorgesehen.
+    Die ID setzt sich aus dem Länderkürzel, einer eindeutigen Kennung der Organisation z.B.
+    Clearing-Nummer des Finanzinstituts, der Stammnummer des Kunden, dem Stichtag im
+    Steuerjahr und der laufenden Nummer zum Stichtag im Steuerjahr zusammen.
+   1D-Seiten-Barcode erstellen
+    Der 1D-Seiten-Barcode ermöglicht die Identifikation des Dokuments. Der 1D-Seiten-Bar-
+    code ist hierzu auf jeder Seite des PDF oder der Druckversion aufzuführen, damit das
+    Format des Dokuments oder Formulars eindeutig identifiziert werden kann.
+    Für den 1D-Seiten-Barcode ist ein CODE128C-Barcode für die künftige Scanverarbeitung
+    vorzusehen. Dieser umfasst 16 Stellen.
+    Der 1D-Seite-Barcode setzt sich abhängig vom jeweiligen Anwendungsgebiet z.B. beim
+    Lohnausweis aus der Formular-Nr. des eCH-Standard Lohnausweis und der AHVN13 oder
+    beim E-Steuerauszug aus dem Standard, der Version, der eindeutigen Kennung der Or-
+    ganisation z.B. Clearing-Nr. des Finanzinstituts, einer fortlaufenden Seitennummerierung,
+    Barcode-Blatt (Seite mit oder ohne Barcode PDF417 Structured Append) und der Lese-
+    richtung zusammen.
+   2D-Barcode-Blatt erstellen
+    Da ein erheblicher Teil der Dokumente immer noch in Papierform versendet wird, ist die
+    XML-Datei mit dem Inhalt des Dokuments als zusätzliches 2D-Barcode-Blatt im PDF bei-
+    zufügen. Das hierzu verwendete Format ist PDF417 Structured Append.
+    Auf dem 2D-Barcode-Blättern darf in der quiet zone kein Wasserzeichen dargestellt wer-
+    den. Die 2D-Barcode-Blätter müssen im Querformat (Landscape) dem PDF beigefügt wer-
+    den. Falls diese im Hochformat (Portrait) hinzugefügt werden, müssen die 2D-Barcode-
+Verein eCH                                                           www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+          E-Government-Standards                                                 Seite 5 von 19
+
+
+    Segement um 90° gedreht dargestellt werden.
+Damit das Dokument durch die kantonalen Steuerbehörden verarbeitet werden kann, sind die
+nachfolgenden Schritte durchzuführen. Die Ausgestaltung ist durch die kantonalen Steuerbe-
+hörden in Abstimmung mit den Softwareherstellern vorzunehmen:
+   Dokument importieren
+    In der Deklarationssoftware der kantonalen Steuerbehörde ist eine Import-Möglichkeit für
+    das Dokument im PDF-Format vorzusehen.
+    Über diesen Import-Mechanismus kann der Steuerpflichtige das Dokument im PDF-Format
+    importieren. Sofern die Deklarationssoftware noch nicht für den Import des XML bereit ist,
+    kann das PDF in der Veranlagung verarbeitet werden.
+    Das Dokument steht somit für nachfolgende Verarbeitungsschritte in der Deklaration oder
+    auch erst in der Veranlagung zur Verfügung.
+   Dokument scannen
+    Der Prozess ist prinzipiell für Dokumente mit und ohne Barcode-Blätter identisch. Es muss
+    hierbei lediglich sichergestellt werden, dass es beim Scannen nicht zu einer Verwechse-
+    lung der Barcode-Blätter kommt.
+    Damit die Barcode-Blätter eindeutig identifiziert werden können, muss auf allen Seiten des
+    Dokuments einschliesslich der Barcode-Blätter ein CODE128C-Barcode (sog. 1D-Seiten-
+    Barcode) als Identifikationscode vorhanden sein.
+
+   XML aus Barcode extrahieren
+    Das XML zum Dokument ist aus dem Barcode zu extrahieren und eine XML-Schema Va-
+    lidierung vorzunehmen.
+
+
+
+1.4 Abgrenzung
+Die folgenden Abgrenzungen werden hinsichtlich der technischen Wegleitung des Standards
+getroffen:
+       Die technische Wegleitung beschreibt lediglich eine mögliche Umsetzung der Gesamt-
+        lösung.
+       Die technische Wegleitung erhebt keinen Anspruch auf Vollständigkeit.
+
+
+
+
+Verein eCH                                                           www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+             E-Government-Standards                                                        Seite 6 von 19
+
+
+
+2 Themen der technischen Wegleitung
+
+2.1 ID als schweizweit eindeutige Kennung erstellen
+Das Attribut ID im Root-Element ist für die schweizweit eindeutige ID des Dokuments zu ver-
+wenden. Die ID setzt sich wie folgt zusammen:
+       2-Stellen Länderkürzel                 SO-Code, Grossschreibung
+       Eindeutige Kennung der Organi-         z.B. Clearing-Nr. des Finanzinstituts (5-stellig, nu-
+        sation                                 merisch, mit führenden Nullen) oder UID der Gesell-
+                                               schaft (12-stellig)
+       2-Stellen Seitenzahl                   mit führenden Nullen
+        Je nach Anwendungsgebiet
+           Stammnummer des Kunden       14-stellig, alphanumerisch, mit führenden Nullen
+           AHVN13 des Steuerpflichtigen 13-stellig, numerisch, mit führenden Nullen
+       8-Stellen Stichtag im Steuerjahr       JJJJMMTT, normalerweise JJJJ1231 für 31.12.
+       2-Sellen Laufende Nummer zum           beginnend bei 01, mit führenden Nullen
+        Stichtag
+Da im XML das Attribut ID vom Typ xs:ID ist, muss dieses mit einem alphanumerischen Zei-
+chen beginnen. Als Trennzeichen können Punkt und Minuszeichen, nicht aber Semikolon und
+Komma bei der ID verwendet werden. Auf die Verwendung von Trennzeichen innerhalb der
+ID wird verzichtet.
+Ein Stichtag wird anstelle eines Jahres verwendet, damit stichtagsbezogene, unterjährige Do-
+kumente erstellt werden können.
+
+
+
+2.2 2D-Barcode-Image erstellen
+Mit der Bibliothek Java J4L Barcode for the Java1 können Barcode-Images im Format PDF
+417 (Structured Append) erstellt werden.
+Zur eindeutigen Identifikation beim Scannen sind in den Metadaten im Attribut PDFMacro-
+FileName die ID (siehe Kapitel 2.1) und im Attribut PDFMacroFileId eine zufällige Zahl (4 In-
+teger) abgelegt. Die Metadaten sind als gesonderte Attribute zu liefern, damit sie verwendbar
+sind, auch wenn das Dekomprimieren des restlichen Inhalts fehlschlagen sollte.2
+Für die Erstellung des komprimierten PDF417 (Structured Append) ist die ZLIB Komprimierung
+z.B. java.util.zip.Deflater mit der bestmöglichen Komprimierungsrate z.B. java.util.zip.Defla-
+ter.BEST_COMPRESSION zu verwenden. Die Darstellung pro Blatt ist im Format 6 Blöcke,
+13 Spalten, 35 Zeile und einer Elementbreite von 0.04 - 0.042 cm, einer Elementhöhe von
+0.08 cm. Es ist der EC-Level 4 vorzusehen. Die 35 Zeilen sind auch für das letzte Barcode-
+Segment anzuwenden.
+
+
+
+1 http://www.java4less.com/barcodes/barcodes.php
+
+2
+ Die PDF417 Symbologie ist im Standard ISO/IEC 15438:2015 beschrieben (siehe https://www.iso.org/stan-
+dard/65502.html).
+
+Verein eCH                                                                     www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+            E-Government-Standards                                                           Seite 7 von 19
+
+
+Durch Skalierung beim Hinzufügen können die Images mit jeweils nur 290x35 Pixel (2 kB)
+Auflösung generiert werden.
+
+
+
+2.3 2D-Barcode-Blatt hinzufügen
+Über die Open Source Bibliothek Apache PDFBoxTM können PDF-Dateien bearbeitet werden.
+Aufgrund der Ausrichtung der Dokumente im Querformat (Landscape) ist eine Rotation er-
+forderlich. Hierzu muss die Seite um 90° und nicht die Images rotiert werden.
+Beim Einfügen der Images in das PDF, findet die Skalierung auf eine Elementbreite von 0.04
+- 0.042 cm und eine Elementhöhe von 0.08 cm pro Pixel statt. Die Images haben jeweils eine
+Auflösung von 290 x 35 Pixel (Zeilen)3:
+            Breite:    209 * 0.042 cm = 12.18 cm
+            Höhe:       35 * 0.08 cm = 2.8 cm (6 Segmente pro Blatt A4)
+Beim Drucken des PDF wird von einer Skalierung von 97% ausgegangen. Die Skalierung ist
+bei der Berechnung der Breite und Höhe der Images zu berücksichtigt. Der Barcode darf nicht
+in Graustufen dargestellt oder gedruckt werden.
+
+
+
+2.4 1D-Seiten-Barcode-Image erstellen
+Zur eindeutigen Identifikation der 2D-Barcode-Blätter zum Standard ist ein 1D-Seiten-Barcode
+erforderlich. Hierfür ist ein 16-stelliger numerischer CODE128C-Barcode vorzusehen. Der 16-
+stellige Code setzt sich aus einem fixen und variablen Anteil zusammen.
+Damit der Scanprozess im Scan-Center optimiert werden kann, ist eine Unterscheidung zwi-
+schen Seiten mit und ohne 2D-Barcode-Blatt (Seite mit und ohne Barcode PDF417 Structured
+Append) erforderlich. Der numerische CODE128C-Barcode setzt sich somit je nach Anwen-
+dungsgebiet zusammen.
+Entscheidender Unterschied beim Anwendungsgebiet ist a) für wenn z.B. der Lohnausweis
+oder b) von wem z.B. der E-Steuerauszug das Dokument ist.
+eCH-0xxx Lohnausweis:
+     3-Stellen Formular-Nr.: XXX         für eCH-0XXX
+     10-Stellen AHVN13                   Nur die letzten 10-Stellen, da die AHVN13 immer mit
+                                          756 beginnt
+     1-Stelle 2D-Barcode-Blatt           0: nein
+                                          1: ja
+     2-Stellen Seitenzahl                mit führenden Nullen
+     Falls in einer Datenlieferung die gleiche AHVN13 angegeben ist, dann ist die Eindeutigkeit
+     der 2D-Barcodes über die zufällige Zahl im PDFMacroFileId (32-Bit) sichergestellt.
+eCH-0196 E-Steuerauszug:
+     3-Stellen Formular-Nr.: XXX         für eCH-0XXX
+     2-Stellen Versions-Nr.: YY          für eCH-0XXX Version Y.Y
+
+
+ 3 Das letzte Barcode-Segment muss immer auf   35 Pixel (Zeilen) aufgefüllt werden.
+Verein eCH                                                                        www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+           E-Government-Standards                                                Seite 8 von 19
+
+
+    5-Stellen Organisations-Nr.      z.B. Clearing-Nr. des Finanzinstituts mit führenden
+                                      Nullen
+    3-Stellen Seitenzahl             mit führenden Nullen
+    1-Stelle 2D-Barcode-Blatt        0: nein
+                                      1: ja
+    1-Stelle Orientierung            0: Querformat ( Anhang G – 1D-Seiten-Barcode)
+                                      1: Hochformat ( Anhang G – 1D-Seiten-Barcode)
+    1-Leserichtung                   1: oben oder unten mit Leserichtung von links nach
+                                      rechts
+                                      2: links oder rechts mit Leserichtung von oben nach
+                                      unten
+                                      3: oben oder unten mit Leserichtung von rechts nach
+                                      links
+                                      4: links oder rechts mit Leserichtung von unten nach
+                                      oben
+Die Seitennummerierung im CODE128C-Barcode ist unabhängig von Seiten mit und
+ohne 2D-Barcode-Blatt (Seite mit und ohne Barcode PDF417 Structured Append) fort-
+laufend darzustellen (siehe Anhang G – 1D-Seiten-Barcode).
+Bei der Generierung des CODE128C-Barcode sind die folgenden Vorgaben einzuhalten:
+            Der Barcode ist mit einem Abstand von 5 mm (links oder rechts) und mindestens
+             10 mm (oben oder unten) vom Rand (A4 Querformat) zu positionieren.
+
+
+
+
+            Der Barcode muss mindestens 7 mm hoch sein
+            Der Barcode muss mindestens 38 mm breit sein
+            Die Nummer kann unterhalb des CODE128C-Barcode dargestellt werden
+            Die Nummer muss 3 mm hoch sein
+            Die Nummer muss 2 mm Abstand zum Barcode haben
+            Die Sperrzone um das Barcode-Image ist 5 mm.
+            Der Barcode darf nicht in Graustufen dargestellt oder gedruckt werden.
+Das CODE128C-Barcode-Image hat somit eine Höhe von 12 mm. Beim Hinzufügen kann eine
+Skalierung des 1D-Barcode vorgenommen werden. Hierdurch kann ein Image mit sehr kleiner
+Auflösung generiert werden.
+Falls eine Ausrichtung der Seite im PDF im Querformat (Landscape) vorgesehen ist, ist eine
+Rotation erforderlich. Dies kann erreicht werden, indem die Seite um 90° und nicht das Image
+rotiert wird. Das Barcode-Image ist immer im Hochformat (Portrait) darzustellen. Im Beispiel
+wird beim Drucken von einer Skalierung von 97% ausgegangen. Die Skalierung ist bei der
+Berechnung der Höhe der Images zu berücksichtigen.
+Verein eCH                                                           www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+             E-Government-Standards                                                                     Seite 9 von 19
+
+
+
+2.5 XML aus 2D-Barcodes extrahieren
+Mit der Bibliothek Java J4L Vision4 kann der Inhalt der 2D-Barcode-Images im Format PDF417
+Structured Append ausgelesen werden.
+Für die Extraktion des XML wird empfohlen das PDF ausgehend von der letzten Seite zu ver-
+arbeiten. Die 2D-Barcodes sind in aller Regel auf den letzten Seiten des PDF enthalten. So-
+bald alle 2D-Barcodes ausgelesen sind, können die restlichen Seiten übersprungen werden.
+Über die Bibliothek Apache PDFBoxTM können die Barcode-Images aus dem PDF ausgelesen
+werden. Falls keine Images als (PDImageXObject oder PDFormXObject) im PDF enthalten
+sind, können die Barcodes ausgelesen werden, indem die Seiten mit 300 DPI gerendert5 wird.
+Hierbei wird eine Seite als ein grosses Image vollständig aufgebaut. Dies funktioniert auch,
+wenn das PDF verschlüsselt ist. Das Auslesen der Barcodes aus einem grossen Image ist
+allerdings weniger performant6.
+
+
+
+3 Open Source Software
+Der Einsatz von Open Source Software birgt das Risiko des Copyleft. Hierbei sollte grundsätz-
+lich auf die Modifikation einer Open Source Software-Bibliothek verzichtet und lediglich die
+Open Source Software Bibliothek eingebunden werden. Auch wenn die Lizenzbedingungen
+eine Modifikation an einer Open Source Software Bibliothek erlauben, so können sich Lizenz-
+bedingungen zu einem späteren Zeitpunkt ändern.
+Wichtig ist, dass das Einbinden einer Open Source Software Bibliothek entweder über die
+Lizenzbedingung unter Auflagen z.B. Apache V 2.07 erlaubt oder durch eine spezielle Aus-
+nahme wie WITH CLASSPATH EXCEPTION bei z.B. GPL V2.08 geregelt ist. Der Einsatz von
+
+
+4 http://www.java4less.com/barcodes/barcodes.php
+
+5 Transformation aller Texte und Grafiken auf einer Seite als Image
+
+6 Falls die Position der 2D-Barcodes bekannt sind, empfiehlt es sich auch nur diesen Teil der Seite zu berücksich-
+
+    tigen
+7
+    http://www.apache.org/licenses/LICENSE-2.0.html
+  To apply the Apache License to your work, attach the following boilerplate notice, with the fields enclosed by
+  brackets "[]" replaced with your own identifying information. (Don't include the brackets!) The text should be en-
+  closed in the appropriate comment syntax for the file format. We also recommend that a file or class name and
+  description of purpose be included on the same "printed page" as the copyright notice for easier identification
+  within third-party archives.
+8 http://www.gnu.org/software/classpath/license.html
+
+  Classpath is distributed under the terms of the GNU General Public License with the following clarification and
+  special exception.
+  Linking this library statically or dynamically with other modules is making a combined work based on this library.
+  Thus, the terms and conditions of the GNU General Public License cover the whole combination.
+  As a special exception, the copyright holders of this library give you permission to link this library with independent
+  modules to produce an executable, regardless of the license terms of these independent modules, and to copy
+  and distribute the resulting executable under terms of your choice, provided that you also meet, for each linked
+  independent module, the terms and conditions of the license of that module. An independent module is a module
+  which is not derived from or based on this library. If you modify this library, you may extend this exception to your
+  version of the library, but you are not obligated to do so. If you do not wish to do so, delete this exception statement
+  from your version.
+  As such, it can be used to run, create and distribute a large class of applications and applets. When GNU
+  Classpath is used unmodified as the core class library for a virtual machine, compiler for the java languge,
+  or for a program written in the java programming language it does not affect the licensing for distributing
+  those programs directly.
+Verein eCH                                                                                www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+               E-Government-Standards                                          Seite 10 von 19
+
+
+Open Source Software mit strengem Copyleft Effekt wie z.B. JPA 3.0 ist grundsätzlich auszu-
+schliessen.
+Nachfolgend sind für jede der im Dokument vorgeschlagenen Open Source Software-Biblio-
+theken die Lizenzbedingungen und die Empfehlung zur Nutzung aufgeführt.
+
+
+
+3.1 Apache PDFBoxTM
+Die Open Source Software Bibliothek Apache PDFBoxTM9 unterliegt der Apache Lizenz V 2.0.
+Das Einbinden der Open Source Software Bibliothek Apache PDFBoxTM setzt einen Copyright-
+Hinweis (wie im Open Source Software Quellcode enthalten ist) voraus.
+Die Open Source Software Bibliothek Apache PDFBoxTM ist lediglich in den CLASSPATH ein-
+zubinden. Modifikationen an der Open Source Software Bibliothek Apache PDFBoxTM sind
+nicht durchzuführen.
+
+
+
+3.2 Apache Santuario
+Die Open Source Software Bibliothek Apache Santuario10 unterliegt der Apache Lizenz V 2.0.
+Das Einbinden der Open Source Software Bibliothek Apache Santuario setzt einen Copyright-
+Hinweis (wie im Open Source Software Quellcode enthalten ist) voraus.
+Die Open Source Software Bibliothek Apache Santuario ist lediglich in den CLASSPATH ein-
+zubinden. Modifikationen an der Open Source Software Bibliothek Apache Santuario sind
+nicht durchzuführen.
+
+
+
+3.3 Simple Logging Facade for Java
+Die Simple Logging Facade for Java (SLF4J) 11 ist eine Open Source Software Bibliothek.
+Diese wird für Apache Santuario (siehe Kapitel 3.2) benötigt. Das Einbinden der Open Source
+Software Bibliothek Simple Logging Facade for Java setzt einen Copyright-Hinweis 12 voraus.
+Die Open Source Software Bibliothek Simple Logging Facade for Java ist lediglich in den
+CLASSPATH einzubinden. Modifikationen an der Open Source Software Bibliothek Simple
+Logging Facade for Java sind nicht durchzuführen.
+
+
+
+3.4 OpenSSL
+Für den Einsatz von OpenSSL13 gilt die CLA14. Ein Zertifikat kann mittels OpenSSL erstellt
+werden.
+
+
+
+9
+    http://pdfbox.apache.org/
+10
+     http://santuario.apache.org/
+11
+     http://www.slf4j.org/
+12
+     http://www.slf4j.org/license.html
+13 https://www.openssl.org/community/binaries.html
+
+14
+    https://www.openssl.org/policies/cla.html
+Verein eCH                                                           www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+          E-Government-Standards                                               Seite 11 von 19
+
+
+
+4 Sicherheitsüberlegungen
+Die im Rahmen des vorliegenden Standards ausgetauschten Daten sind gemäss Bundesge-
+setz über den Datenschutz (vom 19. Juni 1992, vgl. Art. 3 Abs. c) besonders schützenswert.
+Die ausgetauschten Daten unterliegen zudem dem Bank- und Steuergeheimnis (Bundesge-
+setz über Banken und Sparkassen, vgl. Art. 47).
+Die Speicherung und Übertragung dieser Daten darf nur auf Grund und im Rahmen von be-
+stehenden rechtlichen Grundlagen erfolgen und hat die gesetzlichen Datenschutzbestimmun-
+gen zu befolgen. Die nötigen Vorkehrungen sind zu treffen, dass die Daten fehlerfrei übertra-
+gen und vor, während und nach der Übertragung nur von dazu autorisierten Personen einge-
+sehen werden können.
+
+
+
+
+Verein eCH                                                           www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+          E-Government-Standards                                                 Seite 12 von 19
+
+
+
+5 Haftungsausschluss/Hinweise auf Rechte Dritter
+eCH-Standards, welche der Verein eCH dem Benutzer zur unentgeltlichen Nutzung zur Ver-
+fügung stellen oder welche eCH referenzieren, haben nur den Status von Empfehlungen. Der
+Verein eCH haftet in keinem Fall für Entscheidungen oder Massnahmen, welche der Benutzer
+auf Grund dieser Dokumente trifft und/oder ergreift. Der Benutzer ist verpflichtet, die Doku-
+mente vor deren Nutzung selbst zu überprüfen und sich gegebenenfalls beraten zu lassen.
+eCH-Standards können und sollen die technische, organisatorische oder juristische Beratung
+im konkreten Einzelfall nicht ersetzen.
+In eCH-Standards referenzierte Dokumente, Verfahren, Methoden, Produkte und Standards
+sind unter Umständen markenrechtlich, urheberrechtlich oder patentrechtlich geschützt. Es
+liegt in der ausschliesslichen Verantwortlichkeit des Benutzers, sich die allenfalls erforderli-
+chen Rechte bei den jeweils berechtigten Personen und/oder Organisationen zu beschaffen.
+Obwohl der Verein eCH all seine Sorgfalt darauf verwendet, die eCH-Standards präzise aus-
+zuarbeiten, kann keine Zusicherung oder Garantie auf Aktualität, Vollständigkeit, Richtigkeit
+bzw. Fehlerfreiheit der zur Verfügung gestellten Informationen und Dokumente gegeben wer-
+den. Der Inhalt von eCH-Standards kann jederzeit und ohne Ankündigung geändert werden.
+Jede Haftung für Schäden, welche dem Benutzer aus dem Gebrauch der eCH-Standards ent-
+stehen sind, soweit gesetzlich zulässig, wegbedungen.
+
+
+
+6 Urheberrechte
+Wer eCH-Standards erarbeitet, behält das geistige Eigentum an diesen. Allerdings verpflichtet
+sich der Erarbeitende, sein betreffendes geistiges Eigentum oder seine Rechte an geistigem
+Eigentum anderer, sofern möglich, den jeweiligen Fachgruppen und dem Verein eCH kosten-
+los zur uneingeschränkten Nutzung und Weiterentwicklung im Rahmen des Vereinszweckes
+zur Verfügung zu stellen.
+Die von den Fachgruppen erarbeiteten Standards können unter Nennung der jeweiligen Urhe-
+ber von eCH unentgeltlich und uneingeschränkt genutzt, weiterverbreitet und weiterentwickelt
+werden.
+eCH-Standards sind vollständig dokumentiert und frei von lizenz- und/oder patentrechtlichen
+Einschränkungen. Die dazugehörige Dokumentation kann unentgeltlich bezogen werden.
+Diese Bestimmungen gelten ausschliesslich für die von eCH erarbeiteten Standards, nicht je-
+doch für Standards oder Produkte Dritter, auf welche in den eCH-Standards Bezug genommen
+wird. Die Standards enthalten die entsprechenden Hinweise auf die Rechte Dritter.
+
+
+
+
+Verein eCH                                                             www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+           E-Government-Standards                                                        Seite 13 von 19
+
+
+
+Anhang A – Referenzen & Bibliografie
+[eCH-0196-2-0] eCH-0196: E-Steuerauszug
+
+
+
+
+Anhang B – Mitarbeit & Überprüfung
+ Name, Vorname                    Organisation                  Abteilung / Verantwortlich für
+ Baeriswyl, Michael               SSK                           Delegierter SSK IT
+ Bartosch, Inge                   SSK                           StV Delegierte SSK IT
+ Gennari, Franco                  ESTV                          Abteilung Erhebung, Teamleiter Wert-
+                                                                schriften und Finanzderivate
+ Hubacek, Daniel                  KSTV VD, stellv. DSA          Responsable de secteur - fortune mobi-
+                                                                lière et immobilière
+ Ildeniz, Levent                  ESTV                          Informationssicherheitsbeauftragter und
+                                                                Datenschutzberater
+ Krause, Thomas                   KSTA ZH                       DA Wertschriften
+ Kuhn, Alain                      KSTA ZH                       DA Wertschriften, Revisor
+ von Sprecher, Andreas            Hüppi & von Sprecher          Rechtsbeistand SSK
+ Willa, Dietmar                   KSTA VS                       Arbeitsgruppe Bewegliches Vermögen
+
+Versionsverlauf:
+ Ver-
+           Datum             Instanz / Person   Bemerkung
+ sion
+ 0.1       22.09.2021        C. Holzreiter      Entwurf
+
+ 0.2       09.11.2021        C. Holzreiter      Einpflegen der Review-Befunde
+
+ 0.3       11.11.2021        C. Holzreiter      Einpflegen der Review-Befunde
+
+ 0.7       19.12.2022        C. Holzreiter      Einpflegen der Review-Befunde
+
+ 0.8       26.02.2022        C. Holzreiter      Einpflegen der Review-Befunde
+
+ 0.9       19.05.2022        C. Holzreiter      Einpflegen der Review-Befunde
+
+Tabelle 1: Versionsverlauf
+
+
+
+
+Verein eCH                                                                      www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+           E-Government-Standards                                                 Seite 14 von 19
+
+
+
+Anhang C – Abkürzungen und Glossar
+API                    Eine Programmierschnittstelle, genauer Schnittstelle zur Anwendungs-
+                       programmierung, häufig nur kurz API genannt (englisch application pro-
+                       gramming interface, wörtlich «Anwendungsprogrammierschnittstelle»),
+                       ist ein Programmteil, der von einem Softwaresystem anderen Program-
+                       men zur Anbindung an das System zur Verfügung gestellt wird. (Quelle:
+                       Wikipedia)
+Copyleft               Das Copyleft ist eine Klausel in urheberrechtlichen Nutzungslizenzen,
+                       die festschreibt, dass Bearbeitungen des Werks nur dann erlaubt sind,
+                       wenn alle Änderungen mit mindestens den gleichen oder zumindest
+                       ähnlichen Freiheiten weitergegeben werden. Sie soll verhindern, dass
+                       veränderte Fassungen des Werks mit Nutzungseinschränkungen wei-
+                       tergegeben werden, die das Original nicht hat. Das Copyleft setzt vor-
+                       aus, dass Vervielfältigungen und Bearbeitungen in irgendeiner Weise
+                       erlaubt sind. Für sich gesehen macht es jedoch keine darüberhinaus-
+                       gehenden Aussagen über Art und Umfang der eigentlichen Lizenz und
+                       kann daher in inhaltlich sehr unterschiedlichen Lizenzen eingesetzt
+                       werden.
+                       Copyleft kam ursprünglich bei Lizenzen für freie Software auf. Dort er-
+                       zwingt es, dass Fortentwicklungen eines freien Ur-Programms wie-
+                       derum frei sind und frei bleiben. Man spricht beim Copyleft deswegen
+                       von einem viralen Effekt. Es verhindert so, dass Lizenznehmer das Pro-
+                       gramm durch proprietäre Erweiterungen in die proprietäre Domäne
+                       überführen. Die bekannteste Copyleft-Lizenz ist die GNU General Pu-
+                       blic License (GPL). Später fand das gleiche Prinzip auch bei Lizenzen
+                       für freie Inhalte Anwendung. Copyleft ist kein notwendiger Bestandteil
+                       einer Lizenz für freie Software. So hat etwa die BSD-Lizenz kein Copy-
+                       left, dennoch sind darunter freigegebene Programme freie Software.
+ESTV                   Eidgenössische Steuerverwaltung
+E-Steuerauszug         Elektronischer Steuerauszug
+Fachgruppe             Projektmitarbeiter, beteiligte Finanzinstitute, beteiligte Steuerverwaltun-
+                       gen und beteiligte Softwarehersteller.
+KSTA                   Kantonales Steueramt
+KSTV                   Kantonale Steuerverwaltung
+URI                    Uniform Resource Identifier
+                       Ein Uniform Resource Identifier (Abk. URI, englisch für einheitlicher Be-
+                       zeichner für Ressourcen) ist ein Identifikator und besteht aus einer Zei-
+                       chenfolge, die zur Identifizierung einer abstrakten oder physischen Res-
+                       source dient. URIs werden zur Bezeichnung von Ressourcen (wie Web-
+                       seiten, sonstigen Dateien, Aufruf von Webservices, aber auch z. B. E-
+                       Mail-Empfängern) im Internet und dort vor allem im WWW eingesetzt.
+                       (Quelle: Wikipedia)
+XML                    Extensible Markup Language
+                       Die Extensible Markup Language (engl. für „erweiterbare Auszeich-
+                       nungssprache“), abgekürzt XML, ist eine Auszeichnungssprache zur
+
+Verein eCH                                                             www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+             E-Government-Standards                                                                          Seite 15 von 19
+
+
+                                Darstellung hierarchisch strukturierter Datensätze in Form von Textda-
+                                ten. XML wird u. a. für den plattform- und implementierungsunabhängi-
+                                gen Austausch von Datensätzen zwischen Computersystemen einge-
+                                setzt, insbesondere über das Internet. (Quelle: Wikipedia)
+XML-Schema                      XML-Schema, abgekürzt XSD (XML-Schema-Definition), ist eine Emp-
+                                fehlung des W3C zum Definieren von Strukturen für XML-Dokumente.
+                                Anders als bei den klassischen XML-DTDs wird die Struktur in Form
+                                eines XML-Dokuments beschrieben. Darüber hinaus wird eine grosse
+                                Anzahl von Datentypen unterstützt. (Quelle: Wikipedia)
+
+
+
+
+Anhang D – Abbildungsverzeichnis
+Abbildung 1: Pos ID 1 - Seitenbarcode oben, Leserichtung von links nach rechts ............... 17
+
+Abbildung 2: Pos ID 1 - Seitenbarcode unten, Leserichtung von links nach rechts .............. 17
+
+Abbildung 3: Pos ID 2 - Seitenbarcode links, Leserichtung von oben nach unten ................ 18
+
+Abbildung 4: Pos ID 2 - Seitenbarcode rechts, Leserichtung von oben nach unten.............. 18
+
+Abbildung 5: Pos ID 3 - Seitenbarcode oben, Leserichtung von rechts nach links ............... 18
+
+Abbildung 6: Pos ID 3 - Seitenbarcode unten, Leserichtung von rechts nach links .............. 19
+
+Abbildung 7: Pos ID 4 - Seitenbarcode links, Leserichtung von unten nach oben ................ 19
+
+Abbildung 8: Pos ID 4 - Seitenbarcode rechts, Leserichtung von unten nach oben.............. 19
+
+
+
+
+Anhang E – Tabellenverzeichnis
+Tabelle 1: Versionsverlauf.................................................................................................... 13
+
+
+
+
+Verein eCH                                                                                     www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+             E-Government-Standards                                                                Seite 16 von 19
+
+
+
+Anhang F – Bibliotheken
+Die SSK empfiehlt den Einsatz der folgenden Open Source-Bibliotheken für die Erstellung
+des E-Steuerauszugs. Diese wurden auf Ihre Einsetzbarkeit und Qualität anhand der vorlie-
+genden Programmeispiele geprüft.
+bcpkix-jdk15on-1.58.jar    https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk15on/1.58
+
+bcprov-jdk15on-1.58.jar    https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on/1.58
+
+commons-logging-1.2.jar http://mvnrepository.com/artifact/commons-logging/commons-logging/1.2
+
+pdfbox-2.0.22.jar          http://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox/2.0.2 2
+
+fontbox-2.0.22.jar         http://mvnrepository.com/artifact/org.apache.pdfbox/fontbox/2.0.2 2
+
+slf4j-api-1.7.25.jar       http://mvnrepository.com/artifact/org.slf4j/slf4j-api/1.7.25
+
+slf4j-simple-1.7.25.jar    http://mvnrepository.com/artifact/org.slf4j/slf4j-simple/1.7.25
+
+xmlsec-2.0.8.jar           http://mvnrepository.com/artifact/org.apache.santuario/xmlsec/2.0.8
+
+Aufgrund des Einsatzes in verschiedenen Deklarationssoftwarelösungen stellt die Nutzung der
+nachfolgenden Bibliothek für die Barcode-Erstellung aus Sicht SSK eine bewährte Lösung
+dar. Diese wurde auf Ihre Einsetzbarkeit und Qualität anhand der vorliegenden Programmbei-
+spiele geprüft.
+rbarcode.jar               http://www.java4less.com/rbard10.zip
+
+                           lib\rbarcode.jar [Demo]
+
+                           http://www.java4less.com/licenseRBarcode_e.htm
+                           http://www.java4less.com/barcodes/barcodes.php?info=order
+
+
+Für die Qualitätssicherung kann die nachfolgende Bibliothek zu Validierung der erzeugten Bar-
+codes eingesetzt werden. Diese wurde auf Ihre Einsetzbarkeit und Qualität anhand eines vor-
+liegenden Programmbeispiels geprüft. Der Validierungsschritt ist nicht verbindlich.
+rvision.jar15,16           http://www.java4less.com/vision/vision.php?info=download
+
+rpdf417vision.jar          [evaluation version only]
+
+                           http://www.java4less.com/vision/vision.php?info=license
+                           http://www.java4less.com/order/order-rvisionPDF-java.shtml
+
+
+
+
+15 Barcode-Images können z.B. mittels Barcode-Reader (siehe      http://online-barcode-reader.inliteresearch.com/)
+  oder BC-Tester (siehe http://www.bctester.de/de/home.html) überprüft werden. Die Lizenzbedingungen sind hier-
+  bei zu beachten. Für einen Test müssen alle PDF417-Segmente in ein einziges Barcode-Image kopiert werden.
+  Abhängig vom Testprogramm kann dieses mit der Auflösung ein Pixel im Barcode-Image umgehen. Für einen
+  Test sollte daher die Skalierung so eingestellt werden, dass diese möglichst nahe dem Scannprozess entspricht.
+  D.h. ein Pixel im Barcode-Image sollte mit einer Höhe von 0.08 cm (31.75 dpi) und einer Breite von 0.042 cm
+  (60.48 dpi) dargestellt werden. Bei einer Auflösung von 300x300 dpi beim Scannen, wird 1x1 Pixel im nicht ska-
+  lierten Barcode-Image dann etwa 10x5 Pixel im skalierten Barcode-Image.
+16 Der Inhalt der PDF-417-Segmente kann z.B. über die SDK http://www.inliteresearch.com/cisdk ausgelesen wer-
+
+  den. Die Lizenzbedingungen sind hierbei zu beachten.
+Verein eCH                                                                                www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+              E-Government-Standards                                                                Seite 17 von 19
+
+
+
+Anhang G – 1D-Seiten-Barcode des Steuerauszugs
+Der 1D-Seiten-Barcode ist wie nachfolgend dargestellt aufgebaut:
+    Formular Nr.                 Version         Clearing Nr.          Seitenzahl   frei   Ausrichtung   Pos ID
+
+
+                                                    196 10 12345 987 0 0 1
+
+Ausgehend von einem Seitenlayout im Querformat muss die Pos-ID wie folgt angegeben
+werden:
+          1 – oben oder unten mit Leserichtung von links nach rechts (Abbildung 1 & 2)
+          2 – links oder rechts mit Leserichtung von oben nach unten (Abbildung 3 & 4)
+          3 – oben oder unten mit Leserichtung von rechts nach links (Abbildung 5 & 6)
+          4 – links oder rechts mit Leserichtung von unten nach oben (Abbildung 7 & 8)
+Nachfolgend sind Darstellungen der möglichen Leserichtungen der 1D-Seiten-Barcodes dar-
+gestellt.
+
+
+
+
+Abbildung 1: Pos ID 1 - Seitenbarcode oben, Leserichtung von links nach rechts
+
+
+
+
+Abbildung 2: Pos ID 1 - Seitenbarcode unten, Leserichtung von links nach rechts
+
+
+
+
+Verein eCH                                                                                 www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+              E-Government-Standards                                                      Seite 18 von 19
+
+
+
+
+Abbildung 3: Pos ID 2 - Seitenbarcode links, Leserichtung von oben nach unten
+
+
+
+
+Abbildung 4: Pos ID 2 - Seitenbarcode rechts, Leserichtung von oben nach unten
+
+
+
+
+Abbildung 5: Pos ID 3 - Seitenbarcode oben, Leserichtung von rechts nach links
+
+
+
+
+Verein eCH                                                                       www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+              E-Government-Standards                                                       Seite 19 von 19
+
+
+
+
+Abbildung 6: Pos ID 3 - Seitenbarcode unten, Leserichtung von rechts nach links
+
+
+
+
+Abbildung 7: Pos ID 4 - Seitenbarcode links, Leserichtung von unten nach oben
+
+
+
+
+Abbildung 8: Pos ID 4 - Seitenbarcode rechts, Leserichtung von unten nach oben
+
+
+
+
+Verein eCH                                                                        www.ech.ch / info@ech.ch
+Beilage zu eCH-0196 V2.2.0 – Barcode Generierung – Technische Wegleitung / Genehmigt / 2022-
+06-07
+

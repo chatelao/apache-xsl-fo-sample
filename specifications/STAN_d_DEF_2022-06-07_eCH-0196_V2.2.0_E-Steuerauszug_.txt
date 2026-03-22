@@ -1,0 +1,2525 @@
+          E-Government-Standards                                              Seite 1 von 50
+
+
+
+eCH-0196 – E-Steuerauszug
+
+Name                        E-Steuerauszug
+
+eCH-Nummer                  eCH-0196
+
+Kategorie                   Standard
+
+Reifegrad                   Definiert
+
+Version                     2.2.0
+
+Status                      Genehmigt
+
+Genehmigt am                2022-06-02
+
+Ausgabedatum                2022-06-07
+
+Ersetzt Version             2.1
+
+Voraussetzungen             eCH-0007 V 6.0: Datenstandard Gemeinden
+                            eCH-0008 V 3.0: Datenstandard Staaten und Gebiete
+                            eCH-0010 V 7.0: Datenstandard Postadresse für natürliche Per-
+                            sonen, Firmen, Organisationen und Behörden
+                            eCH-0097 V 4.0: Datenstandard Unternehmensidentifikation
+
+Beilagen                    XML Schema eCH-0196-2-2.xsd
+                            BEIL1_d_eCH-0196_V2.2.0_Technische Wegleitung.pdf
+                            BEIL2_d_eCH-0196_V2.0.0_Barcode Generierung - Technische
+                            Wegleitung.pdf
+
+Sprachen                    Deutsch (Original), Französisch (Übersetzung)
+
+Ansprechpartner /           Schweizerische Steuerkonferenz
+Inhaltsverantwortliche
+                            Michael Baeriswyl (SSK) (michael.baeriswyl@ssk.ewv-ete.ch)
+
+Autoren                     Christian Holzreiter (GFT)
+
+Herausgeber / Vertrieb      Verein eCH, Mainaustrasse 30, Postfach, 8034 Zürich
+                            T 044 388 74 64, F 044 388 71 80
+                            www.ech.ch / info@ech.ch
+
+
+
+
+Verein eCH                                                         www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+          E-Government-Standards                                                 Seite 2 von 50
+
+
+
+Zusammenfassung
+Der vorliegende Standard beschreibt das Austauschformat zum elektronischen Steuerauszug.
+Dieser wird den natürlichen Personen mit Steuerdomizil Schweiz von den Finanzinstituten zum
+Zweck des Privatvermögens zur Verfügung gestellt.
+Der elektronische Steuerauszug war das Ergebnis der Arbeitsgruppe «E-Steuerauszug», die
+sich aus Vertretern der kantonalen Steuerbehörden sowie vier Pilotbanken zusammengesetzt
+hat. Als Grundlage des elektronischen Steuerauszugs wurden Mustersteuerauszüge dieser
+vier Pilotbanken ausgewertet.
+Im elektronischen Steuerauszug sind nur die Informationen definiert, die für die kantonalen
+Steuerbehörden relevant sind. Damit die Finanzinstitute individuelle Informationen z.B. für die
+Aufbewahrung der Steuerauszüge ablegen können, sind Erweiterungen (Attribute und Ele-
+mente) in allen Elementen des elektronischen Steuerauszugs möglich.
+
+
+
+
+Verein eCH                                                            www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+            E-Government-Standards                                                                                Seite 3 von 50
+
+
+
+Inhaltsverzeichnis
+1         Einleitung ...................................................................................................... 5
+1.1       Status des Dokuments........................................................................................... 5
+1.2       Überblick................................................................................................................. 5
+1.3       Anwendungsgebiet ................................................................................................ 5
+1.4       Abgrenzung ............................................................................................................ 8
+2         Beschreibung des Standards ...................................................................... 9
+2.1       Formaler Hinweis ................................................................................................... 9
+2.2       Anwendungsvorgabe ........................................................................................... 10
+2.3       Beliebige Erweiterungen ..................................................................................... 10
+2.4       Namespace und Versionierung ........................................................................... 11
+2.5       XML-Schemabeschreibung ................................................................................. 11
+2.5.1     Finanzinstitut [institutionType] ................................................................................ 14
+2.5.2     Kunde [clientType] ................................................................................................. 15
+2.5.3     Anschreiben [accompanyingLetterType] ................................................................ 15
+2.5.4     Kontenverzeichnis [listOfBankAccountsType] ........................................................ 16
+2.5.4.1     Bankkonto [bankAccountType]............................................................................. 17
+2.5.4.1.1     Bankkonto Steuerwert [bankAccountTaxValueType] ......................................... 19
+2.5.4.1.2     Bankkonto Ertrag [bankAccountPaymentType] .................................................. 20
+2.5.5     Schuldenverzeichnis [listOfLiabilitiesType] ............................................................. 20
+2.5.5.1     Bankkonto (Schulden) [liabilityAccountType]........................................................ 22
+2.5.5.1.1     Bankkonto negativer Steuerwert (Schulden) [liabilityAccountTaxValueType] ..... 23
+2.5.5.1.2     Bankkonto Aufwand (Schulden) [liabilityAccountPaymentType] ......................... 23
+2.5.6     Spesenverzeichnis [listOfExpensesType] ............................................................... 24
+2.5.6.1     Bankspesen [expenseType] ................................................................................. 25
+2.5.7     Wertschriftenliste [listOfSecuritiesType] ................................................................. 28
+2.5.7.1     Wertschriftendepot [securityDepotType] .............................................................. 32
+2.5.7.1.1     Titel [securitySecurityType] ................................................................................ 32
+2.5.7.1.1.1       Titel Steuerwert [securityTaxValueType] ....................................................... 34
+2.5.7.1.1.2       Titel Ertrag [securityPaymentType] ............................................................... 36
+2.5.7.1.1.2.1       Titel Zugang und Abgang (IUP / Wandlung)
+                    [securityPurchaseDispositionType] ............................................................. 39
+2.5.7.1.1.3       Titel Bestand (Mutation) [securityStockType] ................................................ 40
+2.6       Bereitstellung ....................................................................................................... 41
+3         Sicherheitsüberlegungen ........................................................................... 41
+4         Haftungsausschluss/Hinweise auf Rechte Dritter ................................... 42
+5         Urheberrechte ............................................................................................. 42
+Anhang A – Referenzen & Bibliografie .................................................................. 43
+
+Verein eCH                                                                                        www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+           E-Government-Standards                                                             Seite 4 von 50
+
+
+Anhang B – Mitarbeit & Überprüfung V1.0 ............................................................ 43
+Anhang C – Abkürzungen und Glossar ................................................................. 44
+Anhang D – Änderungen gegenüber Vorversion ................................................. 45
+Anhang E – Abbildungsverzeichnis ...................................................................... 46
+Anhang F – Tabellenverzeichnis ............................................................................ 46
+Anhang G – Vermögensverwaltungskosten ......................................................... 47
+
+
+
+
+Verein eCH                                                                       www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+          E-Government-Standards                                                Seite 5 von 50
+
+
+
+1 Einleitung
+
+1.1 Status des Dokuments
+Genehmigt: Das Dokument wurde vom Expertenausschuss genehmigt. Es hat für das defi-
+nierte Einsatzgebiet im festgelegten Gültigkeitsbereich normative Kraft.
+
+
+
+1.2 Überblick
+Ziel des elektronischen Steuerauszugs ist die Abbildung der Inhalte der Steuerauszüge in ei-
+nem einheitlichen Format, so dass ohne Medienbruch eine teilautomatisierte Veranlagung bei
+den kantonalen Steuerbehörden möglich wird. Im elektronischen Steuerauszug werden die
+einzelnen Transaktionen, sämtliche steuerbaren Erträge sowie der Bestand zum Stichtag
+abgebildet.
+Hierbei ist vorgesehen, dass die Finanzinstitute den Steuerauszug in elektronischer Form (d.h.
+als PDF mit Barcode) ihren Kunden im Online-Banking zur Verfügung stellen. Diese können
+den elektronischen Steuerauszug herunterladen und unter der Voraussetzung, dass die De-
+klarationssoftware den Standard unterstützt, diesen in die Deklarationssoftware importieren.
+Im Ergebnis sind die Inhalte des elektronischen Steuerauszugs im Wertschriftenverzeichnis
+der Deklarationssoftware ersichtlich.
+Etwa die Hälfte der Steuerpflichtigen, die einen Steuerauszug von ihrem Finanzinstitut erhal-
+ten, verwenden Online-Banking nicht. Gängige Praxis ist, dass diese Steuerpflichtigen ledig-
+lich das Total zum Vermögen und der Erträge bei der Deklaration angeben. Dies führt heute
+in der Veranlagung zu einem erheblichen Mehraufwand für die kantonalen Steuerverwaltun-
+gen. Um diesen Medienbruch für die Veranlagung zu beseitigen, ist sowohl der PDF-Steuer-
+auszug (eStA) als auch der gedruckte Steuerauszug durch die Finanzinstitute mit einem Bar-
+code zu versehen. Darin ist der elektronische Steuerauszug anhand des vorliegenden Stan-
+dards abzubilden.
+
+
+
+1.3 Anwendungsgebiet
+Der Standard dient als Austauschformat für den elektronischen Steuerauszug zwischen dem
+Finanzinstitut und den Steuerpflichtigen sowie zwischen den Steuerpflichtigen und den Steu-
+erbehörden. Damit der Standard von den Finanzinstituten, der Deklarations- und Veranla-
+gungssoftware genutzt werden kann, müssen diese entsprechend erweitert werden.
+In der nachfolgenden Abbildung wird das Anwendungsgebiet des Standards dargestellt. Darin
+sind zusätzlich auch die Meldungsflüsse abgebildet.
+
+
+
+
+Verein eCH                                                           www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+           E-Government-Standards                                                              Seite 6 von 50
+
+
+
+
+Abbildung 1: Mögliches Anwendungsgebiet des Standards
+
+  - beschreibt die direkte Datenlieferung von der ESTV zu den Finanzinstituten, sowie die
+Kommunikation zwischen Finanzinstituten und der ESTV. - beschreibt die indirekte Da-
+tenlieferung zwischen der ESTV und den Finanzinstituten, über den Datenlieferanten SIX Fi-
+nancial Information. - beschreibt die Lieferung des E-Steuerauszugs vom Finanzinstitut,
+über den Steuerpflichtigen zur zuständigen Kantonalen Steuerbehörde.1 - beschreibt die
+Lieferung des E-Steuerauszugs vom Finanzinstitut, über die Steuerpflichtigen zur zuständigen
+kantonalen Steuerbehörde. - beschreibt den Datenfluss zwischen der Deklarations- und
+der Veranlagungssoftware unter Einbezug von Datenlieferungen der ESTV.
+Die Grundlage für die Implementierung des Standards ist die Bereitstellung der notwendigen
+Datengrundlage durch die ESTV. Die ESTV führt hierzu die steuerliche Qualifikation kotierter
+Titel durch und publiziert diese in der Kursliste. Hierbei ist das Ziel einen Abdeckungsgrad von
+mindestens 90% zu erreichen.
+   Die Finanzinstitute können diese Titel mittels Services von der ESTV beziehen.            Kotierte
+Titel, die nicht in der Kursliste publiziert sind, können durch die Finanzinstitute mittels Services
+angefragt werden. Die Titel werden nicht erst zum Zeitpunkt der Erstellung der Steuerauszüge
+angefragt, sondern schon im aktuellen Steuerjahr. Hierdurch können Ressourcenengpässe
+auf Seite ESTV vermieden werden.
+Unter der Voraussetzung, dass der ESTV die notwendigen Daten zur Verfügung stehen, wird
+der Titel steuerlich qualifiziert. Reichen die Daten hierzu nicht aus, stellt die ESTV eine Rück-
+frage an den Anfragesteller (z.B. das Finanzinstitut). Die benötigten Unterlagen können durch
+das Finanzinstitut beschafft werden. Ist die steuerliche Qualifikation des Titels erfolgt, wird der
+Titel in der Kursliste publiziert und steht sowohl allen Finanzinstituten als auch allen kantonalen
+
+  1 Eine direkte Lieferung des E-Steuerauszugs vom Finanzinstitut zur zuständigen Steuerbehörde ist ausdrück-
+
+lich ausgeschlossen.
+Verein eCH                                                                        www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+          E-Government-Standards                                                      Seite 7 von 50
+
+
+Steuerbehörden zur Verfügung.
+   Die für die steuerliche Qualifikation benötigten Stammdaten, Ereignisse, Tages- und Jah-
+resendkurse bezieht die ESTV von SIX Financial Information. Die ESTV stellt SIX Financial
+Information nach erfolgter steuerlicher Qualifikation die Steuerwerte und Steuermeldungen zur
+Verfügung. SIX Financial Information wiederum stellt den Finanzinstituten die Stammdaten,
+Ereignisse und Steuerwerte zur Verfügung. Sofern eine direkte Schnittstelle zwischen der
+ESTV und den Finanzinstituten nicht möglich ist, stellt nachfolgende Beschreibung eine Alter-
+native zu    dar. (Das eingesetzte Framework kann diese Einschränkung im Finanzinstitut mit
+sich bringen.)
+   Das Finanzinstitut stellt den Steuerpflichtigen den elektronischen Steuerauszug (d.h. PDF
+mit Barcode) auf Grundlage des Standards im Online-Banking zum Download zur Verfügung.
+   Alternativ erhalten die Steuerpflichtige weiterhin einen gedruckten Steuerauszug. Der Steu-
+erauszug enthält einen Barcode. Im Barcode ist der elektronische Steuerauszug auf Grund-
+lage des Standards hinterlegt.
+    Die Steuerpflichtigen können den elektronischen Steuerauszug in die Deklarationssoftware
+importieren. Hierzu muss die Deklarationssoftware den Import des Standards unterstützen und
+die benötigten Informationen für die Steuererklärung extrahieren sowie notwendige Transfor-
+mationen vornehmen.        Alternativ dazu können die Steuerpflichtigen weiterhin nur das Ver-
+mögen und die Erträge (mit und ohne Verrechnungssteueranspruch) manuell in der Deklara-
+tion erfassen.
+   Ist die Deklarationssoftware an EWS angebunden, so können die Angaben in der Wert-
+schriftenliste des E-Steuerauszug mittels Services auf Grundlage der Kursliste überprüft und
+gegebenenfalls korrigiert werden.
+   Ist die Deklarationssoftware direkt in den Veranlagungsprozess integriert, so kann die Steu-
+ererklärung zusammen mit dem elektronischen Steuerauszug für die Veranlagung übermittelt
+werden. Dies erfolgt nach Freigabe durch die Steuerpflichtigen.    Um dies auszulösen, muss
+lediglich die Freigabequittung versendet werden.
+Ist die Deklarationssoftware nicht direkt in den Veranlagungsprozess integriert oder wurde
+lediglich das Vermögen und die Erträge (mit und ohne Verrechnungssteueranspruch) in der
+Deklaration erfasst, so muss weiterhin die Steuererklärung zusammen mit dem gedruckten
+Steuerauszug versendet werden.
+   In der Veranlagung findet eine teilautomatisierte Prüfung und Veranlagung der Wertschrif-
+tenliste des E-Steuerauszug mittels Services statt.    Titel, die nicht in der Kursliste publiziert
+sind, können durch die kantonalen Steuerbehörden bei der ESTV angefragt werden.
+Unter der Voraussetzung, dass der ESTV die notwendigen Daten zur Verfügung stehen, wird
+der Titel steuerlich qualifiziert. Reichen die Daten hierzu nicht aus, stellt die ESTV eine Rück-
+frage an den Anfragesteller (z.B. die kantonale Steuerbehörde). Die benötigten Unterlagen
+können über die kantonale Steuerbehörde bei den Steuerpflichtigen beschafft werden. Ist die
+steuerliche Qualifikation des Titels erfolgt, wird dieser in der Kursliste publiziert und steht allen
+Finanzinstituten und kantonalen Steuerbehörden zur Verfügung.
+
+
+
+
+Verein eCH                                                                www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+          E-Government-Standards                                                Seite 8 von 50
+
+
+
+1.4 Abgrenzung
+Die folgenden Abgrenzungen werden hinsichtlich des Standards getroffen:
+      Der Standard behandelt ausschliesslich den Steuerauszug von natürlichen Personen
+       mit Wohnsitz in der Schweiz, welche die Vermögenswerte im Privatvermögen halten.
+      Der Standard unterstützt derzeit nicht den Steuerauszug von natürlichen Personen mit
+       Wohnsitz im Ausland.
+      Der Standard unterstützt nicht den Steuerauszug von juristischen Personen.
+      Der Standard bildet lediglich die Elemente und Attribute ab, die aus Sicht der kantona-
+       len Steuerbehörden für die Deklaration und Veranlagung benötigt werden.
+      Der Standard befasst sich nicht im Detail mit der Thematik der Übermittlung der Daten,
+       des Systemaufbaus und der technischen Umsetzung der Gesamtlösung.
+      Der Standard unterstützt nicht die Langzeitarchivierung von Steuerdaten.
+Bezüglich der Umsetzung ist zu diesem Standard als Beilage eine technische Wegleitung ver-
+fügbar, in welcher die mögliche technische Umsetzung der Gesamtlösung vom Finanzinstitut
+bis zum Scan-Center der kantonalen Steuerbehörde beschrieben ist.
+
+
+
+
+Verein eCH                                                           www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+           E-Government-Standards                                               Seite 9 von 50
+
+
+
+2 Beschreibung des Standards
+
+2.1 Formaler Hinweis
+Der gesamte Standard wird nach UTF-8 codiert.
+Zu jedem Typ gibt es einerseits die Übersicht über die Struktur und andererseits eine Tabelle,
+in der die verwendeten Attribute beschrieben werden. In der nachfolgenden Abbildung ist der
+Aufbau der Strukturübersicht dargestellt.
+
+
+
+
+Abbildung 2: Beschreibung der Strukturübersicht
+
+
+
+Verein eCH                                                           www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+             E-Government-Standards                                                                   Seite 10 von 50
+
+
+In der nachfolgenden Tabelle sind für die Beschreibung der Attribute und Elemente, die Spalt-
+enbezeichnungen dargestellt.
+ Spaltenbezeich-
+                         Beschreibung
+ nung
+ Feld                    Der Name des Elements oder des Attributs.
+
+ Fix                     Der fixe Wert des Attributs. Wird zu einem Attribut ein fixer Wert definiert, so kann dieses
+                         Attribut keinen anderen Wert annehmen. Das Attribut ist trotzdem im XML anzuge-
+                         ben, um Probleme beim Erstellen der Printversion des Auszuges, sowie Missverständ-
+                         nisse zwischen Sender und Empfänger zu vermeiden. Ein fixer Wert für ein Attribut wird
+                         mit grauer Schrift dargestellt.
+
+ Intervall               Die Multiplizität1 / Intervall des Elements oder des Attributs. Diese sind
+                         [0..1]   optional
+                         [1..1]   erforderlich
+                         [0..*]   optional, unbeschränkt
+                         [1..*]   erforderlich, unbeschränkt
+
+ Datentyp                Der Datentyp kann ein simpler oder auch komplexer Typ sein. Komplexe Datentypen
+                         werden jeweils an einem anderen Ort detailliert beschrieben.
+                         Ist der Datentyp eine Zahl und im Wertebereich begrenzt, so wird dies als Intervall an-
+                         gegeben.
+                         Ist der Datentyp alphanumerisch und in der Anzahl der Zeichen begrenzt, so wird die
+                         erlaubte Anzahl an Zeichen hinter den Datentyp geschrieben. Ist die Anzahl der minde-
+                         stens anzugebenden Zeichen ungleich eins, so wird dies als Intervall angegeben.
+
+ Beschreibung / Inhalt   Eine kurze Beschreibung des Elements oder des Attributs.
+Tabelle 1: Erklärung der Spaltenbezeichnungen der Elemente und Attribute
+
+
+
+
+2.2 Anwendungsvorgabe
+Im Standard sind nur wenige Attribute als Pflichtfelder definiert. Die Gründe hierfür sind:
+          Ist kein Wert verfügbar, so darf dies nicht durch eine 0 substituiert werden. Es muss
+           daher möglich sein, keinen Wert anzugeben. Das Attribut ist somit undefiniert.
+          Können unterschiedliche Attribute angegeben werden z.B. die Valoren-Nummer oder
+           ISIN als Identifikationsschlüssel eines Titels, so sind diese Attribute als optional defi-
+           niert.
+
+
+
+2.3 Beliebige Erweiterungen
+Damit zusätzliche Informationen im Standard integriert werden können, können alle Elemente
+durch beliebige Elemente und Attribute erweitert werden.
+Die Erweiterung des Standards wird für die Aufbewahrung der Steuerauszüge beim Finan-
+zinstitut empfohlen. Hierdurch können alle für ein Finanzinstitut spezifischen Attribute, die an-
+sonsten in einem gedruckten Steuerauszug hinterlegt sind, abgebildet werden.
+Die Erweiterung des Standards ermöglicht zudem, dass die für eine lesbare Darstellung des
+
+ 1 http://de.wikipedia.org/wiki/Multiplizit%C3%A4t_(UML)
+
+
+Verein eCH                                                                             www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+           E-Government-Standards                                             Seite 11 von 50
+
+
+elektronischen Steuerauszugs notwendigen Attribute bereitgestellt werden können. Eine les-
+bare Darstellung kann erreicht werden, indem eine Referenz auf ein Style-Sheet in der XML-
+Datei hinterlegt wird. Die hierfür zu verwendende Syntax ist nachfolgend dargestellt.
+<?xml-stylesheet type="text/xsl" href="script.xsl" ?>
+
+
+
+
+2.4 Namespace und Versionierung
+Für diesen Standard wird der Namespace wie folgt definiert:
+https://share.ech.ch/xmlns/eCH-0196/2.2/eCH-0196-2-2.xsd
+Die Versionierung wird gemäss Standard eCH-0003 durchgeführt. Das XML-Schema ist wei-
+terhin V 2.2. Die Anpassungen an der Dokumentation betreffen nur die Beschreibung der exi-
+stierenden Attribute und Elemente.
+
+
+
+2.5 XML-Schemabeschreibung
+Der elektronische Steuerauszug besteht aus den Elementen zum Finanzinstitut, dem Kunden,
+einer Liste von Verzeichnissen mit den Bankkonten, Schulden, Begleitschreiben, Spesen und
+Wertschriften. Zusätzlich sind Attribute zum Steuerjahr, Steuerdomizil, Total Vermögen und
+Erträge vorhanden. Das Total der Erträge wird zudem nach Rubrik A und B sowie der Bundes-
+und Staatssteuer unterschieden.
+
+
+
+
+Abbildung 3: Grundstruktur des elektronischen Steuerauszugs
+
+Die Verzeichnisse der Bankkonten, Schulden, Spesen und Wertschriften sind grundsätzlich
+gleich aufgebaut. Das Zwischentotal des Vermögens und der Erträge sind in diesen Verzeich-
+nissen aufgeführt. In jedem Verzeichnis wiederum sind Elemente für die detaillierte Abbildung
+der Steuerwerte und der Erträge enthalten.
+
+Verein eCH                                                          www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+               E-Government-Standards                                                      Seite 12 von 50
+
+
+Gerundet wird nur nach der Summenbildung. Beträge kleiner 100 sind mit 3 Nachkommastel-
+len darzustellen, Beträge grösser gleich 100 mit 2 Nachkommastellen. Bei sämtlichen zu run-
+denden Beträgen muss nach DIN-Norm 1333 vorgegangen werden: Ist die Zahl an der ersten
+wegfallenden Dezimalstelle eine:
+           0,1,2,3 oder 4 wird abgerundet
+           5,6,7,8 oder 9 wird aufgerundet
+Einzelpositionen (Steuerwerte, Erträge) sind in den Originalwerten ohne Rundung zu überneh-
+men.
+Auf den Steuerauszügen der Finanzinstitute sind verschiedene Totale ausgewiesen. Diese
+müssen durch die entsprechende Summierung der Zwischentotale in den Verzeichnissen ge-
+bildet werden.
+Alle Steuerwerte sind generell in Schweizer Franken angegeben.
+ Feld                  Fix     Inter-   Datentyp             Beschreibung / Inhalt
+                               vall
+ institution                   [1..1]   eCH-0196:insti-tu-   Die Angaben zum Finanzinstitut.
+                                        tionType
+
+ client                        [1..*]   eCH-0196:client-     Die Angaben zu den Kunden (Stichwort: Partner-
+                                        Type                 stamm).
+
+ accompayingLetter             [0..*]   eCH-0196:accom-      Das Begleitschreiben zum Steuerauszug.
+                                        payingLetterType
+
+ listOfBankAccounts            [0..1]   eCH-0196:listOf-     Das Kontenverzeichnis des Steuerauszugs.
+                                        BankAccountsType
+
+ listOfLiabilities             [0..1]   eCH-0196:listOf-     Das Schuldenverzeichnis des Steuerauszugs.
+                                        LiabilitiesType
+
+ listOfExpenses                [0..1]   eCH-0196:listOf-     Das Spesenverzeichnis des Steuerauszugs.
+                                        ExpensesType
+
+ listOfSecurities              [0..1]   eCH-0196:listOf-     Die Wertschriftenliste des Steuerauszugs.
+                                        SecuritiesType
+
+ ##other                       [0..*]   xs:any               Beliebige Erweiterungen des Finanzinstituts.
+
+ id                            [1..1]   xs:ID                Die eindeutige Id des Steuerauszugs. Dieses At-
+                                                             tribut kann als Referenz (URI) für die Signatur
+                                                             verwendet werden.
+
+ creationDate                  [1..1]   xs:dateTime          Das Erstelldatum und die Uhrzeit des Steueraus-
+                                                             zugs.
+
+ taxPeriod                     [1..1]   xs:gYear             Das Jahr der zugehörigen Steuerperiode.
+
+ periodFrom                    [1..1]   xs:date              Der Beginn der zugehörigen Steuerperiode.
+
+ periodTo                      [1..1]   xs:date              Das Ende der zugehörigen Steuerperiode.
+
+ country               CH      [0..1]   eCH-0008:country-    Das Steuerdomizil (Land) des Steuerpflichtigen.
+                                        IdISO2Type
+
+ canton                        [1..1]   eCH-0007:canton-     Der massgebende Kanton des Steuerpflichtigen.
+                                        AbbreviationType
+
+
+
+Verein eCH                                                                     www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+           E-Government-Standards                                                    Seite 13 von 50
+
+
+
+ Feld               Fix      Inter-   Datentyp         Beschreibung / Inhalt
+                             vall
+ totalTaxValue               [1..1]   xs:decimal       Das Total der Steuerwerte ohne die sonstigen
+                                                       Vermögenswerte wie z.B. physisches Gold so-
+                                                       wie ohne Abzug der Schulden.
+
+ totalGrossReve-             [1..1]   xs:decimal       Das Total der Bruttoerträge der Rubrik A (mit
+ nueA                                                  Verrechnungssteueranspruch) für die Bundes-
+                                                       steuer.
+                                                       Die positiven IUP-Erträge (Bruttodarstellung)
+                                                       mit Verrechnungssteueranspruch sind im Total
+                                                       der Bruttoerträge der Rubrik A auszuweisen.
+
+ totalGrossReve-             [0..1]   xs:decimal       Das Total der Bruttoerträge der Rubrik A (mit
+ nueACanton                                            Verrechnungssteueranspruch) für die Staats-
+                                                       steuer.
+                                                       Die positiven IUP-Erträge (Bruttodarstellung)
+                                                       mit Verrechnungssteueranspruch sind im Total
+                                                       der Bruttoerträge der Rubrik A auszuweisen.
+                                                       Der Wert ist nur anzugeben, wenn dieser vom
+                                                       Wert für die Bundessteuer abweicht.
+
+ totalGrossReve-             [1..1]   xs:decimal       Das Total der Bruttoerträge der Rubrik B (ohne
+ nueB                                                  Verrechnungssteueranspruch) für die Bundes-
+                                                       steuer ohne Abzug der Schuldzinsen, Retrozes-
+                                                       sionen und Securities Lending.
+                                                       Die positiven IUP-Erträge (Bruttodarstellung)
+                                                       ohne Verrechnungssteueranspruch sind im Total
+                                                       der Bruttoerträge der Rubrik B auszuweisen.
+                                                       Die negativen IUP-Erträge ohne Verrechnungs-
+                                                       steueranspruch sind nicht im Total der Bruttoer-
+                                                       träge der Rubrik B auszuweisen.
+
+ totalGrossReve-             [0..1]   xs:decimal       Das Total der Bruttoerträge der Rubrik B (ohne
+ nueBCanton                                            Verrechnungssteueranspruch) für die Staats-
+                                                       steuer ohne Abzug der Schuldzinsen, Retrozes-
+                                                       sionen und Securities Lending.
+                                                       Die positiven IUP-Erträge (Bruttodarstellung)
+                                                       ohne Verrechnungssteueranspruch sind im Total
+                                                       der Bruttoerträge der Rubrik B auszuweisen.
+                                                       Die negativen IUP-Erträge ohne Verrechnungs-
+                                                       steueranspruch sind nicht im Total der Bruttoer-
+                                                       träge der Rubrik B auszuweisen.
+                                                       Über die Verrechenbarkeit der positiven und ne-
+                                                       gativen IUP-Erträge ohne Verrechnungssteuer-
+                                                       anspruch entscheidet die zuständige Veranla-
+                                                       gungsbehörde.
+                                                       Der Wert ist nur anzugeben, wenn dieser vom
+                                                       Wert für die Bundessteuer abweicht.
+
+
+
+
+Verein eCH                                                               www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+            E-Government-Standards                                                                 Seite 14 von 50
+
+
+
+ Feld                   Fix         Inter-      Datentyp           Beschreibung / Inhalt
+                                    vall
+ totalWithHolding-                  [1..1]      xs:decimal         Das Total des Verrechnungssteueranspruchs.
+ TaxClaim                                                          Der Verrechnungssteueranspruch aus den posi-
+                                                                   tiven IUP-Erträgen (Bruttodarstellung) ist im To-
+                                                                   tal des Verrechnungssteueranspruchs anzuwei-
+                                                                   sen.
+
+ minorVersion                       [1..1]      xs:integer         Die Version des Steuerauszugs. Für die Version
+                                                                   2.1 ist der Wert 21 und für 2.2 ist der Wert 22
+                                                                   anzugeben.
+
+ ##other                            [0..*]      xs:anyAttribute    Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 2: Steuerauszug – taxStatementType
+
+
+2.5.1 Finanzinstitut [institutionType]
+Nachfolgend ist die Struktur für die Eckdaten zum Finanzinstitut dargestellt. Diese sind auf die
+Attribute beschränkt, die aus Sicht der kantonalen Steuerbehörden erforderlich sind. Die Fi-
+nanzinstitute können den Standard an dieser Stelle erweitern, um detailliertere Angaben zum
+Finanzinstitut abbilden zu können.
+
+
+
+
+Abbildung 4: Finanzinstitut - institutionType
+
+Nachfolgend sind die Elemente und Attribute zum Finanzinstitut dargestellt.
+ Feld                   Fix         Inter-      Datentyp           Beschreibung / Inhalt
+                                    vall
+ ##other                            [0..*]      xs:any             Beliebige Erweiterungen des Finanzinstituts.
+
+ uid                                [0..1]      eCH-0097:uid-      Unternehmens-Identifikationsnummer       gemäss
+                                                StructureType      Bundesamt für Statistik (BFS).
+
+ lei                                [0..1]      eCH-0196:leiType   Die LEI (Legal Entity Identifier) des Finanzinsti-
+                                                [20..20]           tuts.
+
+ name                               [1..1]      eCH-0010:organi-   Der Name des Finanzinstituts.
+                                                sationNameType
+
+ ##other                            [0..*]      xs:anyAttribute    Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 3: Finanzinstitut – institutionType
+
+
+
+
+Verein eCH                                                                           www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+              E-Government-Standards                                                         Seite 15 von 50
+
+
+
+2.5.2 Kunde [clientType]
+Nachfolgend ist die Struktur mit den Eckdaten der Kunden des Finanzinstituts dargestellt.
+Diese sind auf die Attribute beschränkt, die aus Sicht der kantonalen Steuerbehörden erfor-
+derlich sind. Die detaillierten Anfragen der Steuerpflichtigen liegen in der Steuererklärung vor.
+Die Finanzinstitute können den Standard an dieser Stelle erweitern, um detailliertere Angaben
+zum Kunden zu hinterlegen.
+
+
+
+
+Abbildung 5: Kunde - clientType
+
+Nachfolgend sind die Elemente und Attribute zum Steuerpflichtigen dargestellt.
+ Feld                 Fix         Inter-   Datentyp            Beschreibung / Inhalt
+                                  vall
+ ##other                          [0..*]   xs:any              Beliebige Erweiterungen des Finanzinstituts.
+
+ clientNumber                     [1..1]   eCH-0196:client-    Die Kundennummer des Kunden beim Finan-
+                                           NumberType (40)     zinstitut.
+
+ tin                              [0..1]   eCH-0196:tinType    Die TIN (Taxpayer Identification Number) des
+                                           [9..11]             Kunden.
+
+ salutation                       [0..1]   eCH-0010:mrMrs-     Die Anrede des Kunden.
+                                           Type
+
+ firstName                        [0..1]   eCH-0010:firstNa-   Der Vorname des Kunden.
+                                           meType [1..30]
+
+ lastName                         [0..1]   eCH-0010:lastNa-    Der Nachname des Kunden.
+                                           meType [1..30]
+
+ ##other                          [0..*]   xs:anyAttribute     Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 4: Kunde – clientType
+
+
+
+
+2.5.3 Anschreiben [accompanyingLetterType]
+Nachfolgend ist die Struktur für den Transport von zusätzlichen Dokumenten, wie z.B. das
+Anschreiben dargestellt. Die Finanzinstitute können den Standard an dieser Stelle erweitern,
+um zusätzliche Angaben zu den Dokumenten zu hinterlegen.
+
+
+
+
+Verein eCH                                                                       www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+               E-Government-Standards                                                                                Seite 16 von 50
+
+
+
+
+Abbildung 6: Anschreiben - accompanyingLetterType
+
+Nachfolgend sind die Elemente und Attribute zum Anschreiben dargestellt.
+ Feld                        Fix            Inter-       Datentyp                   Beschreibung / Inhalt
+                                            vall
+ ##other                                    [0..*]       xs:any                     Beliebige Erweiterungen des Finanzinstituts.
+
+ fileName                                   [0..1]       xs:string [1..200]         Dateiname des Begleitschreibens.
+
+ fileSize                                   [0..1]       xs:integer                 Die Grösse der Datei.
+
+ fileData                                   [0..1]       xs:base64Binary            Die encodierten Daten (base64) der Datei.
+
+ ##other                                    [0..*]       xs:anyAttribute            Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 5: Anschreiben – accompanyingLetterType
+
+
+2.5.4 Kontenverzeichnis [listOfBankAccountsType]
+Nachfolgend ist die Struktur für das Kontenverzeichnis dargestellt. Das Kontenverzeichnis um-
+fasst hierbei das Element für ein einzelnes Bankkonto sowie das Total zum Vermögen und zu
+den Erträgen aller Bankkonten im Kontenverzeichnis. Im Kontenverzeichnis können mehrere
+Bankkonten aufgeführt werden.
+
+
+        listOfBankAccountsType                                    bankAccountType                         bankAccountTaxValueType
+
++   bankAccount                      0..*            +   taxValue                         0..1      +   ##other                     0..*
++   ##other                          0..*            +   payment                          0..*         referenceDate               1..1
+   currency                 [CHF]   0..1            +   ##other                          0..*         name                        0..1
+   totalTaxValue                    1..1               iban                             0..1         balanceCurrency       [CHF] 0..1
+   totalGrossRevenueA               1..1               bankAccountNumber                0..1         balance                     0..1
+   totalGrossRevenueB               1..1               bankAccountName                  1..1         exchangeRate                0..1
+   totalWithHoldingTaxClaim         1..1               bankAccountCountry        [CH]   0..1         currency              [CHF] 0..1
+   ##other                          0..*               bankAccountCurrency      [CHF]   0..1         value                       1..1
+                                                        openingDate                      0..1         ##other                     0..*
+                                                        closingDate                      0..1
+                                                        currency                 [CHF]   0..1
+                                                        totalTaxValue                    1..1            bankAccountPaymentType
+                                                        totalGrossRevenueA               1..1
+                                                        totalGrossRevenueB               1..1      +   ##other                     0..*
+                                                        totalWithHoldingTaxClaim         1..1         paymentDate                 1..1
+                                                        ##other                          0..*         name                        0..1
+                                                                                                       amountCurrency        [CHF] 0..1
+                                                                                                       amount                      0..1
+                                                                                                       exchangeRate                0..1
+                                                                                                       currency              [CHF] 0..1
+                                                                                                       grossRevenueA               1..1
+                                                                                                       grossRevenueB               1..1
+                                                                                                       withHoldingTaxClaim         1..1
+                                                                                                       ##other                     0..*
+
+
+Abbildung 7: Kontenverzeichnis - listOfBankAccountsType
+
+Das Element für das Bankkonto umfasst die Elemente für den Steuerwert und die Erträge.
+Verein eCH                                                                                              www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+            E-Government-Standards                                                        Seite 17 von 50
+
+
+Zusätzlich sind die Eckdaten zum Bankkonto sowie das Total Vermögen und Erträge abgebil-
+det. Zu einem Bankkonto kann lediglich ein Steuerwert, jedoch beliebig viele Erträge abgebil-
+det werden.
+Im Element für den Steuerwert zum Bankkonto sind der Stichtag, der Saldo in Fremdwährung
+sowie der Steuerwert in CHF dargestellt. Die Umrechnung eines Saldos in Fremdwährung
+kann durch Angabe des Devisenkurses nachvollzogen werden.
+Im Element für die Erträge des Bankkontos sind das Zahlungsdatum, der Betrag in der ange-
+gebenen Währung sowie der Ertrag (mit und ohne Verrechnungssteueranspruch) in CHF auf-
+geführt. Die Umrechnung eines Ertrags in Fremdwährung kann durch Angabe des Devisen-
+kurses nachvollzogen werden.
+Ein negativer Saldo oder ein negativer Ertrag muss im Schuldenverzeichnis aufgeführt wer-
+den.
+Nachfolgend sind die Elemente und Attribute zum Kontenverzeichnis dargestellt.
+ Feld                 Fix       Inter-   Datentyp           Beschreibung / Inhalt
+                                vall
+ ##other                        [0..*]   xs:any             Beliebige Erweiterungen des Finanzinstituts.
+
+ bankAccount                    [0..*]   eCH-0196:bankAc-   Die Konten des Kontenverzeichnisses.
+                                         countType
+
+ totalTaxValue                  [1..1]   xs:decimal         Das Total der Steuerwerte, gerundet nach DIN
+                                                            1333.
+
+ totalGrossReve-                [1..1]   xs:decimal         Das Total der Bruttoerträge der Rubrik A (mit
+ nueA                                                       Verrechnungssteueranspruch) für die Bundes-
+                                                            und Staatssteuer, gerundet nach DIN 1333.
+
+ totalGrossReve-                [1..1]   xs:decimal         Das Total der Bruttoerträge der Rubrik B (ohne
+ nueB                                                       Verrechnungssteueranspruch) für die Bundes-
+                                                            und Staatssteuer, gerundet nach DIN 1333.
+
+ totalWithHolding-              [1..1]   xs:decimal         Das Total des Verrechnungssteueranspruchs,
+ TaxClaim                                                   gerundet nach DIN 1333.
+
+ ##other                        [0..*]   xs:anyAttribute    Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 6: Kontenverzeichnis – listOfBankAccountsType
+
+Hinweis: Die Totale im Kontenverzeichnis entsprechen den Werten in der Rekapitulation resp.
+Übersicht und sind zwingend anzugeben. Sie bilden sich aus der Summe der Subtotale der
+enthaltenen Steuerwerte (bankAccountType:totalTaxValue) und Erträge (bankAc-
+countType:totalGrossRevenueA, bankAccountType:totalGrossRevenueB resp. bankAc-
+countType:totalWithHoldingTaxClaim).
+
+
+2.5.4.1 Bankkonto [bankAccountType]
+Nachfolgend sind die Elemente und Attribute zum Bankkonto dargestellt.
+ Feld                 Fix       Inter-   Datentyp           Beschreibung / Inhalt
+                                vall
+ taxValue                       [0..1]   eCH-0196:bankAc-   Der Steuerwert zum Bankkonto.
+                                         countTaxValue-
+                                         Type
+
+
+Verein eCH                                                                    www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+           E-Government-Standards                                                          Seite 18 von 50
+
+
+
+ Feld                Fix      Inter-    Datentyp             Beschreibung / Inhalt
+                              vall
+ payment                      [0..*]    eCH-0196:bankAc-     Die Erträge zum Bankkonto.
+                                        countPaymentType
+
+ ##other                      [0..*]    xs:any               Beliebige Erweiterungen des Finanzinstituts.
+
+ iban                         [0..1]    eCH-0196:iban-       Die IBAN (International Bank Account Number)
+                                        Type [15..30]        des Bankkontos.
+
+ bankAccountNum-              [0..1]    eCH-0196:bankAc-     Die Nummer des Bankkontos.
+ ber                                    countNumberType
+                                        [1..32]
+
+ bankAccountName              [1..1]    eCH-0196:bankAc-     Die Kontobezeichnung des Bankkontos.
+                                        countNameType
+                                        [1..40]
+
+ bankAccount-                 [1..1]    eCH-0008:countryI-   Das Domizil (Land) zum Bankkonto.
+ Country                                dISO2Type
+
+ bankAccountCur-              [1..1]    eCH-0196:cur-        Die Währung des Bankkontos.
+ rency                                  rencyIdISO3Type
+
+ openingDate                  [0..1]    xs:date              Das Eröffnungsdatum des Bankkontos. Dies
+                                                             muss nur im Jahr der Eröffnung angegeben wer-
+                                                             den.
+
+ closingDate                  [0..1]    xs:date              Das Saldierungsdatum des Bankkontos. Dies
+                                                             muss nur im Jahr der Saldierung angegeben
+                                                             werden.
+
+ totalTaxValue                [1..1]    xs:decimal           Das Total der Steuerwerte in CHF, gerundet
+                                                             nach DIN 1333.
+
+ totalGrossReve-              [1..1]    xs:decimal           Das Total der Bruttoerträge in CHF der Rubrik A
+ nueA                                                        (mit Verrechnungssteueranspruch) für die Bun-
+                                                             des- und Staatssteuer, gerundet nach DIN 1333.
+
+ totalGrossReve-              [1..1]    xs:decimal           Das Total der Bruttoerträge der Rubrik B in CHF
+ nueB                                                        (ohne Verrechnungssteueranspruch) für die
+                                                             Bundes- und Staatssteuer, gerundet nach DIN
+                                                             1333.
+
+ totalWithHolding-            [1..1]    xs:decimal           Das Total des Verrechnungssteueranspruchs in
+ TaxClaim                                                    CHF, gerundet nach DIN 1333.
+
+ ##other                      [0..*]    xs:anyAttribute      Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 7:Bankkonto – bankAccountType
+
+Hinweis: Die Totale im Bankkonto entsprechen den Werten in der Rekapitulation resp. Über-
+sicht und sind zwingend anzugeben. Sie bilden sich aus der Summe der enthaltenen Steuer-
+werte (bankAccountTaxValueType:value) und Erträge (bankAccountPaymentType:grossRe-
+venueA, bankAccountPaymentType:grossRevenueB resp. bankAccountPaymentType:with-
+HoldingTaxClaim).
+
+
+
+
+Verein eCH                                                                     www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+           E-Government-Standards                                                           Seite 19 von 50
+
+
+2.5.4.1.1 Bankkonto Steuerwert [bankAccountTaxValueType]
+Nachfolgend sind die Elemente und Attribute zum Steuerwert des Bankkontos dargestellt.
+ Feld                 Fix       Inter-   Datentyp           Beschreibung / Inhalt
+                                vall
+ ##other                        [0..*]   xs:any             Beliebige Erweiterungen des Finanzinstituts.
+
+ referenceDate                  [1..1]   xs:date            Der Stichtag1 zum Steuerwert.
+
+ name                           [0..1]   xs:string          Die Bezeichnung zum Steuerwert.
+
+ balanceCurrency                [1..1]   eCH-0196:cur-      Die Währung des Saldos.
+                                         rencyIdISO3Type
+
+ balance                        [0..1]   xs:decimal         Der Saldo zum Stichtag in der angegebenen
+                                                            Währung.
+
+ exchangeRate                   [0..1]   xs:decimal         Der Devisenkurs zum Stichtag und Währung mit
+                                                            Stückelung 1 (Bsp. 1 JPY = 0.0092 CHF).
+
+ value                          [1..1]   xs:decimal         Der Steuerwert in CHF zum Stichtag.
+
+ ##other                        [0..*]   xs:anyAttribute    Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 8: Bankkonto Steuerwert – bankAccountTaxValueType
+
+
+
+
+ 1 Ende der zugehörigen Steuerperiode
+
+
+Verein eCH                                                                    www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+           E-Government-Standards                                                       Seite 20 von 50
+
+
+2.5.4.1.2 Bankkonto Ertrag [bankAccountPaymentType]
+Nachfolgend sind die Elemente und Attribute zu den Erträgen des Bankkontos dargestellt.
+ Feld                Fix       Inter-   Datentyp          Beschreibung / Inhalt
+                               vall
+ ##other                       [0..*]   xs:any            Beliebige Erweiterungen des Finanzinstituts.
+
+ paymentDate                   [1..1]   xs:date           Das Fälligkeitsdatum zum Bruttoertrag.
+
+ name                          [0..1]   xs:string         Die Bezeichnung zum Bruttoertrag.
+
+ amountCurrency                [1..1]   eCH-0196:cur-     Die Währung des Bruttoertrags.
+                                        rencyIdISO3Type
+
+ amount                        [0..1]   xs:decimal        Der Bruttoertrag zum Fälligkeitsdatum in der an-
+                                                          gegebenen Währung.
+
+ exchangeRate                  [0..1]   xs:decimal        Der Devisenkurs zum Fälligkeitsdatum und Wäh-
+                                                          rung mit Stückelung 1 (Bsp. 1 JPY = 0.0092
+                                                          CHF).
+
+ grossRevenueA                 [1..1]   xs:decimal        Der Bruttoertrag in CHF der Rubrik A (mit Ver-
+                                                          rechnungssteueranspruch) für die Bundes- und
+                                                          Staatssteuer.
+
+ grossRevenueB                 [1..1]   xs:decimal        Der Bruttoertrag in CHF der Rubrik B (ohne Ver-
+                                                          rechnungssteueranspruch) für die Bundes- und
+                                                          Staatssteuer.
+
+ withHolding-                  [1..1]   xs:decimal        Der Betrag des Verrechnungssteueranspruchs in
+ TaxClaim                                                 CHF.
+
+ ##other                       [0..*]   xs:anyAttribute   Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 9: Bankkonto Ertrag – bankAccountPaymentType
+
+
+2.5.5 Schuldenverzeichnis [listOfLiabilitiesType]
+Nachfolgend ist die Struktur für das Schuldenverzeichnis dargestellt. Das Schuldenverzeichnis
+umfasst das Element für ein einzelnes Bankkonto mit negativem Saldo (Schulden), sowie das
+Total der Schulden (negatives Vermögen) und Zinszahlungen (negative Erträge) im Schulden-
+verzeichnis. Im Schuldenverzeichnis können mehrere Bankkonten mit negativem Saldo
+(Schulden) aufgeführt werden.
+Alle negativen Steuerwerte (negative Vermögen) und Zinszahlungen (Schuldzinsen / negative
+Erträge) werden mit ihren Beträgen (d.h. positive Zahl ohne Vorzeichen oder 0) dargestellt.
+Aus der Deklaration ergibt sich aus dem Kontext des Schuldverzeichnisses, dass die Steuer-
+werte resp. Zinszahlungen aus Sicht des Steuerpflichtigen mit negativem Vorzeichen in die
+Deklaration übernommen werden.
+
+
+
+
+Verein eCH                                                                  www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+            E-Government-Standards                                                             Seite 21 von 50
+
+
+
+
+Abbildung 8: Schuldenverzeichnis - listOfLiabilitiesType
+
+Es werden alle Schulden (Bruttodarstellung) im Schuldenverzeichnis aufgeführt. Diese dürfen
+nicht mit den Vermögenswerten verrechnet werden. Die Totale der Schulden und der Schuld-
+zinsen müssen gesondert ausgewiesen werden. Die Totale der Schulden und Schuldzinsen
+können 1:1 in die Deklaration übernommen werden.
+Das Element für das Bankkonto mit negativem Saldo (Schulden) umfasst die Elemente für den
+negativen Steuerwert (negatives Vermögen) und die Zinszahlungen (Schuldzinsen / negative
+Erträge, jedoch nicht negative Zinsen) als Beträge (|x| ≥ 0). Zusätzlich sind die Eckdaten zum
+Bankkonto (Schulden) sowie das Total der Schulden (negatives Vermögen) und Zinszahlun-
+gen (negative Erträge) abgebildet. Zu einem Bankkonto (Schulden) kann lediglich ein Steuer-
+wert (negatives Vermögen), jedoch beliebig viele (Schuld-)Zinszahlungen (negative Erträge)
+abgebildet werden.
+Im Element für den Steuerwert zum Bankkonto (Schulden) sind der Stichtag, der Saldo (nega-
+tiv) in Fremdwährung sowie der Steuerwert (negatives Vermögen) in CHF dargestellt. Die Um-
+rechnung eines Saldos (negativ) in Fremdwährung kann durch Angabe des Devisenkurses
+nachvollzogen werden.
+Im Element für die Zinszahlungen (negative Erträge) des Bankkontos (Schulden) sind das
+Zahlungsdatum, der Betrag (negativ) in Fremdwährung sowie der Ertrag (negativ) ohne Ver-
+rechnungssteuer aufgeführt. Die Umrechnung eines Betrags (negativ) in Fremdwährung kann
+durch Angabe des Devisenkurses nachvollzogen werden. Wie in den Kapitel 2.5.4.1 und
+2.5.5.1 bereits beschrieben muss ein positiver Saldo oder ein positiver Ertrag im Kontenver-
+zeichnis aufgeführt werden.Nachfolgend sind die Elemente und Attribute zum Schuldenver-
+zeichnis dargestellt.
+ Feld                  Fix        Inter-   Datentyp              Beschreibung / Inhalt
+                                  vall
+ liabilityAccount                 [0..*]   eCH-0196:liability-   Die Bankkonten mit negativem Saldo (Schulden)
+                                           AccountType           des Schuldenverzeichnisses.
+
+ ##other                          [0..*]   xs:any                Beliebige Erweiterungen des Finanzinstituts.
+
+ totalTaxValue                    [1..1]   eCH-0196:positive-    Die Summe der Beträge (|x| ≥ 0) der negativen
+                                           decimal               Steuerwerte (Schulden), gerundet nach DIN
+                                                                 1333.
+
+
+
+
+Verein eCH                                                                         www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+            E-Government-Standards                                                             Seite 22 von 50
+
+
+
+ Feld                  Fix        Inter-   Datentyp              Beschreibung / Inhalt
+                                  vall
+ totalGrossReve-                  [1..1]   eCH-0196:positive-    Die Summe der Beträge (|x| ≥ 0) der Bruttoauf-
+ nueB                                      decimal               wände (Schuldzinsen) der Rubrik B (ohne Ver-
+                                                                 rechnungssteueranspruch) für die Bundes- und
+                                                                 Staatssteuer, gerundet nach DIN 1333.
+
+ ##other                          [0..*]   xs:anyAttribute       Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 10: Schuldenverzeichnis – listOfLiabilitiesType
+
+Hinweis: Die entsprechenden Totale im Schuldenverzeichnis resp. Bankkonto mit negativem
+Saldo (Schulden) entsprechen den Werten in der Rekapitulation resp. Übersicht und sind zwin-
+gend anzugeben.
+
+
+2.5.5.1 Bankkonto (Schulden) [liabilityAccountType]
+Nachfolgend sind die Elemente und Attribute zum Bankkonto (Schulden) dargestellt.
+ Feld                  Fix        Inter-   Datentyp              Beschreibung / Inhalt
+                                  vall
+ taxValue                         [0..1]   eCH-0196:liability-   Betrag (|x| ≥ 0) des negativen Steuerwertes
+                                           AccountTaxValue-      (Schulden) zum Bankkonto (Schulden).
+                                           Type
+
+ payment                          [0..*]   eCH-0196:liability-   Summe der Beträge der Aufwände (Schuldzin-
+                                           AccountPayment-       sen) zum Bankkonto (Schulden).
+                                           Type
+
+ ##other                          [0..*]   xs:any                Beliebige Erweiterungen des Finanzinstituts.
+
+ iban                             [0..1]   eCH-0196:iban-        Die IBAN (International Bank Account Number)
+                                           Type [15..30]         des Bankkontos (Schulden).
+
+ bankAccountNum-                  [0..1]   eCH-0196:bankAc-      Die Nummer des Bankkontos (Schulden).
+ ber                                       countNumberType
+                                           [1..32]
+
+ bankAccountName                  [1..1]   eCH-0196:bankAc-      Die Kontobezeichnung des Bankkontos (Schul-
+                                           countNameType         den).
+                                           [1..40]
+
+ bankAccount-                     [1..1]   eCH-0008:countryI-    Das Domizil (Land) zum Bankkonto (Schulden).
+ Country                                   dISO2Type
+
+ bankAccountCur-                  [1..1]   eCH-0196:cur-         Die Währung des Bankkontos (Schulden).
+ rency                                     rencyIdISO3Type
+
+ openingDate                      [0..1]   xs:date               Das Eröffnungsdatum des Bankkontos (Schul-
+                                                                 den). Dies muss nur im Jahr der Eröffnung ange-
+                                                                 geben werden.
+
+ closingDate                      [0..1]   xs:date               Das Saldierungsdatum des Bankkontos (Schul-
+                                                                 den). Dies muss nur im Jahr der Saldierung an-
+                                                                 gegeben werden.
+
+
+
+
+Verein eCH                                                                         www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+           E-Government-Standards                                                             Seite 23 von 50
+
+
+
+ Feld                 Fix        Inter-   Datentyp             Beschreibung / Inhalt
+                                 vall
+ totalTaxValue                   [1..1]   eCH-0196:positive-   Die Summe der Beträge (|x| ≥ 0) der negativen
+                                          decimal              Steuerwerte (Schulden), gerundet nach DIN
+                                                               1333.
+
+ totalGross-Reve-                [1..1]   eCH-0196:positive-   Die Summe der Beträge (|x| ≥ 0) der Bruttoauf-
+ nueB                                     decimal              wände (Schuldzinsen) der Rubrik B (ohne Ver-
+                                                               rechnungssteueranspruch) für die Bundes- und
+                                                               Staatssteuer, gerundet nach DIN 1333.
+
+ ##other                         [0..*]   xs:anyAttribute      Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 11:Bankkonto (Schulden) – liabilityAccountType
+
+
+2.5.5.1.1 Bankkonto negativer Steuerwert (Schulden) [liabilityAccountTaxValueType]
+Nachfolgend sind die Elemente und Attribute zum Steuerwert des Bankkontos mit negativem
+Saldo (Schulden) dargestellt.
+ Feld                 Fix        Inter-   Datentyp             Beschreibung / Inhalt
+                                 vall
+ ##other                         [0..*]   xs:any               Beliebige Erweiterungen des Finanzinstituts.
+
+ referenceDate                   [1..1]   xs:date              Der Stichtag zum Saldo.
+
+ name                            [0..1]   xs:string            Die Bezeichnung zum Saldo.
+
+ balanceCurrency                 [1..1]   eCH-0196:cur-        Die Währung des Saldos.
+                                          rencyIdISO3Type
+
+ balance                         [0..1]   eCH-0196:positive-   Der Saldo (Betrag |x| ≥ 0) zum Stichtag in der an-
+                                          decimal              gegebenen Währung.
+
+ exchangeRate                    [0..1]   xs:decimal           Der Devisenkurs zum Stichtag und Währung mit
+                                                               Stückelung 1 (Bsp. 1 JPY = 0.0092 CHF).
+
+ value                           [1..1]   eCH-0196:positive-   Der Betrag (|x| ≥ 0) des negativen Steuerwertes
+                                          decimal              im CHF (Schulden) zum Stichtag.
+
+ ##other                         [0..*]   xs:anyAttribute      Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 12: Bankkonto Steuerwert (Schulden) – liabilityAccountTaxValueType
+
+
+2.5.5.1.2 Bankkonto Aufwand (Schulden) [liabilityAccountPaymentType]
+Nachfolgend sind die Elemente und Attribute zu den Aufwänden des Bankkontos (Schulden)
+mit negativem Saldo dargestellt.
+ Feld                 Fix        Inter-   Datentyp             Beschreibung / Inhalt
+                                 vall
+ ##other                         [0..*]   xs:any               Beliebige Erweiterungen des Finanzinstituts.
+
+ paymentDate                     [1..1]   xs:date              Das Fälligkeitsdatum zum Bruttoaufwand.
+
+ name                            [0..1]   xs:string            Die Bezeichnung zum Bruttoaufwand.
+
+ amountCurrency                  [1..1]   eCH-0196:cur-        Die Währung des Bruttoaufwandes.
+                                          rencyIdISO3Type
+
+
+Verein eCH                                                                       www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+           E-Government-Standards                                                           Seite 24 von 50
+
+
+
+ Feld                 Fix       Inter-   Datentyp             Beschreibung / Inhalt
+                                vall
+ amount                         [0..1]   eCH-0196:positive-   Der Betrag (|x| ≥ 0) des Bruttoaufwandes
+                                         decimal              (Schuldzins) zum Stichtag in der angegebenen
+                                                              Währung.
+
+ exchangeRate                   [0..1]   xs:decimal           Der Devisenkurs zum Stichtag und Währung mit
+                                                              Stückelung 1 (Bsp. 1 JPY = 0.0092 CHF).
+
+ grossRevenueB                  [1..1]   eCH-0196:positive-   Der Betrag (|x| ≥ 0) des Bruttoaufwandes
+                                         decimal              (Schuldzins) der Rubrik B (ohne Verrechnungs-
+                                                              steueranspruch) für die Bundes- und Staats-
+                                                              steuer.
+
+ ##other                        [0..*]   xs:anyAttribute      Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 13: Bankkonto Ertrag (Schulden) – liabilityAccountPaymentType
+
+
+2.5.6 Spesenverzeichnis [listOfExpensesType]
+Nachfolgend ist die Struktur für das Spesenverzeichnis dargestellt. Das Spesenverzeichnis
+umfasst hierbei das Element für eine einzelne Position der Bankspesen sowie das Total der
+Spesen. Im Spesenverzeichnis können mehrere Positionen von Bankspesen aufgeführt wer-
+den. Das Total der abzugsfähigen Spesen wird zudem nach der Bundes- und Staatssteuer
+unterschieden. Die Unterscheidung ist notwendig, da unterschiedliche gesetzliche Vorgaben
+zur Abzugsfähigkeit von Spesen zwischen Bund und den jeweiligen Kantonen existieren.
+Alle Spesen werden mit ihren Beträgen (d.h. positive Zahl oder 0) dargestellt. Es ergibt sich
+bei der Deklaration aus dem Kontext des Spesenverzeichnisses, dass die Spesen aus Sicht
+des Steuerpflichtigen Aufwände sind und daher als Abzüge in die Deklaration übernommen
+werden.
+
+
+
+
+Abbildung 9: Spesenverzeichnis - listOfExpensesType
+
+Im Element für die Bankspesen wird jeweils eine Spesenposition abgebildet. In einer Spesen-
+position werden der Stichtag, die Spesenbezeichnung, die Konto- oder Depotnummer und der
+Betrag aufgeführt. Über die Konto- oder Depotnummer muss eine Spesenposition einem
+Bankkonto oder einem Wertschriftendepot zugeordnet werden können. Nicht jede Spesenpo-
+sition ist abzugsfähig bzw. vollständig abzugsfähig. Falls bekannt, kann der abzugsfähige Be-
+trag zusätzlich nach Bundes- oder Staatssteuer angegeben werden.
+Verein eCH                                                                      www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+           E-Government-Standards                                                           Seite 25 von 50
+
+
+Nachfolgend sind die Elemente und Attribute zum Spesenverzeichnis dargestellt.
+ Feld                 Fix       Inter-   Datentyp             Beschreibung / Inhalt
+                                vall
+ expense                        [0..*]   eCH-0196:expen-      Die Bankspesen des Spesenverzeichnisses.
+                                         seType
+
+ ##other                        [0..*]   xs:any               Beliebige Erweiterungen des Finanzinstituts.
+
+ totalExpenses                  [1..1]   eCH-0196:positive-   Das Total der Bankspesen in CHF, gerundet
+                                         decimal              nach DIN 1333.
+
+ totalExpensesDe-               [0..1]   eCH-0196:positive-   Das Total der abzugsfähigen Bankspesen in
+ ductible                                decimal              CHF für die Bundessteuer, gerundet nach DIN
+                                                              1333.
+                                                              Über die Abzugsfähigkeit der Spesen ent-
+                                                              scheidet die zuständige Veranlagungsbe-
+                                                              hörde, daher ist das Attribut nicht durch das
+                                                              Finanzinstitut anzugeben.
+
+ totalExpensesDe-               [0..1]   eCH-0196:positive-   Das Total der abzugsfähigen Bankspesen in
+ ductibleCanton                          decimal              CHF für die Staatssteuer, gerundet nach DIN
+                                                              1333. Der Wert ist nur anzugeben, wenn dieser
+                                                              vom Wert für die Bundessteuer abweicht.
+                                                              Über die Abzugsfähigkeit der Spesen ent-
+                                                              scheidet die zuständige Veranlagungsbe-
+                                                              hörde, daher ist das Attribut nicht durch das
+                                                              Finanzinstitut anzugeben.
+
+ ##other                        [0..*]   xs:anyAttribute      Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 14: Spesenverzeichnis – listOfExpensesType
+
+Hinweis: Die entsprechenden Totale im Spesenverzeichnis entsprechen den Werten in der
+Rekapitulation resp. Übersicht und sind zwingend anzugeben.
+
+
+2.5.6.1 Bankspesen [expenseType]
+Nachfolgend sind die Elemente und Attribute zu den Bankspesen dargestellt.
+ Feld                 Fix       Inter-   Datentyp             Beschreibung / Inhalt
+                                vall
+ ##other                        [0..*]   xs:any               Beliebige Erweiterungen des Finanzinstituts.
+
+ referenceDate                  [0..1]   xs:date              Der Stichtag zu den Bankspesen.
+
+ name                                    xs:string            Die Bezeichnung zu den Bankspesen.
+
+ iban                           [0..1]   eCH-0196:iban-       Die IBAN (International Bank Account Number)
+                                         Type [15..30]        des zugehörigen Bankkontos
+
+ bankAccountNum-                [0..1]   eCH-0196:bankAc-     Die Kontonummer des zugehörigen Bankkontos.
+ ber                                     countNumberType
+                                         [1..32]
+
+
+
+
+Verein eCH                                                                      www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+            E-Government-Standards                                                       Seite 26 von 50
+
+
+
+ Feld               Fix      Inter-   Datentyp             Beschreibung / Inhalt
+                             vall
+ depotNumber                 [0..1]   eCH-0196:depot-      Die Depotnummer des zugehörigen Wertschrif-
+                                      NumberType           tendepots.
+                                      [1..32]
+
+ amountCurrency              [1..1]   eCH-0196:cur-        Die Währung zum Fremdwährungsbetrag.
+                                      rencyIdISO3Type
+
+ amount                      [0..1]   xs:decimal           Der Betrag in Fremdwährung.
+
+ exchangeRate                [0..1]   xs:decimal           Der Devisenkurs zum Stichtag und Währung mit
+                                                           Stückelung 1 (Bsp. 1 JPY = 0.0092 CHF).
+
+ expenses                    [1..1]   eCH-0196:positive-   Der Betrag der Bankspesen in CHF.
+                                      decimal
+
+ expensesDeducti-            [0..1]   eCH-0196:positive-   Der abzugsfähige Betrag der Bankspesen in
+ ble                                  decimal              CHF für die Bundessteuer.
+
+ expensesDe-                 [0..1]   eCH-0196:positive-   Der abzugsfähige Betrag der Bankspesen in
+ ductibleCanton                       decimal              CHF für die Staatssteuer. Der Wert ist nur anzu-
+                                                           geben, wenn dieser vom Wert für die Bundes-
+                                                           steuer abweicht.
+
+ expenseType                 [1..1]   eCH-0196:expen-      Der Spesentyp der Vermögensverwaltungsko-
+                                      seTypeType           sten.
+                                                           1: Stempelabgaben (Emissions- und Umsatzab-
+                                                           gaben)
+                                                           2: Transaktionskosten
+                                                           3: Vorfälligkeitsentschädigungen
+                                                           4: Administrationsgebühren (Verwaltungsgebüh-
+                                                           ren)
+                                                           5: Banklagernd
+                                                           6: Beratungskosten
+                                                           7: Kosten für das Ausfüllen von Formularen
+                                                           (Rückforderung z.B. R-D1 / Anrechnung der aus-
+                                                           ländischen Quellensteuer DA-1)
+                                                           8: Kosten für die Erstellung der Steuererklärung
+                                                           9: Kosten für die Erstellung der Steuerunterlagen
+                                                           10: Kosten für die Erstellung der Steuerverzeich-
+                                                           nisse von Banken
+                                                           11: Kosten der Vermögensumlagerung
+                                                           12: Provisionen (Agent Fee)
+                                                           13: Treuhandkommissionen / Treuhandgebüh-
+                                                           ren
+                                                           14: Vermittlungsgebühren
+                                                           15: Vermögensverwaltungskosten (aktives De-
+                                                           potmanagement)
+                                                           16: Verrechenbare Courtagegebühren aus IUP
+                                                           (Reine und modifizierte Differenzbesteuerung)
+Verein eCH                                                                   www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+           E-Government-Standards                                                       Seite 27 von 50
+
+
+
+ Feld                Fix      Inter-   Datentyp          Beschreibung / Inhalt
+                              vall
+                                                         17: Abgezogene Quellensteuer
+                                                         18: Affidavitspesen
+                                                         19: All-in Fee
+                                                         20: Auslieferung Edelmetalle
+                                                         21: Auslieferungsspesen / Titellieferungsgebüh-
+                                                         ren
+                                                         22: Depotgebühren
+                                                         23: Gebühren für Bescheinigungen (z.B. Stich-
+                                                         tagsaufstellung; Kapitalsteuerertrag)
+                                                         24: Inkassospesen
+                                                         25: Kontoführungsgebühren (inkl. Baukontoge-
+                                                         bühren, Kontospesen, Metallkonto, Kontosegre-
+                                                         gierung)
+                                                         26: Kosten für eigene Bemühungen
+                                                         27: Managementgebühren
+                                                         28: Metallkontokommissionen
+                                                         29: Negativzinsen (im Privatvermögen)
+                                                         30: Nummernkontogebühren
+                                                         31: Pauschalgebühren / Verwaltungsgebühren
+                                                         32: Performanceorientierte / Erfolgsorientierte
+                                                         Honorare
+                                                         33: Porto / Versandkosten
+                                                         34: Saldierungsspesen
+                                                         35: Tresorfachgebühren / Schrankfachgebühren
+                                                         36: Absicherungskosten
+                                                         37: Diverse Gebühren
+                                                         38: Devisenkurssicherungskosten
+                                                         39: Externe Gebühren / Fremdspesen
+                                                         40: Kartengebühren / Kreditkartengebühren
+                                                         41: Kreditgebühren / Kreditkommissionen
+                                                         42: Nichtkündigungsabzug
+                                                         43: Zessionskommission
+                                                         44: Erstellung/Erhöhung Schuldbriefe
+                                                         99: Sonstige unqualifizierte Begriffe
+
+ ##other                      [0..*]   xs:anyAttribute   Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 15: Bankspesen – expenseType
+
+
+
+
+Verein eCH                                                                 www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+            E-Government-Standards                                               Seite 28 von 50
+
+
+
+2.5.7 Wertschriftenliste [listOfSecuritiesType]
+Nachfolgend ist die Struktur für die Wertschriftenliste dargestellt. Die Wertschriftenliste um-
+fasst hierbei das Element für ein einzelnes Wertschriftendepot sowie das Total zum Vermögen
+und zu den Erträgen aller in den Wertschriftendepots hinterlegten Wertschriften.
+
+
+
+
+Abbildung 10: Wertschriftenliste - listOfSecuritiesType
+
+Das Total der Erträge wird zudem nach Rubrik A und B sowie der Bundes- und Staatssteuer
+unterschieden. Sind Steuerwerte oder Erträge undefiniert, so sind diese bei der Berechnung
+des Totals der Steuerwerte bzw. der Erträge mit dem Wert 0 zu berücksichtigen. In der Dekla-
+ration, sicher aber in der Veranlagung, werden die undefinierten Steuerwerte und Erträge er-
+mittelt. Es wird empfohlen, die Steuerpflichtigen auf nicht definierte Steuerwerte bzw. Erträge
+im E-Steuerauszug hinzuweisen. In der Wertschriftenliste können mehrere Wertschriftende-
+pots aufgeführt werden.
+Das Element für das Wertschriftendepot umfasst das Element für die Titel der Wertschriftenli-
+ste. In einem Wertschriftendepot können beliebig viele Titel abgebildet werden. Als Attribut ist
+die Depotnummer des Wertschriftendepots abgebildet. Im Element Wertschriftendepot wird
+auf Attribute für das Total der Steuerwerte und der Erträge mit und ohne Verrechnungssteuer
+verzichtet. Das Total wird lediglich in der Wertschriftenliste gebildet.
+
+
+Verein eCH                                                             www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+              E-Government-Standards                                                                Seite 29 von 50
+
+
+Das Element für den Titel umfasst die Elemente für den Steuerwert, die Erträge und den Be-
+stand der Titel. Zusätzlich sind die Eckdaten zum Titel wie z.B. VN, ISIN, Titelbezeichnung,
+Nennwert, Emissions- und Rückzahlungsdatum aufgeführt. Zusätzlich sind die Titelkategorie
+und Titelart gemäss Kursliste abgebildet. Über die Kombination aus UID und Titelbezeichnung
+können nicht kotierte Titel abgebildet werden. Innerhalb der gesamten Wertschriftenliste (d.h.
+innerhalb eines E-Steuerauszug) muss für einen Titel die Positions-ID eindeutig sein. Wird ein
+Titel mehrfach in der Wertschriftenliste aufgeführt, auch wenn dies in verschiedenen Depots
+geschieht, so wird dies als erneuter Kauf interpretiert. Um verschiedene Positionen einer Wert-
+schrift speziell auszuweisen, ist das Attribut positionId im Typ securitySecurityType zu ver-
+wenden (z.B. um eine unterschiedliche steuerliche Bewertung von gesperrten Mitarbeiterak-
+tien abzubilden). Beispiel: gleicher Valor im gleichen Depot, jedoch unterschiedliche Bewer-
+tung aufgrund der unterschiedlichen Haltefrist:
+<security positionId="12345" country="CH" currency="CHF" quotationType="PIECE" securityCategory="BOND" securi-
+tyName="Roche" valorNumber="1203204">
+          <taxValue referenceDate="2017-12-31" quotationType="PIECE" quantity="100" balanceCurrency="CHF"
+value="22000"/>
+</security>
+<security positionId="12346" country="CH" currency="CHF" quotationType="PIECE" securityCategory="BOND" securi-
+tyName="Roche" valorNumber="1203204">
+          <taxValue referenceDate="2017-12-31" quotationType="PIECE" quantity="100" balanceCurrency="CHF"
+value="12000" blocked="1" blockingTo="2020-12-31"/>
+</security>
+
+Im Element für den Steuerwert zum Titel sind der Stichtag, der Saldo in Fremdwährung sowie
+der Steuerwert in CHF dargestellt. Die Umrechnung eines Saldos in Fremdwährung kann
+durch Angabe des Devisenkurses nachvollzogen werden.
+Im Element für die Erträge des Titels sind das Zahlungsdatum, Ex-Datum, der Betrag in der
+angegebenen Währung sowie der Ertrag (mit und ohne Verrechnungssteueranspruch) in CHF
+aufgeführt. Zusätzlich sind Attribute für die Anrechnung ausländischer Quellensteuer und Steuer-
+rückbehalt USA aufgeführt. Weiter werden Flags für Ausgleichszahlungen und Retrozessionen
+abgebildet. Ergibt die steuerliche Qualifikation eines Titels einen steuerbaren Ertrag, so kann
+dies ebenfalls über Flags abgebildet werden. Findet ein Abgang zu einem IUP-Titel statt oder
+liegt eine individuelle Wandlung zum Titel vor, so wird der steuerbare Ertrag aus der (individu-
+ellen) Wandlung, der reinen oder modifizierten Differenzbesteuerung, ebenfalls in dieser Struk-
+tur abgebildet. Für die Berechnung eines IUP-Titels bzw. der (individuellen) Wandlung sind
+alle relevanten Transaktionen zu berücksichtigen. Hierbei sind ein oder mehrere Zugänge für
+einen Abgang zu berücksichtigen. Die notwendigen Informationen können über das Element
+Zugang und Abgang (IUP / Wandlung) hinterlegt werden.
+Im Element für den Bestand oder die Mutation eines Titels sind der Stichtag, die Anzahl, der
+Saldo in Fremdwährung sowie der Steuerwert in CHF dargestellt. Zusätzlich können Informa-
+tionen zu gesperrten Titeln hinterlegt werden. Der Bestand kann durch ein Flag von einer Mu-
+tation unterschieden werden. Die Anzahl hat bei einem Bestand immer ein positives Vorzei-
+chen. Bei einer Mutation ist das Vorzeichen in der Anzahl entscheidend. Hat die Anzahl ein
+positives Vorzeichen, dann liegt ein Zugang vor. Bei einem Abgang hat die Anzahl hingegen
+ein negatives Vorzeichen. Jede Transaktion zu einem Titel in der Wertschriftenliste spiegelt
+sich in einem Eintrag in dieser Struktur wider. Aufgrund des «First-In / First-Out-Prinzips» bei
+IUP-Berechnungen, bei dem Teilzugänge berücksichtigt werden müssen, ist diese Struktur
+nicht ausreichend, um die notwendigen Informationen für die IUP-Berechnung abzubilden.
+
+
+
+
+Verein eCH                                                                             www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+           E-Government-Standards                                                        Seite 30 von 50
+
+
+Nachfolgend sind die Elemente und Attribute zur Wertschriftenliste dargestellt.
+ Feld               Fix      Inter-   Datentyp             Beschreibung / Inhalt
+                             vall
+ depot                       [0..*]   eCH-0196:security-   Die Wertschriftendepots zur Wertschriftenliste.
+                                      DepotType
+
+ ##other                     [0..*]   xs:any               Beliebige Erweiterungen des Finanzinstituts.
+
+ totalTaxValue               [1..1]   xs:decimal           Das Total der Steuerwerte in CHF ohne die son-
+                                                           stigen Vermögenswerte wie z.B. physisches
+                                                           Gold, gerundet nach DIN 1333.
+
+ totalGrossReve-             [1..1]   xs:decimal           Das Total der Bruttoerträge in CHF der Rubrik A
+ nueA                                                      (mit Verrechnungssteueranspruch) für die Bun-
+                                                           dessteuer, gerundet nach DIN 1333.
+                                                           Die positiven IUP-Erträge (Bruttodarstellung)
+                                                           mit Verrechnungssteueranspruch sind im Total
+                                                           der Bruttoerträge der Rubrik A auszuweisen.
+
+ totalGrossReve-             [0..1]   xs:decimal           Das Total der Bruttoerträge in CHF der Rubrik A
+ nueACanton                                                (mit Verrechnungssteueranspruch) für die
+                                                           Staatssteuer, gerundet nach DIN 1333. Der Wert
+                                                           ist nur anzugeben, wenn dieser vom Wert für die
+                                                           Bundessteuer abweicht.
+                                                           Die positiven IUP-Erträge (Bruttodarstellung)
+                                                           mit Verrechnungssteueranspruch sind im Total
+                                                           der Bruttoerträge der Rubrik A auszuweisen.
+
+ totalGrossReve-             [1..1]   xs:decimal           Das Total der Bruttoerträge in CHF der Rubrik B
+ nueB                                                      (ohne Verrechnungssteueranspruch) für die
+                                                           Bundessteuer ohne Retrozessionen und ohne
+                                                           Securities Lending, gerundet nach DIN 1333.
+                                                           Die positiven IUP-Erträge (Bruttodarstellung)
+                                                           ohne Verrechnungssteueranspruch sind im Total
+                                                           der Bruttoerträge der Rubrik B auszuweisen.
+                                                           Die negativen IUP-Erträge ohne Verrechnungs-
+                                                           steueranspruch sind nicht im Total der Bruttoer-
+                                                           träge der Rubrik B auszuweisen.
+                                                           Über die Verrechenbarkeit der positiven und ne-
+                                                           gativen IUP-Erträge ohne Verrechnungssteuer-
+                                                           anspruch entscheidet die zuständige Veranla-
+                                                           gungsbehörde.
+
+ totalGrossReve-             [0..1]   xs:decimal           Das Total der Bruttoerträge in CHF der Rubrik B
+ nueBCanton                                                (ohne Verrechnungssteueranspruch) für die
+                                                           Staatssteuer ohne Retrozessionen und ohne
+                                                           Securities Lending, gerundet nach DIN 1333. Der
+                                                           Wert ist nur anzugeben, wenn dieser vom Wert
+                                                           für die Bundessteuer abweicht.
+                                                           Die positiven IUP-Erträge (Bruttodarstellung)
+                                                           ohne Verrechnungssteueranspruch sind im Total
+                                                           der Bruttoerträge der Rubrik B auszuweisen.
+
+
+Verein eCH                                                                   www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+            E-Government-Standards                                                          Seite 31 von 50
+
+
+
+ Feld                   Fix        Inter-   Datentyp          Beschreibung / Inhalt
+                                   vall
+                                                              Die negativen IUP-Erträge ohne Verrechnungs-
+                                                              steueranspruch sind nicht im Total der Bruttoer-
+                                                              träge der Rubrik B auszuweisen.
+                                                              Über die Verrechenbarkeit der positiven und ne-
+                                                              gativen IUP-Erträge ohne Verrechnungssteuer-
+                                                              anspruch entscheidet die zuständige Veranla-
+                                                              gungsbehörde.
+
+ totalWithHolding-                 [1..1]   xs:decimal        Das Total des Verrechnungssteueranspruchs in
+ TaxClaim                                                     CHF, gerundet nach DIN 1333.
+                                                              Der Verrechnungssteueranspruch aus den posi-
+                                                              tiven IUP-Erträgen (Bruttodarstellung) ist im To-
+                                                              tal des Verrechnungssteueranspruchs anzuwei-
+                                                              sen.
+
+ totalLumpSum-                     [1..1]   xs:decimal        Das Total der Anrechnung ausländischer Quel-
+ TaxCredit                                                    lensteuer
+                                                               in CHF, als Summe aus dem im Ausland rück-
+                                                              forderbaren und nicht rückforderbaren Anteilen,
+                                                              gerundet nach DIN 1333.
+
+ totalNonRecover-                  [1..1]   xs:decimal        Das Total des im Ausland nicht rückforderbaren
+ ableTax                                                      Teils der Quellensteuer in CHF, der in der
+                                                              Schweiz gemäss Doppelbesteuerungsabkom-
+                                                              men angerechnet werden kann, gerundet nach
+                                                              DIN 1333.
+
+ totalAdditionalWith-              [1..1]   xs:decimal        Das Total des Steuerrückbehalt USA in CHF, ge-
+ HoldingTaxUSA                                                rundet nach DIN 1333.
+
+ totalGrossRevenu-                 [1..1]   xs:decimal        Das Total der Bruttoerträge in CHF aus IUP (rei-
+ eIUP                                                         ner oder modifizierter Differenzbesteuerung), ge-
+                                                              rundet nach DIN 1333.
+                                                              Das Attribut ist die Summe der positiven und ne-
+                                                              gativen IUP-Erträge ohne die Unterscheidung
+                                                              nach der Rubrik A oder B.
+
+ totalGrossReve-                   [1..1]   xs:decimal        Das Total der Bruttoerträge in CHF aus (individu-
+ nueConversion                                                eller) Wandlung, gerundet nach DIN 1333.
+
+ ##other                           [0..*]   xs:anyAttribute   Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 16: Wertschriftenliste – listOfSecuritiesType
+
+
+
+
+Verein eCH                                                                      www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+            E-Government-Standards                                                          Seite 32 von 50
+
+
+2.5.7.1 Wertschriftendepot [securityDepotType]
+Nachfolgend sind die Elemente und Attribute zum Wertschriftendepot dargestellt.
+ Feld                 Fix       Inter-   Datentyp             Beschreibung / Inhalt
+                                vall
+ security                       [0..*]   eCH-0196:security-   Die Titel im Wertschriftendepot.
+                                         SecurityType
+
+ ##other                        [0..*]   xs:any               Beliebige Erweiterungen des Finanzinstituts.
+
+ depotNumber                    [1..1]   eCH-0196:depot-      Die Depotnummer des Wertschriftendepots.
+                                         NumberType
+                                         [1..32]
+
+ ##other                        [0..*]   xs:anyAttribute      Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 17: Wertschriftendepot – securityDepotType
+
+
+2.5.7.1.1 Titel [securitySecurityType]
+Nachfolgend sind die Elemente und Attribute zum Titel dargestellt.
+ Feld                 Fix       Inter-   Datentyp             Beschreibung / Inhalt
+                                vall
+ taxValue                       [0..1]   eCH-0196:security-   Der Steuerwert zum Titel. Unterschiedliche Steu-
+                                         TaxValueType         erwerte sind aufgrund gesperrter Titel möglich.
+                                                              Um Wertschriften mit unterschiedlicher steuerli-
+                                                              cher Bewertung separat in der Wertschriftenliste
+                                                              auszuweisen, muss ein Titel mehrfach mit unter-
+                                                              schiedlicher positionId aufgeführt werden. Nur
+                                                              wenn der Endbestand eines Titels zum Perioden-
+                                                              ende (periodTo) grösser als 0 ist, dann ist der
+                                                              Steuerwert anzugeben. Im Steuerwert ist immer
+                                                              der Endbestand des Titels zum Periodenende
+                                                              (periodTo) in der Anzahl anzugeben. Ist kein
+                                                              Steuerwert zum Stichtag bekannt, dann ist der
+                                                              Steuerwert als undefiniert anzugeben.
+
+ payment                        [0..*]   eCH-0196:security-   Die Erträge zum Titel.
+                                         PaymentType
+
+ stock                          [0..*]   eCH-0196:security-   Der Bestand (Mutationen) zum Titel. Ein An-
+                                         StockType            fangsbestand zum Periodenbeginn (period-
+                                                              From) ist anzugeben, wenn dieser grösser 0 ist.
+                                                              Alle Zugänge und Abgänge innerhalb des Steu-
+                                                              erjahres sind als Mutationen anzugeben. Ein
+                                                              Endbestand zum Periodenende (periodTo) ist
+                                                              nicht anzugeben, da sich dieser aus dem An-
+                                                              fangsbestand, den Zugängen und Abgängen im
+                                                              Steuerjahr ergibt.
+
+ uid                            [0..1]   eCH-0097:uid-        Unternehmens-Identifikationsnummer      gemäss
+                                         StructureType        Bundesamt für Statistik (BFS).
+
+ ##other                        [0..*]   xs:any               Beliebige Erweiterungen des Finanzinstituts.
+
+
+
+Verein eCH                                                                      www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+              E-Government-Standards                                                        Seite 33 von 50
+
+
+
+ Feld                 Fix    Inter-   Datentyp             Beschreibung / Inhalt
+                             vall
+                                      xs:positiveInteger
+ positionId                  [1..1]                        Mit diesem Feld kann ein Titel in einzelne Posi-
+                                                           tionen unterteilt werden. Der Wert für die Posi-
+                                                           tions-ID muss innerhalb eines E-Steuerauszug
+                                                           eindeutig sein.
+                                                           Jeder Titel, der zur selben Position gehört, muss
+                                                           die gleiche ID haben. Wenn eine ID mehrfach
+                                                           vorkommt, so muss es sich um den identischen
+                                                           Titel handeln.
+                                                           Gleiche Titel mit unterschiedlicher steuerlicher
+                                                           Bewertung (z.B. Mitarbeitertitel mit unterschiedli-
+                                                           cher Haltedauer) müssen unterschiedliche Posi-
+                                                           tions-IDs besitzen.
+                                                           Innerhalb eines Steuerauszuges in mehreren
+                                                           Depots vorkommende, identische Titel sind zwin-
+                                                           gend mit einer jeweils pro Depot unterschiedli-
+                                                           chen Nummerierung im Attribut positionId zu
+                                                           versehen.
+                                                           Die Positions-Id ist nur mit dem Wertebereich
+                                                           1..2'147'483'647 anzugeben, damit diese mit ei-
+                                                           nem 32-BIT Programm verarbeitet werden kann.
+
+ valorNumber                 [0..1]   eCH-0196:valor-      Die Valorennummer des Titels.
+                                      NumberType
+
+ isin                        [0..1]   eCH-0196:isinType    Die ISIN des Titels.
+
+ country                     [1..1]   eCH-0008:countryI-   Das Domizil (Land) des Titels.
+                                      dISO2Type
+
+ city                        [0..1]   eCH-0010:town-       Der Ort aus der Adresse der zugehörigen Gesell-
+                                      Type                 schaft.
+
+ currency                    [1..1]   eCH-0196:cur-        Die Währung zum Titel.
+                                      rencyIdISO3Type
+
+ quotationType               [1..1]   eCH-0196:quota-      Die Notationsart zum Titel (Stück oder Prozent).
+                                      tionTypeType
+
+ nominalValue                [0..1]   xs:decimal           Der Nennwert des Titels.
+
+ securityCategory            [1..1]   eCH-0196:security-   Die Titelkategorie zum Titel.
+                                      CategoryType
+
+ securityType                [0..1]   eCH-0196:security-   Die Titelart zum Titel. Hieraus kann zum Beispiel
+                                      TypeType             abgeleitet werden, dass es sich um einen The-
+                                                           saurierungsfonds handelt.
+
+ securityName                [1..1]   eCH-0196:security-   Die Titelbezeichnung zum Titel.
+                                      NameType [1..60]
+
+ issueDate                   [0..1]   xs:date              Das Emissionsdatum des Titels.
+
+ redemptionDate              [0..1]   xs:date              Das Rückzahlungsdatum des Titels.
+
+
+
+
+Verein eCH                                                                    www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+              E-Government-Standards                                                        Seite 34 von 50
+
+
+
+ Feld                  Fix        Inter-   Datentyp          Beschreibung / Inhalt
+                                  vall
+ redemptionDateE-                 [0..1]   xs:date           Das vorzeitige Rückzahlungsdatum des Titels.
+ arly
+
+ issuePrice                       [0..1]   xs:decimal        Der Emissionspreis des Titels in der angegebe-
+                                                             nen Notationsart.
+
+ redemptionPrice                  [0..1]   xs:decimal        Der Rückzahlungspreis des Titels in der angege-
+                                                             benen Notationsart.
+
+ redemptionPriceE-                [0..1]   xs:decimal        Der vorzeitige Rückzahlungspreis des Titels in
+ arly                                                        der angegebenen Notationsart.
+
+ interestRate                     [0..1]   xs:decimal        Der Zinssatz (fix) des Titels in Prozent (100% =
+                                                             100).
+
+ variableInterest            1    [0..1]   xs:boolean        Das Flag variabler Zins für einen Titel mit variab-
+                                                             lem Zinssatz. Falls das Flag zutrifft, so muss der
+                                                             fixe Werte 1 (true) gesetzt werden.
+
+ iup                         1    [0..1]   xs:boolean        Das IUP-Flag (reine oder modifizierte Differenz-
+                                                             besteuerung) zum Titel. Falls das Flag zutrifft, so
+                                                             muss der fixe Werte 1 (true) gesetzt werden.
+
+ bfp                         1    [0..1]   xs:boolean        Das BFP-Flag (Bondfloor Pricing) zum Titel. Falls
+                                                             das Flag zutrifft, so muss der fixe Werte 1 (true)
+                                                             gesetzt werden.
+
+                                                             IUP=0, BFP=1:     Wandelbar
+
+                                                             IUP=1, BFP=0:     reine Differenzbesteuerung
+
+                                                             IUP=1, BFP=1:     modifizierte Differenzbe-
+                                                                               steuerung
+
+ ##other                          [0..*]   xs:anyAttribute   Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 18: Titel – securitySecurityType
+
+
+2.5.7.1.1.1 Titel Steuerwert [securityTaxValueType]
+Nachfolgend sind die Elemente und Attribute zum Steuerwert des Titels dargestellt.
+ Feld                  Fix        Inter-   Datentyp          Beschreibung / Inhalt
+                                  vall
+ ##other                          [0..*]   xs:any            Beliebige Erweiterungen des Finanzinstituts.
+
+ referenceDate                    [1..1]   xs:date           Der Stichtag zum Steuerwert.
+
+ name                             [0..1]   xs:string         Die Bezeichnung zum Steuerwert.
+
+ quotationType                    [1..1]   eCH-0196:quota-   Die Notationsart zur Anzahl Titel (Stück oder No-
+                                           tionTypeType      minal).
+
+ quantity                         [1..1]   xs:decimal        Die Anzahl (Stück oder Nominal) zum Stichtag.
+                                                             Einzelpositionen sind in den Originalwerten zu
+                                                             übernehmen, ohne Rundung in den Nachkom-
+                                                             mastellen.
+
+
+
+Verein eCH                                                                      www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+             E-Government-Standards                                                         Seite 35 von 50
+
+
+
+ Feld                 Fix        Inter-   Datentyp          Beschreibung / Inhalt
+                                 vall
+ balanceCurrency                 [1..1]   eCH-0196:cur-     Die Währung zum Steuerkurs.
+                                          rencyIdISO3Type
+
+ unitPrice                       [0..1]   xs:decimal        Der Steuerkurs (Stückpreis oder Prozentwert)
+                                                            zum Stichtag und Währung.
+                                                            Es ist nur dann eine 0 beim Steuerkurs anzuge-
+                                                            ben, wenn der Steuerwert tatsächlich 0 ist. Wenn
+                                                            der Steuerwert undefiniert ist, dann darf keine 0
+                                                            im Steuerwert angegeben werden, sondern das
+                                                            Attribut ist in diesem Fall nicht anzugeben.
+
+ balance                         [0..1]   xs:decimal        Der Saldo zum Stichtag und Währung.
+
+ exchangeRate                    [0..1]   xs:decimal        Der Devisenkurs zum Stichtag und Währung mit
+                                                            Stückelung 1 (Bsp. 1 JPY = 0.0092 CHF).
+
+ value                           [0..1]   xs:decimal        Der Steuerwert zum Stichtag für die Staats-
+                                                            steuer.
+                                                            Es ist nur dann eine 0 beim Steuerwert anzuge-
+                                                            ben, wenn der Steuerwert tatsächlich 0 ist. Wenn
+                                                            der Steuerwert undefiniert ist, dann darf keine 0
+                                                            im Steuerwert angegeben werden, sondern das
+                                                            Attribut ist in diesem Fall nicht anzugeben.
+
+ blocked                    1    [0..1]   xs:boolean        Das Flag gesperrt zum Titel aus Mitarbeiterbetei-
+                                                            ligungen. Falls das Flag zutrifft, so muss der fixe
+                                                            Werte 1 (true) gesetzt werden. Gesperrte Titel
+                                                            aus Mitarbeiterbeteiligungen können einen redu-
+                                                            zierten Steuerwert aufweisen.
+
+ blockingTo                      [0..1]   xs:date           Das gesperrt-bis Datum zum Titel aus Mitarbei-
+                                                            terbeteiligungen. Gesperrte Titel aus Mitarbeiter-
+                                                            beteiligungen können einen reduzierten Steuer-
+                                                            wert aufweisen.
+
+ undefined                  1    [0..1]   xs:boolean        Das Flag undefiniert für einen nicht oder noch
+                                                            nicht verfügbaren Steuerwert. Falls das Flag zu-
+                                                            trifft, so muss der fixe Werte 1 (true) gesetzt wer-
+                                                            den.
+
+ kursliste                  1    [0..1]   xs:boolean        Das Kursliste-Flag als Quelle für den Steuerwert.
+                                                            Falls das Flag zutrifft, so muss der fixe Werte 1
+                                                            (true) gesetzt werden.
+
+ ##other                         [0..*]   xs:anyAttribute   Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 19: Titel Steuerwert – securityTaxValueType
+
+
+
+
+Verein eCH                                                                     www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+               E-Government-Standards                                                     Seite 36 von 50
+
+
+2.5.7.1.1.2 Titel Ertrag [securityPaymentType]
+Nachfolgend sind die Elemente und Attribute zum Ertrag des Titels dargestellt.
+ Feld                  Fix    Inter-   Datentyp             Beschreibung / Inhalt
+                              vall
+ purchase                     [0..*]   eCH-0196:security-   Der oder die Zugänge (Kauf) zum Titel für die
+                                       PurchaseDisposi-     IUP-Berechnung (reine oder modifizierte Diffe-
+                                       tionType             renzbesteuerung).
+
+ disposition                  [0..1]   eCH-0196:security-   Der Abgang (Verkauf / Rückzahlung) zum Titel
+                                       PurchaseDisposi-     für die IUP-Berechnung (reine oder modifizierte
+                                       tionType             Differenzbesteuerung).
+
+ ##other                      [0..*]   xs:any               Beliebige Erweiterungen des Finanzinstituts.
+
+ paymentDate                  [1..1]   xs:date              Das Fälligkeitsdatum zum Bruttoertrag.
+
+ exDate                       [0..1]   xs:date              Das Ex-Datum zum Bruttoertrag.
+
+ name                         [0..1]   xs:string            Die Bezeichnung zum Bruttoertrag.
+
+ quotationType                [1..1]   eCH-0196:quota-      Die Notationsart zur Anzahl (Stück oder Nomi-
+                                       tionTypeType         nal).
+
+ quantity                     [1..1]   xs:decimal           Die Anzahl (Stück oder Nominal) zum Ex-Datum
+                                                            bzw. Fälligkeitsdatum.
+                                                            Einzelpositionen sind in den Originalwerten zu
+                                                            übernehmen, ohne Rundung in den Nachkom-
+                                                            mastellen.
+
+ amountCurrency               [1..1]   eCH-0196:cur-        Die Währung zum Bruttobetrag.
+                                       rencyIdISO3Type
+
+ amountPerUnit                [0..1]   xs:decimal           Der Bruttobetrag pro Stück oder Nominal zum
+                                                            Fälligkeitsdatum und Währung.
+
+ amount                       [0..1]   xs:decimal           Der Bruttobetrag zum Fälligkeitsdatum und Wäh-
+                                                            rung.
+
+ exchangeRate                 [0..1]   xs:decimal           Der Devisenkurs zum Fälligkeitsdatum und Wäh-
+                                                            rung immer mit Stückelung 1 (Bsp. 1 JPY =
+                                                            0.0092 CHF).
+
+ grossRevenueA                [0..1]   xs:decimal           Der Bruttoertrag in CHF der Rubrik A (mit Ver-
+                                                            rechnungssteueranspruch) für die Bundes-
+                                                            steuer.
+
+ grossRevenueA-               [0..1]   xs:decimal           Der Bruttoertrag in CHF der Rubrik A (mit Ver-
+ Canton                                                     rechnungssteueranspruch) für die Staatssteuer.
+                                                            Der Wert ist nur anzugeben, wenn dieser vom
+                                                            Wert für die Bundessteuer abweicht.
+
+ grossRevenueB                [0..1]   xs:decimal           Der Bruttoertrag in CHF der Rubrik B (ohne Ver-
+                                                            rechnungssteueranspruch) für die Bundes-
+                                                            steuer.
+
+
+
+
+Verein eCH                                                                    www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+           E-Government-Standards                                                    Seite 37 von 50
+
+
+
+ Feld               Fix       Inter-   Datentyp        Beschreibung / Inhalt
+                              vall
+ grossRevenueB-               [0..1]   xs:decimal      Der Bruttoertrag in CHF der Rubrik B (ohne Ver-
+ Canton                                                rechnungssteueranspruch) für die Staatssteuer.
+                                                       Der Wert ist nur anzugeben, wenn dieser vom
+                                                       Wert für die Bundessteuer abweicht.
+
+ withHolding-                 [0..1]   xs:decimal      Der Betrag des Verrechnungssteueranspruchs in
+ TaxClaim                                              CHF.
+
+ lumpSumTaxCredit         1   [0..1]   xs:boolean      Kennzeichnet die Ausschüttung für die Anrech-
+                                                       nung ausländischer Quellensteuer und Steuer-
+                                                       rückbehalt USA. Falls angegeben, so muss der
+                                                       fixe Werte 1 (true) gesetzt sein.
+
+ lumpSumTaxCre-               [0..1]   xs:decimal      Die Anrechnung ausländischer Quellensteuer in
+ ditPercent                                            Prozent (100% = 100), als Summe aus dem im
+                                                       Ausland rückforderbaren und nicht rückforderba-
+                                                       ren Anteilen.
+                                                       Beispiel: Bei AT ist der im Ausland rückforder-
+                                                       bare Anteil 12.5% und der nicht rückforderbare
+                                                       Anteil 15%. Im Attribut ist der Prozentwert 27.5%
+                                                       anzugeben.
+
+ lumpSumTaxCre-               [0..1]   xs:decimal      Die Anrechnung ausländischer Quellensteuer
+ ditAmount                                             zum Bruttoertrag in CHF, als Summe aus dem im
+                                                       Ausland rückforderbaren und nicht rückforderba-
+                                                       ren Anteilen.
+                                                       Beispiel: Bei AT ist der im Ausland rückforder-
+                                                       bare Anteil 12.5% und der nicht rückforderbare
+                                                       Anteil 15%. Im Attribut ist der Betrag in CHF aus
+                                                       den 27.5% anzugeben.
+                                                       Falls die Ausschüttung der ausländischen Quel-
+                                                       lensteuer und/oder dem zusätzlichen Steuer-
+                                                       rückbehalt USA unterliegt und der Bruttoertrag 0
+                                                       ist, dann muss auch der im Ausland nicht rück-
+                                                       forderbare Teil des Bruttoertrags mit 0 angege-
+                                                       ben werden.
+
+ nonRecoverable-              [0..1]   xs:decimal      Der im Ausland nicht rückforderbare Anteil der
+ TaxPercent                                            Quellensteuer in Prozent (100% = 100), der in
+                                                       der Schweiz gemäss Doppelbesteuerungsab-
+                                                       kommen angerechnet werden kann.
+
+ nonRecoverable-              [0..1]   xs:decimal      Der im Ausland nicht rückforderbare Anteil der
+ TaxAmount                                             Quellensteuer in CHF, der in der Schweiz ge-
+                                                       mäss Doppelbesteuerungsabkommen ange-
+                                                       rechnet werden kann.
+                                                       Falls die Ausschüttung der ausländischen Quel-
+                                                       lensteuer und/oder dem zusätzlichen Steuer-
+                                                       rückbehalt USA unterliegt und der Bruttoertrag 0
+                                                       ist, dann muss auch der im Ausland nicht rück-
+                                                       forderbare Anteil des Bruttoertrags mit 0 angege-
+                                                       ben werden.
+
+Verein eCH                                                               www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+             E-Government-Standards                                                         Seite 38 von 50
+
+
+
+ Feld                  Fix       Inter-   Datentyp          Beschreibung / Inhalt
+                                 vall
+ additionalWithHol-              [0..1]   xs:decimal        Der Steuerrückbehalt USA zum Bruttoertrag.
+ dingTaxUSA                                                 Falls die Ausschüttung dem zusätzlichen Steuer-
+                                                            rückbehalt USA unterliegt und der Bruttoertrag 0
+                                                            ist, dann muss auch der Steuerrückbehalt des
+                                                            Bruttoertrags mit 0 angegeben werden.
+
+ iup                         1   [0..1]   xs:boolean        Kennzeichnet die Ausschüttung als Ergebnis der
+                                                            IUP-Berechnung (reine oder modifizierte Diffe-
+                                                            renzbesteuerung). Falls das Flag zutrifft, so
+                                                            muss der fixe Werte 1 (true) gesetzt werden.
+
+ conversion                  1   [0..1]   xs:boolean        Kennzeichnet die Ausschüttung als Ergebnis der
+                                                            Wandlung. Falls das Flag zutrifft, so muss der
+                                                            fixe Werte 1 (true) gesetzt werten.
+
+ gratis                      1   [0..1]   xs:boolean        Kennzeichnet die Ausschüttung als Ertrag aus
+                                                            Gratisaktien. Falls das Flag zutrifft, so muss der
+                                                            fixe Werte 1 (true) gesetzt werden.
+
+ securitiesLending           1   [0..1]   xs:boolean        Kennzeichnet die Ausschüttung als Ausgleichs-
+                                                            zahlung. Es handelt sichnicht um die Kommis-
+                                                            sion aus Securities Lending. Falls das Flag zu-
+                                                            trifft, so muss der fixe Werte 1 (true) gesetzt wer-
+                                                            den.
+
+ lendingFee                  1   [0..1]   xs:boolean        Kennzeichnet die Ausschüttung als Ausleihge-
+                                                            bühr. Falls das Flag zutrifft, so muss der fixe
+                                                            Werte 1 (true) gesetzt werden.
+                                                            Die Kommissionen sind als kumulierte Ausschüt-
+                                                            tungen zu einem Dummy-Titel ohne VN und ISIN
+                                                            anzugeben und das Flag zu setzen.
+
+ retrocession                1   [0..1]   xs:boolean        Kennzeichnet die Ausschüttung als Retrozes-
+                                                            sion. Falls das Flag zutrifft, so muss der fixe
+                                                            Werte 1 (true) gesetzt werden.
+
+ undefined                   1   [0..1]   xs:boolean        Das undefiniert-Flag für einen nicht oder noch
+                                                            nicht verfügbaren Bruttoertrag. Falls das Flag zu-
+                                                            trifft, so muss der fixe Werte 1 (true) gesetzt wer-
+                                                            den.
+
+ kursliste                   1   [0..1]   xs:boolean        Das Kursliste-Flag als Quelle für den Bruttoer-
+                                                            trag. Falls das Flag zutrifft, so muss der fixe
+                                                            Werte 1 (true) gesetzt werden.
+
+ sign                            [0..1]   eCH-0196:sign-    Die Zeichenerklärung zur Ausschüttung aus der
+                                          Type [3..4]       Kursliste z.B. (I).
+
+ ##other                         [0..*]   xs:anyAttribute   Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 20: Titel Ertrag – securityPaymentType
+
+
+
+
+Verein eCH                                                                     www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+             E-Government-Standards                                                         Seite 39 von 50
+
+
+2.5.7.1.1.2.1 Titel Zugang und Abgang (IUP / Wandlung) [securityPurchaseDispositionType]
+Nachfolgend sind die Elemente und Attribute für den Zugang und Abgang eines Titels darge-
+stellt. Die Details werden sowohl bei der IUP-Berechnung (reine oder modifizierte Differenz-
+besteuerung), als auch für die (individuelle) Wandlung eines Titels benötigt.
+Es sind immer alle Zugänge mit dem effektiven Zugangsdatum der Transaktion z.B. Handel
+an der Börse anzugeben. Dies ist auch für Zugänge aus den Vorjahren erforderlich. Falls die
+Zugangsdaten nicht vollständig angegeben sind, werden diese in der Deklaration abgefragt
+oder es wird eine Auflage in der Veranlagung durch die kantonale Steuerbehörde an den Steu-
+erpflichtigen erstellt.
+ Feld                 Fix       Inter-   Datentyp             Beschreibung / Inhalt
+                                vall
+ ##other                        [0..*]   xs:any               Beliebige Erweiterungen des Finanzinstituts.
+
+ referenceDate                  [1..1]   xs:date              Der Stichtag zum Zugang oder Abgang.
+
+ quotationType                  [1..1]   eCH-0196:quota-      Die Notationsart zur Anzahl (Stück oder Nomi-
+                                         tionTypeType         nal).
+
+ quantity                       [1..1]   xs:decimal           Die Anzahl (Stück oder Nominal) (+) zum Zu-
+                                                              gangs- oder Abgangsdatum.
+                                                              Einzelpositionen sind in den Originalwerten zu
+                                                              übernehmen, ohne Rundung in den Nachkom-
+                                                              mastellen.
+
+ bondFloor                      [0..1]   xs:decimal           Der Bondfloor zum Stichtag in Prozent (100% =
+                                                              100).
+
+ balanceCurrency                [1..1]   eCH-0196:cur-        Die Währung zum Steuerkurs.
+                                         rencyIdISO3Type
+
+ unitPrice                      [0..1]   xs:decimal           Der Steuerkurs (Stückpreis oder Prozentwert)
+                                                              zum Stichtag und Währung.
+
+ balance                        [0..1]   xs:decimal           Der Saldo zum Stichtag in der Währung für die
+                                                              IUP-Berechnung.
+
+ reductionCost                  [0..1]   xs:decimal           Die Gewinnungskosten beim Kauf- oder Verkauf.
+                                                              Die Gewinnungskosten sind nur bei reiner Diffe-
+                                                              renzbesteuerung relevant.
+
+ exchangeRate                   [0..1]   xs:decimal           Der Devisenkurs zum Stichtag und Währung im-
+                                                              mer mit Stückelung 1 (Bsp. 1 JPY = 0.0092
+                                                              CHF).
+
+ value                          [0..1]   xs:decimal           Der Steuerwert zum Stichtag für die IUP-Berech-
+                                                              nung.
+
+ ##other                        [0..*]   xs:anyAttribute      Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 21: Titel Zugang und Abgang (IUP / Wandlung) – securityPurchaseDispositionType
+
+
+
+
+Verein eCH                                                                      www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+             E-Government-Standards                                                         Seite 40 von 50
+
+
+2.5.7.1.1.3 Titel Bestand (Mutation) [securityStockType]
+Nachfolgend sind die Elemente und Attribute zum Bestand bzw. zur Mutation des Titels dar-
+gestellt. Der Bestand des Titels zum 1.1. des Steuerjahres ist anzugeben, sofern ein Bestand
+per 31.12., des Vorjahres vorhanden war. Die Zugangsdaten aus den Vorjahren müssen nicht
+angegeben werden.
+Diese Elemente und Attribute müssen bei Kauf, Verkauf und Emission befüllt werden, da der
+Standard diese Vorgänge als Mutationen des bestehenden Bestands versteht.
+ Feld                  Fix       Inter-   Datentyp          Beschreibung / Inhalt
+                                 vall
+ ##other                         [0..*]   xs:any            Beliebige Erweiterungen des Finanzinstituts.
+
+ referenceDate                   [1..1]   xs:date           Der Stichtag zum Bestand oder Mutation.
+
+ mutation                        [1..1]   xs:boolean        Das Flag Mutation muss gesetzt sein (Wert 1 =
+                                                            true), wenn es sich um einen Zu- oder Abgang
+                                                            zum Bestand handelt.
+
+ name                            [0..1]   xs:string         Die Bezeichnung zum Bestand oder Mutation.
+
+ quotationType                   [1..1]   eCH-0196:quota-   Die Notationsart zur Anzahl (Stück oder Nomi-
+                                          tionTypeType      nal).
+
+ quantity                        [1..1]   xs:decimal        Die Anzahl (Stück oder Nominal) zum Bestand
+                                                            (+) oder Mutation (+/-) zum Stichtag.
+                                                            Einzelpositionen sind in den Originalwerten und
+                                                            den Originalwährungen zu übernehmen, ohne
+                                                            Rundung in den Nachkommastellen.
+
+ balanceCurrency                 [1..1]   eCH-0196:cur-     Die Währung zum Steuerkurs.
+                                          rencyIdISO3Type
+
+ unitPrice                       [0..1]   xs:decimal        Der Steuerkurs (Stückpreis oder Prozentwert)
+                                                            zum Stichtag und Währung.
+
+ balance                         [0..1]   xs:decimal        Der Saldo zum Stichtag und Währung.
+
+ reductionCost                   [0..1]   xs:decimal        Die Gewinnungskosten Verkauf. Die Gewin-
+                                                            nungskosten sind nur bei reiner Differenzbe-
+                                                            steuerung relevant.
+
+ exchangeRate                    [0..1]   xs:decimal        Der Devisenkurs zum Stichtag und Währung mit
+                                                            Stückelung 1 (Bsp. 1 JPY = 0.0092 CHF).
+
+ value                           [0..1]   xs:decimal        Der Steuerwert zum Stichtag für die Bundes-
+                                                            oder Staatssteuer (in CHF)
+
+ blocked                     1   [0..1]   xs:boolean        Das Flag gesperrt zum Titel. Falls das Flag zu-
+                                                            trifft, so muss der fixe Werte 1 (true) gesetzt wer-
+                                                            den.
+
+ blockingTo                      [0..1]   xs:date           Das gesperrt-bis Datum zum Titel.
+
+ ##other                         [0..*]   xs:anyAttribute   Beliebige Erweiterungen des Finanzinstituts.
+Tabelle 22: Titel Bestand (Mutation) – securityStockType
+
+
+
+
+Verein eCH                                                                     www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+          E-Government-Standards                                               Seite 41 von 50
+
+
+
+2.6 Bereitstellung
+Die Finanzinstitute stellen ihren Kunden den Steuerauszug in elektronischer Form als PDF zur
+Verfügung. Da ein erheblicher Teil der Steuerauszüge heute immer noch in Papierform ver-
+sendet wird, gelten folgende Vorgaben:
+   Für das PDF muss ein Seitenbarcode CODE128C-Barcode vorgesehen werden.
+   Für das PDF muss das XML in Form eines PDF417 Structured Append auf zusätzlichen
+    Barcode-Blättern hinzugefügt werden.
+Für eine weniger fehleranfällige und schnellere Verarbeitung im Steuererklärungsverfahren für
+das Online-Banking gelten die folgende Empfehlung und Vorgaben:
+   Das signierte XML kann als Anlage dem PDF hinzugefügt werden.
+   Für die Signatur muss ein gültiges Zertifikat des Finanzinstituts verwendet werden.
+
+Die technische Umsetzung zur Erstellung der Barcodes, der Signatur und der Anlage des XML
+für das PDF ist in der technischen Wegleitung beschrieben.
+
+
+
+3 Sicherheitsüberlegungen
+Die im Rahmen des vorliegenden Standards ausgetauschten Daten sind gemäss Bundesge-
+setz über den Datenschutz (vom 19. Juni 1992, vgl. Art. 3 Abs. c) besonders schützenswert.
+Die ausgetauschten Daten unterliegen zudem dem Bank- und Steuergeheimnis (Bundesge-
+setz über Banken und Sparkassen, vgl. Art. 47).
+Die Speicherung und Übertragung dieser Daten darf nur auf Grund und im Rahmen von be-
+stehenden rechtlichen Grundlagen erfolgen und hat die gesetzlichen Datenschutzbestimmun-
+gen zu befolgen. Die nötigen Vorkehrungen sind zu treffen, dass die Daten fehlerfrei übertra-
+gen und vor, während und nach der Übertragung nur von dazu autorisierten Personen einge-
+sehen werden können.
+Im XML enthaltene Binärdateien können ein potenzielles Sicherheitsrisiko darstellen. Ausführ-
+bare Dateien sollten daher nicht ausgeführt werden.
+
+
+
+
+Verein eCH                                                           www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+          E-Government-Standards                                                 Seite 42 von 50
+
+
+
+4 Haftungsausschluss/Hinweise auf Rechte Dritter
+eCH-Standards, welche der Verein eCH dem Benutzer zur unentgeltlichen Nutzung zur Ver-
+fügung stellen oder welche eCH referenzieren, haben nur den Status von Empfehlungen. Der
+Verein eCH haftet in keinem Fall für Entscheidungen oder Massnahmen, welche der Benutzer
+auf Grund dieser Dokumente trifft und / oder ergreift. Der Benutzer ist verpflichtet, die Doku-
+mente vor deren Nutzung selbst zu überprüfen und sich gegebenenfalls beraten zu lassen.
+eCH-Standards können und sollen die technische, organisatorische oder juristische Beratung
+im konkreten Einzelfall nicht ersetzen.
+In eCH-Standards referenzierte Dokumente, Verfahren, Methoden, Produkte und Standards
+sind unter Umständen markenrechtlich, urheberrechtlich oder patentrechtlich geschützt. Es
+liegt in der ausschliesslichen Verantwortlichkeit des Benutzers, sich die allenfalls erforderli-
+chen Rechte bei den jeweils berechtigten Personen und/oder Organisationen zu beschaffen.
+Obwohl der Verein eCH all seine Sorgfalt darauf verwendet, die eCH-Standards sorgfältig aus-
+zuarbeiten, kann keine Zusicherung oder Garantie auf Aktualität, Vollständigkeit, Richtigkeit
+bzw. Fehlerfreiheit der zur Verfügung gestellten Informationen und Dokumente gegeben wer-
+den. Der Inhalt von eCH-Standards kann jederzeit und ohne Ankündigung geändert werden.
+Jede Haftung für Schäden, welche dem Benutzer aus dem Gebrauch der eCH-Standards ent-
+stehen ist, soweit gesetzlich zulässig, wegbedungen.
+
+
+
+5 Urheberrechte
+Wer eCH-Standards erarbeitet, behält das geistige Eigentum an diesen. Allerdings verpflichtet
+sich der Erarbeitende, sein betreffendes geistiges Eigentum oder seine Rechte an geistigem
+Eigentum anderer, sofern möglich, den jeweiligen Fachgruppen und dem Verein eCH kosten-
+los zur uneingeschränkten Nutzung und Weiterentwicklung im Rahmen des Vereinszweckes
+zur Verfügung zu stellen.
+Die von den Fachgruppen erarbeiteten Standards können unter Nennung der jeweiligen Urhe-
+ber von eCH unentgeltlich und uneingeschränkt genutzt, weiterverbreitet und weiterentwickelt
+werden.
+eCH-Standards sind vollständig dokumentiert und frei von lizenz- und/oder patentrechtlichen
+Einschränkungen. Die dazugehörige Dokumentation kann unentgeltlich bezogen werden.
+Diese Bestimmungen gelten ausschliesslich für die von eCH erarbeiteten Standards, nicht je-
+doch für Standards oder Produkte Dritter, auf welche in den eCH-Standards Bezug genommen
+wird. Die Standards enthalten die entsprechenden Hinweise auf die Rechte Dritter.
+
+
+
+
+Verein eCH                                                             www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+          E-Government-Standards                                       Seite 43 von 50
+
+
+
+Anhang A – Referenzen & Bibliografie
+[eCH-0003-9-2] eCH-0003: Leitfaden zur Genehmigung von Anträgen
+[eCH-0007-6-0] eCH-0007: Datenstandard Gemeinden
+[eCH-0008-3-0] eCH-0008: Datenstandard Staaten und Gebiete
+[eCH-0010-7-0] eCH-0010: Datenstandard Postadresse für natürliche Personen, Firmen, Orga-
+               nisationen und Behörden
+[eCH-0097-4-0] eCH-0097: Datenstandard Unternehmensidentifikation
+
+
+
+
+Anhang B – Mitarbeit & Überprüfung V1.0
+Alig Severin                   Interact Consulting
+Baumann Werner                 AWK
+Beuthe Thomas                  Credit Suisse
+Burgdorfer Michael             KSTA-ZH
+Ehrsam Heinz                   GFT
+Franchi Gualtiero              KSTA-ZH
+Gennari Franco                 ESTV
+Heiniger Markus                KSTA-ZH
+Holzreiter Chrisian            GFT
+Hubacek Daniel                 SSK
+Kälin Robert                   Interact Consulting
+Kuhn Alain                     SSK
+Loewner Jan                    Information Factory
+Meier Joe                      SSK
+Meyer Stephanie                Credit Suisse
+Ullmann Carsten                Information Factory
+Ringler Marcel                 Ringler Informatik
+
+
+
+
+Verein eCH                                                    www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+           E-Government-Standards                                                                  Seite 44 von 50
+
+
+Versionsverlauf:
+ Ver-
+           Datum         Instanz / Person     Bemerkung
+ sion
+
+ 0.1       23.04.2015    A. Lindemann         Bereitstellung Template
+
+ 0.2       09.06.2015    C. Holzreiter        Ersterfassung des Standards
+
+ 0.3       15.06.2015    C. Holzreiter        Versand zum Review
+
+ 0.9       01.07.2015    C. Holzreiter        Einarbeitung der Review-Befunde
+
+ 1.0       13.07.2015    C. Holzreiter        Entwurf des Standards
+
+ 1.1       05.11.2015    F. Gennari           Einarbeitung der Review-Befunde
+
+                         C. Holzreiter
+
+                         D. Hubacek
+
+ 2.0       12.05.2018    W. Baumann           Einarbeitung der Change Requests, Erstellung neue Version 2.0
+
+ 2.1       05.02.2018    C. Holzreiter        Überarbeiten der Element- und Attributbeschreibung
+
+                         A. Kuhn
+
+ 2.2       15.03.2021    C. Holzreiter        Einarbeitung der Change Requests, Erstellung neue Version 2.2
+
+Tabelle 23: Versionsverlauf
+
+
+
+
+Anhang C – Abkürzungen und Glossar
+BFP                           Bondfloor Pricing
+                              Die Datengrundlage für die Berechnung der modifizierten Differenzbe-
+                              steuerung eines Titels.
+DBA                           Doppelbesteuerungsabkommen
+ESTV                          Eidgenössische Steuerverwaltung
+E-Steuerauszug                Elektronischer Steuerauszug
+EWS                           Elektronische Wertschriften
+                              Ist eine Sammlung von Services zum Datenbezug in der Deklaration
+                              bzw. zum Datenaustausch in der Veranlagung, zwischen den kantona-
+                              len Steuerbehörden und der ESTV.
+First-In / First-Out          Das Prinzip in welcher Reihenfolge Transaktionen bei Zu- und Abgän-
+                              gen zu berücksichtigen sind. Beim First-In / First-Out sind immer die
+                              jeweils ältesten Zugänge, bei dem oder den Abgängen zu berücksichti-
+                              gen.
+ISIN                          International Securities Identification Number
+                              Die ISIN ist eine zwölfstellige Buchstaben-Zahlen-Kombination und
+                              stellt eine Identifikation für ein Wertpapier dar, das an der Börse gehan-
+                              delt wird. Der Aufbau der ISIN wird in der ISO 6166 beschrieben.
+                              (Quelle: Wikipedia)
+IUP                           Intéret unique prédominant
+
+
+Verein eCH                                                                           www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+            E-Government-Standards                                              Seite 45 von 50
+
+
+                       Besteuerung gemäss Art. 20, Abs. 1, Buchstabe b DBG (vgl. Kreis-
+                       schreiben Nr. 15 vom 7.2.2007) (Quelle: ESTV)
+Kursliste              Die Kursliste ist eine Sammlung steuerlich qualifizierter Titel, die die
+                       Grundlage für die Deklaration und Veranlagung kotierter Titel in CH dar-
+                       stellt.
+                       Die Kursliste wird von der ESTV erstellt und laufend erweitert. Aktuell
+                       verfügt die Kursliste über einen Abdeckungsgrad von mehr als 90% al-
+                       ler kotierter Titel, die für die Deklaration oder Veranlagung in CH benö-
+                       tigt werden.
+KSTA                   Kantonales Steueramt
+KSTV                   Kantonale Steuerverwaltung
+NIUP                   Nicht IUP
+UID                    Unternehmensidentifikation
+                       Der eindeutige Schlüssel eines CH-Unternehmens gemäss Bundesamt
+                       für Statistik.
+VDF                    Valor Data Feed
+                       Der Datenfeed von SIX Financial Information, der die Datengrundlage
+                       zur steuerlichen Qualifizierung kotierter Wertschriften, durch die ESTV
+                       darstellt. Der VDF ist kostenpflichtig.
+VN                     Valorennummer
+                       Der eindeutige, technische Schlüssel eines Titels im VDF gemäss SIX
+                       Financial Information.
+XML                    Extensible Markup Language
+                       Die Extensible Markup Language (engl. für „erweiterbare Auszeich-
+                       nungssprache“), abgekürzt XML, ist eine Auszeichnungssprache zur
+                       Darstellung hierarchisch strukturierter Datensätze in Form von Textda-
+                       ten. XML wird u. a. für den plattform- und implementierungsunabhängi-
+                       gen Austausch von Datensätzen zwischen Computersystemen einge-
+                       setzt, über das Internet insbesondere. (Quelle: Wikipedia)
+XML-Schema             XML Schema, abgekürzt XSD (XML Schema Definition), ist eine Emp-
+                       fehlung des W3C zum Definieren von Strukturen für XML-Dokumente.
+                       Anders als bei den klassischen XML-DTDs wird die Struktur in Form
+                       eines XML-Dokuments beschrieben. Darüber hinaus wird eine große
+                       Anzahl von Datentypen unterstützt. (Quelle: Wikipedia)
+
+
+
+
+Anhang D – Änderungen gegenüber Vorversion
+Anpassungen an der Dokumentation
+Kapitel       Seite Anpassung
+
+2.5           13    Anpassung der Attribute
+2.5.2         16    Anpassung der Attribute
+
+Verein eCH                                                            www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+             E-Government-Standards                                                                       Seite 46 von 50
+
+
+ 2.5.6           28        Anpassung der Attribute
+ 2.5.6.1         30        Anpassung der Attribute
+ 2.5.7           32        Anpassung der Beschreibung
+ 2.6             46        Erweiterung der Beschreibung
+
+
+
+
+Anhang E – Abbildungsverzeichnis
+Abbildung 1: Mögliches Anwendungsgebiet des Standards ................................................... 6
+
+Abbildung 2: Beschreibung der Strukturübersicht .................................................................. 9
+
+Abbildung 3: Grundstruktur des elektronischen Steuerauszugs ........................................... 11
+
+Abbildung 4: Finanzinstitut - institutionType ......................................................................... 14
+
+Abbildung 5: Kunde - clientType .......................................................................................... 15
+
+Abbildung 6: Anschreiben - accompanyingLetterType ......................................................... 16
+
+Abbildung 7: Kontenverzeichnis - listOfBankAccountsType ................................................. 16
+
+Abbildung 8: Schuldenverzeichnis - listOfLiabilitiesType ...................................................... 21
+
+Abbildung 9: Spesenverzeichnis - listOfExpensesType........................................................ 24
+
+Abbildung 10: Wertschriftenliste - listOfSecuritiesType ........................................................ 28
+
+
+
+
+Anhang F – Tabellenverzeichnis
+Tabelle 1: Erklärung der Spaltenbezeichnungen der Elemente und Attribute ....................... 10
+
+Tabelle 2: Steuerauszug – taxStatementType...................................................................... 14
+
+Tabelle 3: Finanzinstitut – institutionType ............................................................................ 14
+
+Tabelle 4: Kunde – clientType.............................................................................................. 15
+
+Tabelle 5: Anschreiben – accompanyingLetterType ............................................................. 16
+
+Tabelle 6: Kontenverzeichnis – listOfBankAccountsType ..................................................... 17
+
+Tabelle 7:Bankkonto – bankAccountType ............................................................................ 18
+
+Tabelle 8: Bankkonto Steuerwert – bankAccountTaxValueType .......................................... 19
+
+
+Verein eCH                                                                                   www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+             E-Government-Standards                                                                         Seite 47 von 50
+
+
+Tabelle 9: Bankkonto Ertrag – bankAccountPaymentType .................................................. 20
+
+Tabelle 10: Schuldenverzeichnis – listOfLiabilitiesType ....................................................... 22
+
+Tabelle 11:Bankkonto (Schulden) – liabilityAccountType ..................................................... 23
+
+Tabelle 12: Bankkonto Steuerwert (Schulden) – liabilityAccountTaxValueType ................... 23
+
+Tabelle 13: Bankkonto Ertrag (Schulden) – liabilityAccountPaymentType............................ 24
+
+Tabelle 14: Spesenverzeichnis – listOfExpensesType ......................................................... 25
+
+Tabelle 15: Bankspesen – expenseType ............................................................................. 27
+
+Tabelle 16: Wertschriftenliste – listOfSecuritiesType............................................................ 31
+
+Tabelle 17: Wertschriftendepot – securityDepotType ........................................................... 32
+
+Tabelle 18: Titel – securitySecurityType............................................................................... 34
+
+Tabelle 19: Titel Steuerwert – securityTaxValueType .......................................................... 35
+
+Tabelle 20: Titel Ertrag – securityPaymentType ................................................................... 38
+
+Tabelle 21: Titel Zugang und Abgang (IUP / Wandlung) –
+securityPurchaseDispositionType ........................................................................................ 39
+
+Tabelle 22: Titel Bestand (Mutation) – securityStockType .................................................... 40
+
+Tabelle 23: Versionsverlauf.................................................................................................. 44
+
+
+
+
+Anhang G – Vermögensverwaltungskosten
+1     Stempelabgaben (Emissions-              Die erhobene Rechtsverkehrssteuer auf der Emission und Handel
+      und Umsatzabgaben)                      von Wertpapieren.
+2     Transaktionskosten                      Die Kosten, die bei Erwerb, Veräusserung oder Umlagerungen
+                                              von Wertschriften z.B. Kommissionen, Gebühren oder Courtagen
+                                              anfallen.
+3     Vorfälligkeitsentschädigungen Die Gebühr, die der Kunde bezahlt, wenn er ein vertraglich fest-
+                                    gelegtes Produkt vor dem Laufzeitende kündigt.
+4     Administrationsgebühren     Ein Sammelbegriff für diverse Kosten und Gebühren im Zusam-
+      (Verwaltungsgebühren / Ban- menhang mit der Vermögensverwaltung sowie die Bündelung
+      king Pakete)                von verschiedenen Bankprodukten und Dienstleistungen. Sie
+                                  enthalten unter anderem Kosten für Kontoführung, Kontoaus-
+                                  züge, Debit- und Kreditkarten, Zahlungsverkehrsspesen, Versi-
+                                  cherungsleistungen oder auch Concierge Services zu einem mo-
+                                  natliche Fixpreis.
+
+
+
+Verein eCH                                                                                    www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+          E-Government-Standards                                                      Seite 48 von 50
+
+
+                                     (Die einzelnen Kosten sind im Detail auszuweisen oder werden
+                                     pauschal gemäss der VVK Weisungen der Kantone in Abzug ge-
+                                     bracht.)
+5    Banklagernd                     Die Kosten für die Lagerung (Archivierung) der Belege in der
+                                     Bank anstelle des Versands an den Kunden.
+6    Beratungskosten                 Die Kosten der Finanz-, Anlage-, Steuer- und Vorsorgeberatung
+                                     usw.
+7    Kosten für das Ausfüllen von    Die Kosten für die Erstellung von Rückforderungs- und Anrech-
+     Formularen (Rückforderung       nungsanträgen für rückforderbare ausländische Quellensteuern.
+     z.B. R-D1 / Anrechnung der
+     ausländischen Quellensteuer
+     DA-1)
+8    Kosten für die Erstellung der   Die Kosten für die Erstellung der Steuererklärung inkl. sämtlicher
+     Steuererklärung                 Steuerunterlagen.
+9    Kosten für die Erstellung der   Die Kosten für die Erstellung der Steuerunterlagen inkl. der Steu-
+     Steuerunterlagen                ererklärung.
+10 Kosten für die Erstellung der     Die Kosten für die Erstellung der Steuerverzeichnisse von Ban-
+   Steuerverzeichnisse von Ban-      ken.
+   ken
+11 Kosten der Vermögensumla-         Die Kosten der Vermögensumlagerung von Wertschriften.
+   gerung
+12 Provisionen (Agent Fee)           Die Kosten, die der Bank von Dritten in Rechnung gestellt und
+                                     dem Kunden belastet werden.
+13 Treuhandkommissionen /            Die Entschädigung für Treuhandanlagen.
+   Treuhandgebühren
+14 Vermittlungsgebühren              Die Kosten, die der Bank von Dritten in Rechnung gestellt und
+                                     dem Kunden belastet werden.
+15 Vermögensverwaltungsko-           Die Kosten für die laufende Überwachung, Anlage und Verwal-
+   sten (aktives Depotmanage-        tung des Vermögens des Kunden (Wertpapiere, Geldvermögen,
+   ment)                             Beteiligungen, Grundvermögen oder Testamentsvollstreckung)
+                                     und selbstständige Anlageentscheidung der Bank.
+16 Verrechenbare Courtagege-         Die Gewinnungskosten, die bei Erwerb oder Verkauf von Wert-
+   bühren aus IUP (Reine und         papieren anfallen, die der reinen oder modifizierten Differenzbe-
+   modifizierte Differenzbe-         steuerung unterliegen. Diese sind mit positiven IUP-Erträgen zu
+   steuerung)                        verrechnen und nicht in den Vermögensverwaltungskosten auf-
+                                     zuführen.
+17 Abgezogene Quellensteuer          Im Ursprungsland abgezogene Quellensteuer, die nicht anre-
+                                     chenbar und auch nicht rückforderbar sind.
+18 Affidavitspesen                   Die Kosten für die Einforderung von Vermögenserträgen z.B. bei
+                                     Couponeinlösungen.
+19 All-in Fee                        Ein institutsinterner Sammelbegriff für Kosten verschiedener
+                                     Dienstleistungen, die pauschal in der Regeln prozentual zum An-
+                                     lagevermögen erhoben werden.
+
+
+Verein eCH                                                                 www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+          E-Government-Standards                                                   Seite 49 von 50
+
+
+                                   (Dies sind im Detail auszuweisen oder werden pauschal gemäss
+                                   der VVK Weisungen der Kantone in Abzug gebracht.)
+20 Auslieferung Edelmetalle        Die Kosten für die physische Auslieferung der Edelmetalle.
+21 Auslieferungsspesen / Titellie- Die Kosten für die physische Auslieferung von Titeln oder den
+   ferungsgebühren                 Übertrag in ein anderes Depot oder zu einer anderen Bank.
+22 Depotgebühren                   Die Kosten für die Aufbewahrung von Wertschriften.
+23 Gebühren für Bescheinigun- Die Kosten für Bescheinigungen oder kundenspezifische Reports,
+   gen (z.B. Stichtagsaufstellung; die für z.B. für die Rückforderung der Kapitalertragssteuer oder
+   Kapitalsteuerertrag)            für die Wohnsitzbestätigung vom Kunden benötigt werden.
+24 Inkassospesen                   Die Kosten für die Einforderung von Vermögenserträgen z.B. bei
+                                   Couponeinlösungen.
+25 Kontoführungsgebühren (inkl. Die Kosten für die Kontoführung und Erstellung von Kontoauszü-
+   Baukontogebühren, Konto-     gen usw.
+   spesen, Metallkonto, Konto-
+   segregierung)
+26 Kosten für eigene Bemühun-      Die Kosten für die eigenen Bemühungen.
+   gen
+27 Managementgebühren              Die jährliche wiederkehrenden Gebühr für die Beratung und
+                                   Transaktionen für die Vermögensverwaltung.
+28 Metallkontokommissionen         Die vom Anlagevolumen abhängigen prozentualen Gebühren für
+                                   Edelmetallkonten.
+29 Negativzinsen (im Privatver-    Negativzinsen fallen an, wenn auf einem positiven Steuerwert
+   mögen)                          wegen des negativen Zinssatzes ein Minusertrag entsteht. Diese
+                                   werden erhoben, sobald bei einem Kunde die Cash Bestände ein
+                                   gewisses Niveau überschreiten.
+                                   (Bei VD sind die Negativzinsen bei den Schulden aufzuführen.)
+30 Nummernkontogebühren            Die Kosten für die Haltung eines Nummernkontos.
+31 Pauschalgebühren / Verwal-      Ein institutsinterner Sammelbegriff für Kosten verschiedener
+   tungsgebühren                   Dienstleistungen, die pauschal in der Regeln prozentual zum An-
+                                   lagevermögen erhoben werden.
+                                   (Dies sind im Detail auszuweisen oder werden pauschal gemäss
+                                   der VVK Weisungen der Kantone in Abzug gebracht.)
+32 Performanceorientierte / Er-    Die Entschädigung die sich nach der Höhe der Performance bzw.
+   folgsorientierte Honorare       des Erfolgs des verwalteten Vermögens richtet.
+33 Porto / Versandkosten           Dies beinhaltet sämtliche angefallene Gebühren für Papierab-
+                                   rechnung und Portospesen für den Zeitraum eines Jahres.
+34 Saldierungsspesen               Die Kosten die bei der Auflösung eines Kontos entstehen.
+35 Tresorfachgebühren /            Die Kosten für die Miete von Tresor- oder Schrankfächern.
+   Schrankfachgebühren
+36 Absicherungskosten              Die Kosten für das Hedging von Wertschriften oder Devisenge-
+                                   schäften.
+37 Diverse Gebühren                Ein Sammelbegriff für diverse Kosten und Gebühren.
+
+Verein eCH                                                              www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+          E-Government-Standards                                                   Seite 50 von 50
+
+
+
+38 Devisenkurssicherungskosten Die Kosten für das Hedging von Devisengeschäften.
+39 Externe Gebühren / Fremd-       Die Kosten, die der Bank von Dritten in Rechnung gestellt und
+   spesen                          dem Kunden belastet werden.
+40 Kartengebühren / Kreditkar-     Die Kosten für Debit- und Kreditkarten.
+   tengebühren
+41 Kreditgebühren / Kreditkom-     Alle Kosten im Zusammenhang mit Krediten und Hypotheken in-
+   missionen                       klusive der Kosten für Bankgarantien und Kontokorrent.
+42 Nichtkündigungsabzug            Die Kosten, die bei Nichtkündigungsabzug belastet wird, wenn
+                                   die Rückzugsbedingungen nicht eingehalten werden.
+43 Zessionskommission              Die Kosten für die Forderungsabtretung.
+44 Erstellung/Erhöhung Schuld-     Kosten für die Errichtung oder Erhöhung von Schuldbriefen und
+   briefe                          Hypotheken (Grundbuchgebühren, Notariatskosten, Bankspe-
+                                   sen) des Gläubigers.
+                                   (Für den Schuldner sind es keine Vermögensverwaltungskosten.)
+99 Sonstige unqualifizierte Be-    Alle sonstigen Kostenkategorien die nicht im Glossar aufgeführt
+   griffe                          sind.
+
+
+
+
+Verein eCH                                                              www.ech.ch / info@ech.ch
+eCH-0196 – E-Steuerauszug / 2.2.0 / Genehmigt / 2022-06-07
+
