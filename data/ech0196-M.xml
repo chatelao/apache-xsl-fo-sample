@@ -59,6 +59,24 @@
                 <incomeGross>64.00</incomeGross>
                 <withholdingTax>22.40</withholdingTax>
             </security>
+            <security>
+                <isin>US0378331005</isin>
+                <description>APPLE INC</description>
+                <quantity>5</quantity>
+                <currency>USD</currency>
+                <marketValue>900.00</marketValue>
+                <incomeGross>12.00</incomeGross>
+                <withholdingTax>1.80</withholdingTax>
+            </security>
+            <security>
+                <isin>DE0007164600</isin>
+                <description>SAP SE</description>
+                <quantity>10</quantity>
+                <currency>EUR</currency>
+                <marketValue>1200.00</marketValue>
+                <incomeGross>15.00</incomeGross>
+                <withholdingTax>3.96</withholdingTax>
+            </security>
         </securitiesList>
     </statement>
 </taxStatement>
