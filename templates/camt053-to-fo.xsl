@@ -227,7 +227,7 @@
                 </fo:table-header>
                 <fo:table-body>
                     <xsl:for-each select="camt:Ntry">
-                        <fo:table-row keep-together.within-page="always">
+                        <fo:table-row>
                             <fo:table-cell border="0.5pt solid black" padding="2pt">
                                 <fo:block><xsl:value-of select="camt:BookgDt/camt:Dt"/></fo:block>
                             </fo:table-cell>
@@ -235,50 +235,60 @@
                                 <fo:block><xsl:value-of select="camt:ValDt/camt:Dt"/></fo:block>
                             </fo:table-cell>
                             <fo:table-cell border="0.5pt solid black" padding="2pt">
-                                <fo:block font-weight="bold">
-                                    <xsl:choose>
-                                        <xsl:when test="camt:CdtDbtInd = 'CRDT'">
-                                            <xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:RltdPties/camt:Dbtr/camt:Nm"/>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:RltdPties/camt:Cdtr/camt:Nm"/>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                </fo:block>
-                                <fo:block font-size="8pt">
-                                    <xsl:choose>
-                                        <xsl:when test="camt:CdtDbtInd = 'CRDT'">
-                                            <xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:RltdPties/camt:DbtrAcct/camt:Id/camt:IBAN"/>
-                                        </xsl:when>
-                                        <xsl:otherwise>
-                                            <xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:RltdPties/camt:CdtrAcct/camt:Id/camt:IBAN"/>
-                                        </xsl:otherwise>
-                                    </xsl:choose>
-                                </fo:block>
-                                <fo:block font-size="9pt" font-style="italic">
-                                    <xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:RmtInf/camt:Ustrd"/>
-                                </fo:block>
-                                <xsl:if test="camt:NtryDtls/camt:TxDtls/camt:Refs/camt:EndToEndId">
-                                    <fo:block font-size="8pt" color="#333333">
-                                        <xsl:value-of select="$i18n/ref"/>
-                                        <xsl:text> </xsl:text>
-                                        <xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:Refs/camt:EndToEndId"/>
-                                    </fo:block>
-                                </xsl:if>
-                                <xsl:if test="camt:NtryDtls/camt:TxDtls/camt:AmtDtls/camt:InstdAmt/camt:Amt">
-                                    <fo:block font-size="8pt" color="gray" space-before="1mm">
-                                        <xsl:value-of select="$i18n/original_amount"/>
-                                        <xsl:text> </xsl:text>
-                                        <xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:AmtDtls/camt:InstdAmt/camt:Amt"/>
-                                        <xsl:text> </xsl:text>
-                                        <xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:AmtDtls/camt:InstdAmt/camt:Amt/@Ccy"/>
-                                        <xsl:if test="camt:NtryDtls/camt:TxDtls/camt:CcyXchg/camt:XchgRate">
-                                            (<xsl:value-of select="$i18n/rate"/>
-                                            <xsl:text> </xsl:text>
-                                            <xsl:value-of select="camt:NtryDtls/camt:TxDtls/camt:CcyXchg/camt:XchgRate"/>)
+                                <xsl:variable name="entryCdtDbtInd" select="camt:CdtDbtInd"/>
+                                <xsl:for-each select="camt:NtryDtls/camt:TxDtls">
+                                    <fo:block keep-together.within-page="always">
+                                        <xsl:if test="position() > 1">
+                                            <xsl:attribute name="border-top">0.25pt solid #eeeeee</xsl:attribute>
+                                            <xsl:attribute name="padding-top">2pt</xsl:attribute>
+                                            <xsl:attribute name="margin-top">2pt</xsl:attribute>
+                                        </xsl:if>
+                                        <fo:block font-weight="bold">
+                                            <xsl:choose>
+                                                <xsl:when test="$entryCdtDbtInd = 'CRDT'">
+                                                    <xsl:value-of select="camt:RltdPties/camt:Dbtr/camt:Nm"/>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:value-of select="camt:RltdPties/camt:Cdtr/camt:Nm"/>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                        </fo:block>
+                                        <fo:block font-size="8pt">
+                                            <xsl:choose>
+                                                <xsl:when test="$entryCdtDbtInd = 'CRDT'">
+                                                    <xsl:value-of select="camt:RltdPties/camt:DbtrAcct/camt:Id/camt:IBAN"/>
+                                                </xsl:when>
+                                                <xsl:otherwise>
+                                                    <xsl:value-of select="camt:RltdPties/camt:CdtrAcct/camt:Id/camt:IBAN"/>
+                                                </xsl:otherwise>
+                                            </xsl:choose>
+                                        </fo:block>
+                                        <fo:block font-size="9pt" font-style="italic">
+                                            <xsl:value-of select="camt:RmtInf/camt:Ustrd"/>
+                                        </fo:block>
+                                        <xsl:if test="camt:Refs/camt:EndToEndId">
+                                            <fo:block font-size="8pt" color="#333333">
+                                                <xsl:value-of select="$i18n/ref"/>
+                                                <xsl:text> </xsl:text>
+                                                <xsl:value-of select="camt:Refs/camt:EndToEndId"/>
+                                            </fo:block>
+                                        </xsl:if>
+                                        <xsl:if test="camt:AmtDtls/camt:InstdAmt/camt:Amt">
+                                            <fo:block font-size="8pt" color="gray" space-before="1mm">
+                                                <xsl:value-of select="$i18n/original_amount"/>
+                                                <xsl:text> </xsl:text>
+                                                <xsl:value-of select="camt:AmtDtls/camt:InstdAmt/camt:Amt"/>
+                                                <xsl:text> </xsl:text>
+                                                <xsl:value-of select="camt:AmtDtls/camt:InstdAmt/camt:Amt/@Ccy"/>
+                                                <xsl:if test="camt:CcyXchg/camt:XchgRate">
+                                                    (<xsl:value-of select="$i18n/rate"/>
+                                                    <xsl:text> </xsl:text>
+                                                    <xsl:value-of select="camt:CcyXchg/camt:XchgRate"/>)
+                                                </xsl:if>
+                                            </fo:block>
                                         </xsl:if>
                                     </fo:block>
-                                </xsl:if>
+                                </xsl:for-each>
                             </fo:table-cell>
                             <fo:table-cell border="0.5pt solid black" padding="2pt" text-align="right">
                                 <fo:block>
