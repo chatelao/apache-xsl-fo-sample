@@ -49,6 +49,8 @@
             <security><isin>CH0010645932</isin><description>GIVAUDAN-REG</description><quantity>1</quantity><currency>CHF</currency><marketValue>3400.00</marketValue><incomeGross>67.00</incomeGross><withholdingTax>23.45</withholdingTax></security>
             <security><isin>CH0012255151</isin><description>THE SWATCH GROUP AG-BR</description><quantity>30</quantity><currency>CHF</currency><marketValue>7200.00</marketValue><incomeGross>180.00</incomeGross><withholdingTax>63.00</withholdingTax></security>
             <security><isin>CH0012005267</isin><description>SGS SA-REG</description><quantity>50</quantity><currency>CHF</currency><marketValue>4100.00</marketValue><incomeGross>160.00</incomeGross><withholdingTax>56.00</withholdingTax></security>
+            <security><isin>DE0007164600</isin><description>SAP SE</description><quantity>50</quantity><currency>EUR</currency><marketValue>6000.00</marketValue><incomeGross>75.00</incomeGross><withholdingTax>19.80</withholdingTax></security>
+            <security><isin>DE0008404005</isin><description>ALLIANZ SE-REG</description><quantity>20</quantity><currency>EUR</currency><marketValue>4500.00</marketValue><incomeGross>200.00</incomeGross><withholdingTax>52.80</withholdingTax></security>
         </securitiesList>
     </statement>
 </taxStatement>
