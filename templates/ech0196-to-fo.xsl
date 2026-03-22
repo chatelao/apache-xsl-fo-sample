@@ -110,14 +110,25 @@
                                     <xsl:value-of select="ech:institution/ech:name"/>
                                 </fo:block>
                                 <fo:block text-align="right" space-before="2mm">
-                                    <fo:instream-foreign-object width="20mm" height="20mm" content-width="20mm" content-height="20mm">
+                                    <fo:instream-foreign-object width="40mm" height="10mm" content-width="40mm" content-height="10mm">
                                         <bc:barcode>
-                                            <bc:datamatrix>
-                                                <bc:module-width>0.5mm</bc:module-width>
-                                                <bc:message>
-                                                    <xsl:value-of select="ech:statementId"/>
-                                                </bc:message>
-                                            </bc:datamatrix>
+                                            <xsl:attribute name="message">
+                                                <xsl:text>19622</xsl:text>
+                                                <xsl:text>00000</xsl:text>
+                                                <xsl:variable name="pageNum">
+                                                    <fo:page-number/>
+                                                </xsl:variable>
+                                                <xsl:choose>
+                                                    <xsl:when test="string-length($pageNum) = 1">00<xsl:value-of select="$pageNum"/></xsl:when>
+                                                    <xsl:when test="string-length($pageNum) = 2">0<xsl:value-of select="$pageNum"/></xsl:when>
+                                                    <xsl:otherwise><xsl:value-of select="$pageNum"/></xsl:otherwise>
+                                                </xsl:choose>
+                                                <xsl:text>011</xsl:text>
+                                            </xsl:attribute>
+                                            <bc:code128>
+                                                <bc:height>10mm</bc:height>
+                                                <bc:module-width>0.25mm</bc:module-width>
+                                            </bc:code128>
                                         </bc:barcode>
                                     </fo:instream-foreign-object>
                                 </fo:block>
