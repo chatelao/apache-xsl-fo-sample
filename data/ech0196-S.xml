@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taxStatement xmlns="http://www.ech.ch/xmlns/eCH-0196/2.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <header>
+        <messageId>MSG-001-S</messageId>
+        <businessProcessId>BP-2023-001</businessProcessId>
+        <senderId>BANKCH01</senderId>
+        <declarationLocalId>DECL-12345</declarationLocalId>
+    </header>
+    <statement>
+        <taxPeriod>2023</taxPeriod>
+        <statementId>STMT-2023-S-001</statementId>
+        <institution>
+            <name>Swiss Demo Bank</name>
+            <address>
+                <street>Bahnhofstrasse 1</street>
+                <postCode>8001</postCode>
+                <town>Zürich</town>
+            </address>
+        </institution>
+        <client>
+            <name>John Doe</name>
+            <address>
+                <street>Musterweg 10</street>
+                <postCode>3000</postCode>
+                <town>Bern</town>
+            </address>
+        </client>
+        <accountList>
+            <account>
+                <accountNumber>CH12 0000 0000 0000 0000 1</accountNumber>
+                <currency>CHF</currency>
+                <balanceClose>5432.10</balanceClose>
+                <interestGross>10.50</interestGross>
+                <withholdingTax>3.65</withholdingTax>
+            </account>
+        </accountList>
+    </statement>
+</taxStatement>

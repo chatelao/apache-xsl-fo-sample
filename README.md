@@ -1,6 +1,6 @@
-# Swiss Account Statement Generator
+# Swiss Account and Tax Statement Generator
 
-This project generates Swiss Account details as PDF from ISO 20022 `camt.053` XML files using Apache XSL-FO.
+This project generates Swiss Account details and Electronic Tax Statements as PDF from ISO 20022 `camt.053` and eCH-0196 XML files using Apache XSL-FO.
 
 ## Architecture
 
@@ -27,12 +27,19 @@ The diagram below illustrates the generation process, including the transformati
 ## Usage
 ### Local execution
 To generate a PDF locally, ensure Apache FOP is installed and run:
+
 ```bash
 ./generate-pdf.sh [input_xml] [xslt_template] [output_pdf] [lang]
 ```
-Example (English):
+
+Example for Account Statement (English):
 ```bash
 ./generate-pdf.sh data/sample-camt053.xml templates/camt053-to-fo.xsl pdf/statement_en.pdf en
+```
+
+Example for Electronic Tax Statement (German):
+```bash
+./generate-pdf.sh data/ech0196-M.xml templates/ech0196-to-fo.xsl pdf/tax_statement_de.pdf de
 ```
 
 To generate reports in all four supported languages (en, de, fr, it) at once:

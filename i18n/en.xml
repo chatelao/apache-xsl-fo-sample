@@ -20,4 +20,17 @@
     <original_amount>Original Amount:</original_amount>
     <rate>Rate:</rate>
     <balance>Balance</balance>
+    <tax_statement_title>Electronic Tax Statement (eCH-0196)</tax_statement_title>
+    <tax_period>Tax Period:</tax_period>
+    <statement_id>Statement ID:</statement_id>
+    <client>Client:</client>
+    <list_of_bank_accounts>List of Bank Accounts</list_of_bank_accounts>
+    <account_number>Account Number</account_number>
+    <interest>Interest (Gross)</interest>
+    <list_of_securities>List of Securities</list_of_securities>
+    <isin>ISIN</isin>
+    <description>Description</description>
+    <quantity>Quantity</quantity>
+    <market_value>Market Value</market_value>
+    <income>Income (Gross)</income>
 </translations>

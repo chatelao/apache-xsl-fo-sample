@@ -2,7 +2,7 @@
 skinparam packageStyle rectangle
 
 package "Input" {
-  [camt.053 XML] as xml
+  [camt.053 / eCH-0196 XML] as xml
   [i18n XML] as i18n
   folder "assets" {
     [logo.svg] as logo
@@ -11,7 +11,7 @@ package "Input" {
 
 package "Transformation" {
   [XSLT Processor] as xslt
-  [camt053-to-fo.xsl] as template
+  [camt053-to-fo.xsl / ech0196-to-fo.xsl] as template
 }
 
 package "Rendering" {
