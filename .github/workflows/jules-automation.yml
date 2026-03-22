@@ -1,0 +1,83 @@
+name: Jules Automation
+
+on:
+  issues:
+    types: [opened, closed, reopened]
+
+jobs:
+  automation:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Handle Issue Opened
+        if: github.event.action == 'opened'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+        run: |
+          # Add label
+          gh issue edit "$ISSUE_NUMBER" --add-label "jules"
+
+          # Add to ROADMAP.md
+          python3 scripts/roadmap_manager.py add "$ISSUE_TITLE (#$ISSUE_NUMBER)"
+
+          # Commit changes
+          git add ROADMAP.md
+          git commit -m "Add issue #$ISSUE_NUMBER to ROADMAP.md"
+
+      - name: Handle Issue Closed
+        if: github.event.action == 'closed'
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+        run: |
+          # Complete in ROADMAP.md
+          python3 scripts/roadmap_manager.py complete "$ISSUE_TITLE (#$ISSUE_NUMBER)"
+
+          # Commit changes
+          git add ROADMAP.md
+          git commit -m "Complete issue #$ISSUE_NUMBER in ROADMAP.md"
+
+      - name: Handle Issue Reopened
+        if: github.event.action == 'reopened'
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          # Add back to ROADMAP.md (as new task)
+          python3 scripts/roadmap_manager.py add "$ISSUE_TITLE (#$ISSUE_NUMBER)"
+
+          # Commit changes
+          git add ROADMAP.md
+          git commit -m "Re-add issue #$ISSUE_NUMBER to ROADMAP.md"
+
+      - name: Sync and Push Changes
+        if: success() && (github.event.action == 'opened' || github.event.action == 'closed' || github.event.action == 'reopened')
+        run: |
+          git pull --rebase
+          git push
+
+      - name: Add to Project
+        if: github.event.action == 'opened'
+        uses: actions/add-to-project@v1.0.2
+        with:
+          # Replace with your project URL, e.g., https://github.com/users/YOUR_USER/projects/YOUR_PROJECT_ID
+          project-url: https://github.com/users/chatelao/projects/14
+          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
