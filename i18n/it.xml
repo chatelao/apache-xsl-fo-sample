@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <translations>
     <title>Estratto conto (camt.053)</title>
+    <tax_statement_title>Estratto fiscale (eCH-0196)</tax_statement_title>
     <page>Pagina</page>
     <account_holder>Titolare del conto:</account_holder>
     <iban>IBAN:</iban>
@@ -19,4 +20,20 @@
     <ref>Rif:</ref>
     <original_amount>Importo originale:</original_amount>
     <rate>Tasso:</rate>
+    <tax_period>Periodo fiscale:</tax_period>
+    <institution>Istituto finanziario:</institution>
+    <client>Cliente:</client>
+    <client_number>Numero cliente:</client_number>
+    <tax_value>Valore fiscale</tax_value>
+    <gross_revenue_a>Reddito lordo A</gross_revenue_a>
+    <gross_revenue_b>Reddito lordo B</gross_revenue_b>
+    <withholding_tax_claim>Diritto al rimborso dell'IA</withholding_tax_claim>
+    <list_of_bank_accounts>Elenco dei conti</list_of_bank_accounts>
+    <list_of_liabilities>Elenco dei debiti</list_of_liabilities>
+    <list_of_expenses>Elenco delle spese</list_of_expenses>
+    <list_of_securities>Elenco dei titoli</list_of_securities>
+    <total>Totale</total>
+    <account_name>Denominazione del conto</account_name>
+    <security_name>Denominazione del titolo</security_name>
+    <description>Designazione</description>
 </translations>

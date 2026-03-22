@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <translations>
     <title>Kontoauszug (camt.053)</title>
+    <tax_statement_title>Steuerauszug (eCH-0196)</tax_statement_title>
     <page>Seite</page>
     <account_holder>Kontoinhaber:</account_holder>
     <iban>IBAN:</iban>
@@ -19,4 +20,20 @@
     <ref>Ref:</ref>
     <original_amount>Ursprünglicher Betrag:</original_amount>
     <rate>Kurs:</rate>
+    <tax_period>Steuerperiode:</tax_period>
+    <institution>Finanzinstitut:</institution>
+    <client>Kunde:</client>
+    <client_number>Kundennummer:</client_number>
+    <tax_value>Steuerwert</tax_value>
+    <gross_revenue_a>Bruttoertrag A</gross_revenue_a>
+    <gross_revenue_b>Bruttoertrag B</gross_revenue_b>
+    <withholding_tax_claim>Verrechnungssteueranspruch</withholding_tax_claim>
+    <list_of_bank_accounts>Kontenverzeichnis</list_of_bank_accounts>
+    <list_of_liabilities>Schuldenverzeichnis</list_of_liabilities>
+    <list_of_expenses>Spesenverzeichnis</list_of_expenses>
+    <list_of_securities>Wertschriftenverzeichnis</list_of_securities>
+    <total>Total</total>
+    <account_name>Kontobezeichnung</account_name>
+    <security_name>Titelbezeichnung</security_name>
+    <description>Bezeichnung</description>
 </translations>

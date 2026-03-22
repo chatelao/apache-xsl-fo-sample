@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <translations>
     <title>Relevé de compte (camt.053)</title>
+    <tax_statement_title>Relevé fiscal (eCH-0196)</tax_statement_title>
     <page>Page</page>
     <account_holder>Titulaire du compte :</account_holder>
     <iban>IBAN :</iban>
@@ -19,4 +20,20 @@
     <ref>Réf :</ref>
     <original_amount>Montant original :</original_amount>
     <rate>Taux :</rate>
+    <tax_period>Période fiscale :</tax_period>
+    <institution>Établissement financier :</institution>
+    <client>Client :</client>
+    <client_number>Numéro de client :</client_number>
+    <tax_value>Valeur fiscale</tax_value>
+    <gross_revenue_a>Revenu brut A</gross_revenue_a>
+    <gross_revenue_b>Revenu brut B</gross_revenue_b>
+    <withholding_tax_claim>Droit au remboursement de l'IA</withholding_tax_claim>
+    <list_of_bank_accounts>Etat des comptes</list_of_bank_accounts>
+    <list_of_liabilities>Etat des dettes</list_of_liabilities>
+    <list_of_expenses>Etat des frais</list_of_expenses>
+    <list_of_securities>Etat des titres</list_of_securities>
+    <total>Total</total>
+    <account_name>Intitulé du compte</account_name>
+    <security_name>Désignation du titre</security_name>
+    <description>Désignation</description>
 </translations>

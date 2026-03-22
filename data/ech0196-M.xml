@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eCH-0196:taxStatement xmlns:eCH-0196="http://www.ech.ch/xmlns/eCH-0196/2"
+                       xmlns:eCH-0007="http://www.ech.ch/xmlns/eCH-0007/6"
+                       xmlns:eCH-0008="http://www.ech.ch/xmlns/eCH-0008/3"
+                       xmlns:eCH-0010="http://www.ech.ch/xmlns/eCH-0010/7"
+                       xmlns:eCH-0097="http://www.ech.ch/xmlns/eCH-0097/4"
+                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                       minorVersion="0"
+                       id="STMT-M-001"
+                       creationDate="2023-10-27T11:00:00"
+                       taxPeriod="2022"
+                       periodFrom="2022-01-01"
+                       periodTo="2022-12-31"
+                       country="CH"
+                       canton="BE"
+                       totalTaxValue="25500.00"
+                       totalGrossRevenueA="400.00"
+                       totalGrossRevenueB="50.00"
+                       totalWithHoldingTaxClaim="140.00">
+    <eCH-0196:institution name="Bernese Cantonal Bank" lei="98765432109876543210"/>
+    <eCH-0196:client clientNumber="C-2002" firstName="Jane" lastName="Smith" salutation="2"/>
+    <eCH-0196:accompanyingLetter fileName="cover.pdf" fileSize="1024" fileData="SGVsbG8gd29ybGQ="/>
+    <eCH-0196:listOfBankAccounts totalTaxValue="25500.00" totalGrossRevenueA="400.00" totalGrossRevenueB="50.00" totalWithHoldingTaxClaim="140.00">
+        <eCH-0196:bankAccount bankAccountName="Personal Account" bankAccountCountry="CH" bankAccountCurrency="CHF" totalTaxValue="5500.00" totalGrossRevenueA="100.00" totalGrossRevenueB="50.00" totalWithHoldingTaxClaim="35.00">
+            <eCH-0196:taxValue referenceDate="2022-12-31" balanceCurrency="CHF" balance="5500.00" value="5500.00"/>
+            <eCH-0196:payment paymentDate="2022-12-31" amountCurrency="CHF" amount="150.00" grossRevenueA="100.00" grossRevenueB="50.00" withHoldingTaxClaim="35.00"/>
+        </eCH-0196:bankAccount>
+        <eCH-0196:bankAccount bankAccountName="Investment Account" bankAccountCountry="CH" bankAccountCurrency="CHF" totalTaxValue="20000.00" totalGrossRevenueA="300.00" totalGrossRevenueB="0.00" totalWithHoldingTaxClaim="105.00">
+            <eCH-0196:taxValue referenceDate="2022-12-31" balanceCurrency="CHF" balance="20000.00" value="20000.00"/>
+            <eCH-0196:payment paymentDate="2022-12-31" amountCurrency="CHF" amount="300.00" grossRevenueA="300.00" grossRevenueB="0.00" withHoldingTaxClaim="105.00"/>
+        </eCH-0196:bankAccount>
+    </eCH-0196:listOfBankAccounts>
+    <eCH-0196:listOfExpenses totalExpenses="120.00" totalExpensesDeductible="100.00">
+        <eCH-0196:expense name="Account Maintenance" expenses="120.00" expensesDeductible="100.00" expenseType="25" amountCurrency="CHF"/>
+    </eCH-0196:listOfExpenses>
+</eCH-0196:taxStatement>
