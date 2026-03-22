@@ -78,11 +78,11 @@
                                 <fo:block text-align="right">
                                     <fo:instream-foreign-object width="20mm" height="20mm" content-width="20mm" content-height="20mm">
                                         <bc:barcode>
+                                            <xsl:attribute name="message">
+                                                <xsl:value-of select="camt:Id"/>
+                                            </xsl:attribute>
                                             <bc:datamatrix>
                                                 <bc:module-width>0.5mm</bc:module-width>
-                                                <bc:message>
-                                                    <xsl:value-of select="camt:Id"/>
-                                                </bc:message>
                                             </bc:datamatrix>
                                         </bc:barcode>
                                     </fo:instream-foreign-object>
